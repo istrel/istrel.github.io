@@ -5,6 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=792, user-scalable=no">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<link rel="stylesheet" href="prism.css">
 	<link rel="stylesheet" href="shower/themes/ribbon/styles/screen.css">
 </head>
 <body class="list">
@@ -40,6 +41,10 @@
 			#Cover {
 				background: white;
 			}
+
+			pre code {
+				font-size: 16px;
+			};
 		</style>
 	</div></section>
 	<section class="slide shout"><div>
@@ -77,6 +82,26 @@
 				background-size: cover;
 			}
 		</style>
+	</div></section>
+	<section class="slide"><div>
+		<pre><code class="language-js">  it('should do some chai assertions', function() {
+    var markersLeft = _.times(10, function() {
+      return Factory.build('wish', {
+        latitude:  defaultLocation.lat + random(0.01),
+        longitude: defaultLocation.lng - 0.2 + random(0.01)
+      });
+    });
+    var markersLeft = '...';
+    var markers = _(markersLeft).union(markersRight).shuffle().value();
+    Stubs.stub.withArgs( match.has('url', match('/wishes.json')) )
+      .returns(function(req, res) { res.json(markers); });
+    return browser.url('http://localhost:3000')
+      .waitForVisible('.wish-marker__title', 5000)
+      .getText('.wish-marker__title')
+      .then(function(titles) { return titles.sort(); })
+      .should.eventually.be.eql(['5', '10'].sort());
+  });
+		</code><pre>
 	</div></section>
 	<section class="slide"><div>
 		<h2>Зачем оно надо?</h2>
@@ -172,13 +197,13 @@
 		</h2>
 	</div></section>
 
-	<p class="badge"><a href="https://github.com/shower/shower">Fork me on Github</a></p>
 	<!--
 		To hide progress bar from entire presentation
 		just remove “progress” element.
 		-->
-	<div class="progress"><div></div></div>
+	<!-- <div class="progress"><div></div></div> -->
 	<script src="shower/shower.min.js"></script>
+	<script src="prism.js"></script>
 	<!-- Copyright © 2014 Yours Truly, Famous Inc. -->
 	<!-- Photos by John Carey, fiftyfootshadows.net -->
 </body>

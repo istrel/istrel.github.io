@@ -1,0 +1,45 @@
+@startuml
+
+scale 1200*800
+
+node "ExpressJS app" {
+  () "stubs.middleware" as TM
+  () "defaultStubs.middleware" as FM
+  () "express.static(...)" as Static
+  () "webpack-dev-middleware" as Webpack
+  () "..." as etc
+}
+
+package "stubs" {
+  [stubs.stub] as TSinon
+  [Stored Middlewares] as TMiddle
+}
+
+package "defaultStubs" {
+  [defaultStubs.stub] as FSinon
+  [Stored Middlewares] as FMiddle
+}
+
+
+TM -down-> FM
+FM -down-> Static
+Static -down-> Webpack
+Webpack -down-> etc
+
+TM .right.> TSinon
+FM .right.> FSinon
+
+TSinon -right-> TMiddle : matchers
+FSinon -right-> FMiddle : matchers
+
+note top of TMiddle
+  These middlewares
+  contain test responses
+end note
+
+note bottom of FMiddle
+  These middlewares
+  contain fixtures
+end note
+
+@enduml
