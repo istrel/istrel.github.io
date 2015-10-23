@@ -1,210 +1,1214 @@
-<!DOCTYPE HTML>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-	<title>Shower Presentation Engine</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=792, user-scalable=no">
-	<meta http-equiv="x-ua-compatible" content="ie=edge">
-	<link rel="stylesheet" href="prism.css">
-	<link rel="stylesheet" href="shower/themes/ribbon/styles/screen.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>Test-Driven Development in JavaScript</title>
+  <style type="text/css">
+    body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #222;
+  background-color: #f7f7f7;
+  font-size: 100%;
+}
+
+.slide {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+}
+
+.slide-content {
+  width: 800px;
+  height: 600px;
+  overflow: hidden;
+  margin: 80px auto 0 auto;
+  padding: 30px;
+
+  font-weight: 200;
+  font-size: 200%;
+  line-height: 1.375;
+}
+
+.controls {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+.arrow {
+  width: 0; height: 0;
+  border: 30px solid #333;
+  float: left;
+  margin-right: 30px;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.prev {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+
+  border-left-width: 0;
+  border-right-width: 50px;
+}
+
+.next {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+
+  border-left-width: 50px;
+  border-right-width: 0;
+}
+
+.prev:hover {
+  border-right-color: #888;
+  cursor: pointer;
+}
+
+.next:hover {
+  border-left-color: #888;
+  cursor: pointer;
+}
+
+h1 {
+  font-size: 300%;
+  line-height: 1.2;
+  text-align: center;
+  margin: 170px 0 0;
+}
+
+h2 {
+  font-size: 100%;
+  line-height: 1.2;
+  margin: 5px 0;
+  text-align: center;
+  font-weight: 200;
+}
+
+h3 {
+  font-size: 140%;
+  line-height: 1.2;
+  border-bottom: 1px solid #aaa;
+  margin: 0;
+  padding-bottom: 15px;
+}
+
+ul {
+  padding: 20px 0 0 60px;
+  font-weight: 200;
+  line-height: 1.375;
+}
+
+.author h1 {
+  font-size: 170%;
+  font-weight: 200;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.author h3 {
+  font-weight: 100;
+  text-align: center;
+  font-size: 95%;
+  border: none;
+}
+
+a {
+  text-decoration: none;
+  color: #44a4dd;
+}
+
+a:hover {
+  color: #66b5ff;
+}
+
+pre {
+  font-size: 60%;
+  line-height: 1.3;
+}
+
+.progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 3px;
+  background-color: #b4b4b4;
+
+  -webkit-transition: width 0.05s ease-out;
+  -moz-transition: width 0.05s ease-out;
+  -o-transition: width 0.05s ease-out;
+  transition: width 0.05s ease-out;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 850px) {
+
+  body {
+    font-size: 70%;
+  }
+
+  .slide-content {
+    width: auto;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  h1 {
+    margin-top: 120px;
+  }
+
+  .prev, .prev:hover {
+    border-right-color: rgba(135, 135, 135, 0.5);
+  }
+
+  .next, .next:hover {
+    border-left-color: rgba(135, 135, 135, 0.5);
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 50%;
+    overflow: hidden;
+  }
+
+  .slide-content {
+    padding: 10px;
+    margin-top: 10px;
+    height: 340px;
+  }
+
+  h1 {
+    margin-top: 50px;
+  }
+
+  ul {
+    padding-left: 25px;
+  }
+}
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact;
+  }
+
+  @page {
+    size: letter;
+  }
+
+  .hidden {
+    display: inline;
+  }
+
+  html {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  body {
+    margin: 0 auto !important;
+    border: 0;
+    padding: 0;
+    float: none !important;
+    overflow: visible;
+    background: none !important;
+    font-size: 52%;
+  }
+
+  .progress, .controls {
+    display: none;
+  }
+
+  .slide {
+    position: static;
+  }
+
+  .slide-content {
+    border: 1px solid #222;
+    margin-top: 0;
+    margin-bottom: 40px;
+    height: 3.5in;
+    overflow: visible;
+  }
+
+  .slide:nth-child(even) {
+    /* 2 slides per page */
+    page-break-before: always;
+  }
+}
+
+/*
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+*/
+
+code, pre {
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  overflow: auto;
+  padding: 6px 10px;
+}
+
+code {
+  padding: 0 5px;
+}
+
+pre>code {
+  margin: 0; padding: 0;
+  border: none;
+  background: transparent;
+}
+
+pre .comment,
+pre .template_comment,
+pre .diff .header,
+pre .javadoc {
+  color: #998;
+  font-style: italic
+}
+
+pre .keyword,
+pre .css .rule .keyword,
+pre .winutils,
+pre .javascript .title,
+pre .nginx .title,
+pre .subst,
+pre .request,
+pre .status {
+  color: #333;
+  font-weight: bold
+}
+
+pre .number,
+pre .hexcolor,
+pre .ruby .constant {
+  color: #099;
+}
+
+pre .string,
+pre .tag .value,
+pre .phpdoc,
+pre .tex .formula {
+  color: #d14
+}
+
+pre .title,
+pre .id {
+  color: #900;
+  font-weight: bold
+}
+
+pre .javascript .title,
+pre .lisp .title,
+pre .clojure .title,
+pre .subst {
+  font-weight: normal
+}
+
+pre .class .title,
+pre .haskell .type,
+pre .vhdl .literal,
+pre .tex .command {
+  color: #458;
+  font-weight: bold
+}
+
+pre .tag,
+pre .tag .title,
+pre .rules .property,
+pre .django .tag .keyword {
+  color: #000080;
+  font-weight: normal
+}
+
+pre .attribute,
+pre .variable,
+pre .lisp .body {
+  color: #008080
+}
+
+pre .regexp {
+  color: #009926
+}
+
+pre .class {
+  color: #458;
+  font-weight: bold
+}
+
+pre .symbol,
+pre .ruby .symbol .string,
+pre .lisp .keyword,
+pre .tex .special,
+pre .prompt {
+  color: #990073
+}
+
+pre .built_in,
+pre .lisp .title,
+pre .clojure .built_in {
+  color: #0086b3
+}
+
+pre .preprocessor,
+pre .pi,
+pre .doctype,
+pre .shebang,
+pre .cdata {
+  color: #999;
+  font-weight: bold
+}
+
+pre .deletion {
+  background: #fdd
+}
+
+pre .addition {
+  background: #dfd
+}
+
+pre .diff .change {
+  background: #0086b3
+}
+
+pre .chunk {
+  color: #aaa
+}
+
+
+  </style>
 </head>
-<body class="list">
-	<header class="caption">
-		<h1>Test-Driven Development in JavaScript</h1>
-		<p>Ivan Strelkov</p>
-	</header>
-	<section class="slide cover" id="Cover"><div>
-		<h2>Test-Driven Development in JavaScript</h2>
-		<p>Brought to you by <a href="https://github.com/istrel">Ivan Strelkov</a></p>
-		<!--
-			To apply styles to the certain slides
-			set slide ID to get needed elements
-			-->
-		<style>
-			#Cover h2 {
-				margin:30px 0 0;
-				color:#000;
-				text-align:center;
-				font-size:70px;
-				}
-			#Cover p {
-				margin:10px 0 0;
-				text-align:center;
-				color:#000;
-				font-style:italic;
-				font-size:20px;
-				}
-				#Cover p a {
-					color:#000;
-					}
+<body>
+    <div class="progress">
+    <div class="progress-bar"></div>
+  </div>
 
-			#Cover {
-				background: white;
-			}
-
-			pre code {
-				font-size: 16px;
-			};
-		</style>
-	</div></section>
-	<section class="slide shout"><div>
-		<h2>Что такое?</h2>
-	</div></section>
-	<section class="slide" id="Tdd"><div>
-		<h2>Классика</h2>
-		<center>
-			<img src="pictures/tdd.png" alt="">
-		</center>
-		<style>
-			#Tdd img {
-				height: 400px;
-			}
-		</style>
-	</div></section>
-	<section class="slide" id="Complex"><div>
-		<h2>Комплексный подход</h2>
-		<center>
-			<img src="pictures/complex.png" alt="">
-		</center>
-		<style>
-			#Complex img {
-				height: 400px;
-			}
-		</style>
-	</div></section>
-	<section class="slide shout"><div>
-		<h2>Как внедрить?</h2>
-	</div></section>
-	<section class="slide cover" id="JustDoIt"><div>
-		<style>
-			#JustDoIt div {
-				background-image: url('pictures/just_do_it.jpg');
-				background-size: cover;
-			}
-		</style>
-	</div></section>
-	<section class="slide"><div>
-		<pre><code class="language-js">  it('should do some chai assertions', function() {
-    var markersLeft = _.times(10, function() {
-      return Factory.build('wish', {
-        latitude:  defaultLocation.lat + random(0.01),
-        longitude: defaultLocation.lng - 0.2 + random(0.01)
+  <div class="slide" id="slide-1">
+    <section class="slide-content"><h1 id="-">Что такое?</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-2">
+    <section class="slide-content"><h2 id="-">Классика</h2>
+<center>
+  <img src="pictures/tdd.png" width="70%">
+</center></section>
+  </div>
+  <div class="slide hidden" id="slide-3">
+    <section class="slide-content"><h2 id="-">Комплексный подход</h2>
+<center>
+  <img src="pictures/complex.png" width="60%">
+</center></section>
+  </div>
+  <div class="slide hidden" id="slide-4">
+    <section class="slide-content"><h1 id="-">Как внедрить?</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-5">
+    <section class="slide-content"><center>
+  <img src="pictures/just_do_it.jpg" width="100%">
+</center></section>
+  </div>
+  <div class="slide hidden" id="slide-6">
+    <section class="slide-content"><h2 id="-">Инструменты</h2>
+<ul>
+<li>Webdriver.IO</li>
+<li>Mocha + Sinon.JS + Chai.JS</li>
+<li>Karma runner</li>
+<li>Rosie JS</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-7">
+    <section class="slide-content"><h2 id="-">Пререквизиты</h2>
+<ul>
+<li>ExpressJS для статики</li>
+<li>Fixtures</li>
+<li>Stubs middleware</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-8">
+    <section class="slide-content"><center>
+  <img src="pictures/pre.png" width="80%">
+</center></section>
+  </div>
+  <div class="slide hidden" id="slide-9">
+    <section class="slide-content"><h2 id="-1-">Шаг 1. Первый функциональный тест</h2>
+<pre><code class="lang-javascript">    it(<span class="string">'should do some chai assertions'</span>, <span class="keyword">function</span>() {
+    <span class="keyword">var</span> markersLeft = _.times(<span class="number">10</span>, <span class="keyword">function</span>() {
+      <span class="keyword">return</span> Factory.build(<span class="string">'wish'</span>, {
+        latitude:  defaultLocation.lat + random(<span class="number">0.01</span>),
+        longitude: defaultLocation.lng - <span class="number">0.2</span> + random(<span class="number">0.01</span>)
       });
     });
-    var markersLeft = '...';
-    var markers = _(markersLeft).union(markersRight).shuffle().value();
-    Stubs.stub.withArgs( match.has('url', match('/wishes.json')) )
-      .returns(function(req, res) { res.json(markers); });
-    return browser.url('http://localhost:3000')
-      .waitForVisible('.wish-marker__title', 5000)
-      .getText('.wish-marker__title')
-      .then(function(titles) { return titles.sort(); })
-      .should.eventually.be.eql(['5', '10'].sort());
-  });
-		</code><pre>
-	</div></section>
-	<section class="slide"><div>
-		<h2>Зачем оно надо?</h2>
-		<figure>
-			<blockquote>
-				<p>
-				Код без тестов является неудачным.
-				И совершенно неважно, насколько хорошо он написан, объекто-ориентирован или инкапсулирован.
-				С помощью тестов мы можем быстро и под полным контролем изменить поведение нашего кода.
-				А без них мы на самом деле не знаем, становится ли наш код лучше или хуже.</p>
-			</blockquote>
-			<figcaption>Майкл К. Физерс</figcaption>
-		</figure>
-	</div></section>
-	<section class="slide"><div>
-		<h2>Мотивация</h2>
-		<ul>
-			<li class="next">Работающие тесты</li>
-			<li class="next">Уверенность в изменениях</li>
-			<li class="next">Рефакторинг без проблем</li>
-			<li class="next">Возможность разработки кода до интеграции</li>
-		</ul>
-	</div></section>
-	<section class="slide"><div id="Hamlet">
-		<h2>To test or not to test?</h2>
-		Иногда не стоит покрывать модульными тестами
-		<ol>
-			<li class="next">Статические части кода:
-				<ul class="next">
-					<li class="next">CSS/HTML</li>
-					<li class="next">Статический текст</li>
-					<li class="next">Конфиги (да-да, бывает и такое)</li>
-				</ul>
-			</li>
-			<li class="next">Скрипты</li>
-			<li class="next">То, что скоро выбросят (прототипы, промо etc.)</li>
-			<li class="next">То, что невозможно протестировать, юнит-тестами</li>
-		</ol>
-	</div></section>
-	<section class="slide"><div>
-		<h2>Как тестировать математику?</h2>
-		<p class="next">
-			Только регрессионные тесты и контрольные примеры
-		</p>
-	</div></section>
-	<section class="slide"><div>
-		<h2>Если тест не починился после провала?</h2>
-		<ol>
-			<li class="next">Заставить тест проходить без изменения кода</li>
-			<li class="next">Убедиться в работоспособности тестов
-				<ul class="next">
-					<li class="next">Откатить изменения и убедиться, что код работает</li>
-					<li class="next">Переписать код заново</li>
-				</ul>
-			</li>
-		</ol>
-	</div></section>
-	<section class="slide"><div>
-		<h2>Если неизвестно, как написать первый тест?</h2>
-		<ol>
-			<li class="next">Написать код без тестов</li>
-			<li class="next">Написать проходящие тесты к коду</li>
-			<li class="next">Убедиться в работоспособности тестов</li>
-			<li class="next">Получить опыт</li>
-			<li class="next">Все переписать!</li>
-		</ol>
-	</div></section>
-	<section class="slide"><div>
-		<h2>Предупреждение!</h2>
-		<ul>
-			<li class="next">Инициализация - долго. Изменение - быстро.</li>
-			<li class="next">TDD дополняет, но не заменяет ручное тестирование</li>
-			<li class="next">Сохраняйте разумность и помните о техническом долге</li>
-		</ul>
-	</div></section>
-	<section class="slide"><div>
-		<h2>Еще раз о разумности</h2>
-		<figure>
-			<blockquote>
-				<p>Лучше написать и выполнить неполные тесты, чем не выполнить полные тесты</p>
-			</blockquote>
-			<figcaption>Мартин Фаулер</figcaption>
-		</figure>
-	</div></section>
-	<section class="slide shout"><div>
-		<h2>
-			Спасибо за внимание!
-		</h2>
-	</div></section>
-	<section class="slide shout"><div>
-		<h2>
-			Вопросы?
-		</h2>
-	</div></section>
+    <span class="keyword">var</span> markersRight = <span class="string">'...'</span>;
 
-	<!--
-		To hide progress bar from entire presentation
-		just remove “progress” element.
-		-->
-	<!-- <div class="progress"><div></div></div> -->
-	<script src="shower/shower.min.js"></script>
-	<script src="prism.js"></script>
-	<!-- Copyright © 2014 Yours Truly, Famous Inc. -->
-	<!-- Photos by John Carey, fiftyfootshadows.net -->
+    <span class="keyword">var</span> markers = _(markersLeft).union(markersRight).shuffle().value();
+
+    Stubs.stub.withArgs( match.has(<span class="string">'url'</span>, match(<span class="string">'/wishes.json'</span>)) )
+      .returns(<span class="keyword">function</span>(req, res) { res.json(markers); });
+
+    <span class="keyword">return</span> browser.url(<span class="string">'http://localhost:3000'</span>)
+      .waitForVisible(<span class="string">'.wish-marker__title'</span>, <span class="number">5000</span>)
+      .getText(<span class="string">'.wish-marker__title'</span>)
+      .then(<span class="keyword">function</span>(titles) { <span class="keyword">return</span> titles.sort(); })
+      .should.eventually.be.eql([<span class="string">'5'</span>, <span class="string">'10'</span>].sort());
+  });</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-10">
+    <section class="slide-content"><h2 id="-2-">Шаг 2. Первый модульный тест</h2>
+<pre><code class="lang-javascript">describe(<span class="string">'getClusters'</span>, <span class="keyword">function</span>() {
+  it(<span class="string">'returns markers as is'</span>, <span class="keyword">function</span>() {
+    <span class="keyword">var</span> firstMarker = { latitude: <span class="number">25</span>, longitude: <span class="number">25</span> };
+    <span class="keyword">var</span> secondMarker = { latitude: <span class="number">30</span>, longitude: -<span class="number">30</span> };
+
+    <span class="keyword">var</span> markers = [firstMarker, secondMarker];
+
+    expect( getClusters(markers) ).to.eql(markers);
+  });
+});</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-11">
+    <section class="slide-content"><h2 id="-3-">Шаг 3. Делаем вменяемое сообщение об ошибке</h2>
+<pre><code class="lang-javascript">export <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">getClusters</span><span class="params">()</span> {</span>
+}</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-12">
+    <section class="slide-content"><h2 id="-4-">Шаг 4. Фикс</h2>
+<pre><code class="lang-javascript">export <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">getClusters</span><span class="params">(markers)</span> {</span>
+  <span class="keyword">return</span> markers;
+}</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-13">
+    <section class="slide-content"><h2 id="-5-">Шаг 5. Тест на кластеризацию</h2>
+<pre><code class="lang-javascript">it(<span class="string">'returns two clusters for two parts of closely related markers'</span>, <span class="keyword">function</span>() {
+  <span class="keyword">var</span> firstCluster = _.times(<span class="number">10</span>, <span class="keyword">function</span>() {
+    <span class="keyword">return</span> {
+      latitude: <span class="number">25</span> + Math.random(),
+      longitude: <span class="number">36</span> + Math.random()
+    }
+  });
+
+  <span class="keyword">var</span> secondCluster = _.times(<span class="number">10</span>, <span class="keyword">function</span>() {
+    <span class="keyword">return</span> {
+      latitude: -<span class="number">25</span> + Math.random(),
+      longitude: -<span class="number">36</span> + Math.random()
+    }
+  });
+
+  <span class="keyword">var</span> shuffledMarkers =
+    _(firstCluster)
+      .union(secondCluster)
+      .shuffle()
+      .value();
+
+  expect( getClusters(shuffledMarkers) ).to.have.lengthOf(<span class="number">2</span>);
+});</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-14">
+    <section class="slide-content"><h2 id="-6-">Шаг 6. Фикс</h2>
+<pre><code class="lang-javascript">export <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">getClusters</span><span class="params">(markers)</span> {</span>
+  <span class="keyword">return</span> markers.slice(<span class="number">0</span>, <span class="number">2</span>);
+}</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-15">
+    <section class="slide-content"><h2 id="-7-">Шаг 7. Еще один падающий тест</h2>
+<pre><code class="lang-javascript">it(<span class="string">'returns proper value for first cluster'</span>, <span class="keyword">function</span>() {
+  <span class="keyword">var</span> firstCluster = _.times(<span class="number">10</span>, <span class="keyword">function</span>() {
+    <span class="keyword">return</span> {
+      latitude: <span class="number">25</span> + Math.random(),
+      longitude: <span class="number">36</span> + Math.random()
+    }
+  });
+
+  <span class="keyword">var</span> secondCluster = _.times(<span class="number">10</span>, <span class="keyword">function</span>() {
+    <span class="keyword">return</span> {
+      latitude: -<span class="number">25</span> + Math.random(),
+      longitude: -<span class="number">36</span> + Math.random()
+    }
+  });
+
+  <span class="keyword">var</span> shuffledMarkers =
+    _(firstCluster)
+      .union(secondCluster)
+      .shuffle()
+      .value();
+
+  <span class="keyword">var</span> result = getClusters(shuffledMarkers);
+
+  expect(result[<span class="number">0</span>].latitude).to.be.within(-<span class="number">25</span>, -<span class="number">24</span>);
+});</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-16">
+    <section class="slide-content"><h2 id="-8-">Шаг 8. Фикс</h2>
+<pre><code class="lang-javascript">export <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">getClusters</span><span class="params">(markers)</span> {</span>
+  <span class="keyword">var</span> sortedMarkers =
+    _(markers).sortBy(<span class="keyword">function</span>(marker) {
+      <span class="keyword">return</span> marker.latitude;
+    });
+
+  <span class="keyword">var</span> minMarker = sortedMarkers.first();
+  <span class="keyword">var</span> maxMarker = sortedMarkers.last();
+
+  <span class="keyword">return</span> [minMarker, maxMarker];
+}</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-17">
+    <section class="slide-content"><h2 id="-9-">Шаг 9. Рефакторинг тестов</h2>
+<pre><code class="lang-javascript">describe(<span class="string">'with two clusters'</span>, <span class="keyword">function</span>() {
+  beforeEach(<span class="keyword">function</span>() {
+    <span class="keyword">this</span>.cluster = <span class="keyword">function</span>(n, lat, lng) {
+      <span class="keyword">return</span> _.times(n, <span class="keyword">function</span>() {
+        <span class="keyword">return</span> {
+          latitude: lat + Math.random(),
+          longitude: lng + Math.random()
+        };
+      })
+    };
+    <span class="keyword">var</span> firstCluster = <span class="keyword">this</span>.cluster(<span class="number">10</span>, <span class="number">25</span>, <span class="number">36</span>);
+    <span class="keyword">var</span> secondCluster = <span class="keyword">this</span>.cluster(<span class="number">10</span>, -<span class="number">25</span>, -<span class="number">36</span>);
+    <span class="keyword">this</span>.shuffledMarkers =
+      _(firstCluster)
+        .union(secondCluster)
+        .shuffle()
+        .value();
+  });
+
+  it(<span class="string">'returns two clusters for two parts of closely related markers'</span>, <span class="keyword">function</span>() {
+    expect( getClusters(<span class="keyword">this</span>.shuffledMarkers) ).to.have.lengthOf(<span class="number">2</span>);
+  });
+
+  it(<span class="string">'returns proper value for first cluster'</span>, <span class="keyword">function</span>() {
+    <span class="keyword">var</span> result = getClusters(<span class="keyword">this</span>.shuffledMarkers);
+    expect(result[<span class="number">0</span>].latitude).to.be.within(-<span class="number">25</span>, -<span class="number">24</span>);
+  });
+});</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-18">
+    <section class="slide-content"><h2 id="-10-">Шаг 10. Тест на три кластера</h2>
+<pre><code class="lang-javascript">describe(<span class="string">'with three clusters'</span>, <span class="keyword">function</span>() {
+  beforeEach(<span class="keyword">function</span>() {
+    <span class="keyword">this</span>.cluster = <span class="keyword">function</span>(n, lat, lng) {
+      <span class="keyword">return</span> _.times(n, <span class="keyword">function</span>() {
+        <span class="keyword">return</span> {
+          latitude: lat + Math.random(),
+          longitude: lng + Math.random()
+        };
+      })
+    };
+
+    <span class="keyword">var</span> firstCluster  = <span class="keyword">this</span>.cluster(<span class="number">4</span>,  <span class="number">25</span>, -<span class="number">1</span>);
+    <span class="keyword">var</span> secondCluster = <span class="keyword">this</span>.cluster(<span class="number">5</span>,  <span class="number">25</span>, <span class="number">24</span>);
+    <span class="keyword">var</span> thirdCluster  = <span class="keyword">this</span>.cluster(<span class="number">6</span>,  <span class="number">25</span>, <span class="number">6</span>);
+
+    <span class="keyword">this</span>.shuffledMarkers =
+      _(firstCluster)
+        .union(secondCluster)
+        .union(thirdCluster)
+        .shuffle()
+        .value();
+  });
+
+  it(<span class="string">'returns three clusters'</span>, <span class="keyword">function</span>() {
+    expect( getClusters(<span class="keyword">this</span>.shuffledMarkers) ).to.have.lengthOf(<span class="number">3</span>);
+  });
+});</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-19">
+    <section class="slide-content"><h2 id="-11-">Шаг 11. Фикс добавленного теста и поломка другого</h2>
+<pre><code class="lang-javascript">export <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">getClusters</span><span class="params">(markers)</span> {</span>
+  <span class="keyword">var</span> clusters = [];
+
+  <span class="function"><span class="keyword">function</span> <span class="title">distance</span><span class="params">(lhs, rhs)</span> {</span>
+    <span class="keyword">return</span> Math.abs(lhs.latitude - rhs.latitude) + Math.abs(lhs.longitude - rhs.longitude);
+  }
+
+  markers.forEach(<span class="keyword">function</span>(marker) {
+    <span class="keyword">var</span> properCluster = _.find(clusters, <span class="keyword">function</span>(cluster) {
+      <span class="keyword">return</span> distance(cluster, marker) &lt; <span class="number">2</span>;
+    });
+
+    <span class="keyword">if</span> (properCluster) {
+      <span class="literal">null</span>
+    } <span class="keyword">else</span> {
+      clusters.push(marker);
+    }
+  });
+
+  <span class="keyword">return</span> clusters;
+}</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-20">
+    <section class="slide-content"><h2 id="-12-">Шаг 12. Фикс падающего теста</h2>
+<pre><code class="lang-javascript">export <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">getClusters</span><span class="params">(markers)</span> {</span>
+  <span class="keyword">var</span> clusters = [];
+
+  <span class="function"><span class="keyword">function</span> <span class="title">distance</span><span class="params">(lhs, rhs)</span> {</span>
+    <span class="keyword">return</span> Math.abs(lhs.latitude - rhs.latitude) + Math.abs(lhs.longitude - rhs.longitude);
+  }
+
+  markers.forEach(<span class="keyword">function</span>(marker) {
+    <span class="keyword">var</span> properCluster = _.find(clusters, <span class="keyword">function</span>(cluster) {
+      <span class="keyword">return</span> distance(cluster, marker) &lt; <span class="number">2</span>;
+    });
+
+    <span class="keyword">if</span> (properCluster) {
+      <span class="literal">null</span>
+    } <span class="keyword">else</span> {
+      clusters.push(marker);
+    }
+  });
+
+  <span class="keyword">return</span> _.sortBy(clusters, <span class="string">'latitude'</span>);
+}</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-21">
+    <section class="slide-content"><h2 id="-13-">Шаг 13. Тест на заголовок</h2>
+<pre><code class="lang-javascript">it(<span class="string">'sets title for created clusters'</span>, <span class="keyword">function</span>() {
+  <span class="keyword">var</span> titles =
+    _( getClusters(<span class="keyword">this</span>.shuffledMarkers) )
+      .pluck(<span class="string">'title'</span>)
+      .sort()
+      .value();
+
+  expect(titles).to.eql([<span class="string">'4'</span>, <span class="string">'5'</span>, <span class="string">'6'</span>]);
+});</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-22">
+    <section class="slide-content"><h2 id="-14-">Шаг 14. Фикс теста для заголовка и падение последнего теста</h2>
+<pre><code class="lang-javascript">  markers.forEach(<span class="keyword">function</span>(marker) {
+    <span class="keyword">var</span> properCluster = _.find(clusters, <span class="keyword">function</span>(cluster) {
+      <span class="keyword">return</span> distance(cluster, marker) &lt; <span class="number">2</span>;
+    });
+
+    <span class="keyword">if</span> (properCluster) {
+      properCluster.markers.push(marker);
+    } <span class="keyword">else</span> {
+      clusters.push({
+        latitude: marker.latitude,
+        longitude: marker.longitude,
+        markers: [ marker ]
+      });
+    }
+  });
+
+  <span class="keyword">return</span> _(clusters)
+          .sortBy(<span class="string">'latitude'</span>)
+          .each(<span class="function"><span class="keyword">function</span> <span class="params">(cluster)</span> {</span>
+            cluster.title = cluster.markers.length.toString();
+          })
+          .value();</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-23">
+    <section class="slide-content"><h2 id="-15-">Шаг 15. Фикс первого теста</h2>
+<pre><code class="lang-javascript">  markers.forEach(<span class="keyword">function</span>(marker) {
+    <span class="keyword">var</span> properCluster = _.find(clusters, <span class="keyword">function</span>(cluster) {
+      <span class="keyword">return</span> distance(cluster, marker) &lt; <span class="number">2</span>;
+    });
+
+    <span class="keyword">if</span> (properCluster) {
+      properCluster.markers.push(marker);
+    } <span class="keyword">else</span> {
+      clusters.push({
+        latitude: marker.latitude,
+        longitude: marker.longitude,
+        markers: [ marker ]
+      });
+    }
+  });
+
+  <span class="keyword">return</span> _(clusters)
+          .sortBy(<span class="string">'latitude'</span>)
+          .each(<span class="function"><span class="keyword">function</span> <span class="params">(cluster)</span> {</span>
+            cluster.title = cluster.markers.length.toString();
+          })
+          .map(<span class="keyword">function</span>(cluster) {
+            <span class="keyword">return</span> (cluster.markers.length &gt; <span class="number">1</span> ? cluster : cluster.markers[<span class="number">0</span>]);
+          })
+          .value();</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-24">
+    <section class="slide-content"><h2 id="-16-">Шаг 16. Рефакторинг тестов</h2>
+<pre><code class="lang-javascript">describe(<span class="string">'with three clusters'</span>, <span class="keyword">function</span>() {
+  beforeEach(<span class="keyword">function</span>() {
+    <span class="keyword">var</span> firstCluster  = <span class="keyword">this</span>.cluster(<span class="number">4</span>,  <span class="number">25</span>, -<span class="number">1</span>);
+    <span class="keyword">var</span> secondCluster = <span class="keyword">this</span>.cluster(<span class="number">5</span>,  <span class="number">25</span>, <span class="number">24</span>);
+    <span class="keyword">var</span> thirdCluster  = <span class="keyword">this</span>.cluster(<span class="number">6</span>,  <span class="number">25</span>, <span class="number">6</span>);
+
+    <span class="keyword">this</span>.shuffledMarkers =
+      _(firstCluster)
+        .union(secondCluster)
+        .union(thirdCluster)
+        .shuffle()
+        .value();
+  });
+
+  it(<span class="string">'returns three clusters'</span>, <span class="keyword">function</span>() {
+    expect( getClusters(<span class="keyword">this</span>.shuffledMarkers) ).to.have.lengthOf(<span class="number">3</span>);
+  });
+
+  it(<span class="string">'sets title for created clusters'</span>, <span class="keyword">function</span>() {
+    <span class="keyword">var</span> titles =
+      _( getClusters(<span class="keyword">this</span>.shuffledMarkers) )
+        .pluck(<span class="string">'title'</span>)
+        .sort()
+        .value();
+    expect(titles).to.eql([<span class="string">'4'</span>, <span class="string">'5'</span>, <span class="string">'6'</span>]);
+  });
+});</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-25">
+    <section class="slide-content"><h2 id="-17-">Шаг 17. Тест на мелкие кластеры</h2>
+<pre><code class="lang-javascript">describe(<span class="string">'with clusters'</span>, <span class="keyword">function</span>() {
+  beforeEach(<span class="keyword">function</span>() {
+    <span class="keyword">this</span>.cluster = <span class="keyword">function</span>(n, lat, lng, factor) {
+      <span class="keyword">return</span> _.times(n, <span class="keyword">function</span>() {
+        <span class="keyword">return</span> {
+          latitude: lat + Math.random()  * (factor || <span class="number">1</span>),
+          longitude: lng + Math.random() * (factor || <span class="number">1</span>)
+        };
+      })
+    };
+  });
+  describe(<span class="string">'with two clusters and 0.1 distance provided'</span>, <span class="keyword">function</span>() {
+    beforeEach(<span class="keyword">function</span>() {
+      <span class="keyword">var</span> firstCluster  = <span class="keyword">this</span>.cluster(<span class="number">10</span>, <span class="number">25</span>, <span class="number">36.0</span>, <span class="number">0.1</span>);
+      <span class="keyword">var</span> secondCluster = <span class="keyword">this</span>.cluster(<span class="number">10</span>, <span class="number">25</span>, <span class="number">36.3</span>, <span class="number">0.1</span>);
+
+      <span class="keyword">this</span>.shuffledMarkers =
+        _(firstCluster)
+          .union(secondCluster)
+          .shuffle()
+          .value();
+    });
+
+    it(<span class="string">'creates 2 clusters'</span>, <span class="keyword">function</span>() {
+      expect( getClusters(<span class="keyword">this</span>.shuffledMarkers, <span class="number">0.1</span>) ).to.have.lengthOf(<span class="number">2</span>);
+    });
+  });
+  <span class="comment">// ...</span>
+});</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-26">
+    <section class="slide-content"><h2 id="-18-">Шаг 18. Фикс</h2>
+<pre><code class="lang-javascript">export <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">getClusters</span><span class="params">(markers, factor)</span> {</span>
+  <span class="keyword">var</span> clusters = [];
+  <span class="comment">//...</span>
+  markers.forEach(<span class="keyword">function</span>(marker) {
+    <span class="keyword">var</span> properCluster = _.find(clusters, <span class="keyword">function</span>(cluster) {
+      <span class="keyword">return</span> distance(cluster, marker) &lt; <span class="number">2</span>;
+    });
+    <span class="keyword">if</span> (factor) {
+      <span class="keyword">var</span> properCluster = _.find(clusters, <span class="keyword">function</span>(cluster) {
+        <span class="keyword">return</span> distance(cluster, marker) &lt; <span class="number">0.2</span>;
+      });
+    } <span class="keyword">else</span> {
+      <span class="keyword">var</span> properCluster = _.find(clusters, <span class="keyword">function</span>(cluster) {
+        <span class="keyword">return</span> distance(cluster, marker) &lt; <span class="number">2</span>;
+      });
+    }
+    <span class="comment">//...</span>
+   });
+  <span class="comment">//...</span>
+}</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-27">
+    <section class="slide-content"><h2 id="-19-">Шаг 19. Рефакторинг</h2>
+<pre><code class="lang-javascript">export <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">getClusters</span><span class="params">(markers, factor)</span> {</span>
+  factor = factor || <span class="number">1</span>;
+
+  <span class="comment">//...</span>
+
+  markers.forEach(<span class="keyword">function</span>(marker) {
+    <span class="keyword">var</span> properCluster = _.find(clusters, <span class="keyword">function</span>(cluster) {
+      <span class="keyword">return</span> distance(cluster, marker) &lt; <span class="number">2</span> * factor;
+    });
+    <span class="comment">//...</span>
+  });
+  <span class="comment">//...</span>
+}</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-28">
+    <section class="slide-content"><h2 id="-20-">Шаг 20. Тест на идентификатор</h2>
+<pre><code class="lang-javascript">it(<span class="string">'generates ids for clusters'</span>, <span class="keyword">function</span>() {
+  <span class="keyword">var</span> cluster = <span class="keyword">this</span>.cluster(<span class="number">10</span>, <span class="number">25</span>, <span class="number">10</span>);
+
+  expect( getClusters(cluster)[<span class="number">0</span>].id ).to.be.equal(
+    _.pluck(cluster, <span class="string">'id'</span>).join(<span class="string">','</span>)
+  );
+});</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-29">
+    <section class="slide-content"><h2 id="-21-">Шаг 21. Фикс</h2>
+<pre><code class="lang-javascript">  <span class="keyword">return</span> _(clusters)
+          .sortBy(<span class="string">'latitude'</span>)
+          .each(<span class="function"><span class="keyword">function</span> <span class="params">(cluster)</span> {</span>
+            cluster.title = cluster.markers.length.toString();
+            cluster.id = _.pluck(cluster.markers, <span class="string">'id'</span>).toString();
+          })
+          .map(<span class="keyword">function</span>(cluster) {
+            <span class="keyword">return</span> (cluster.markers.length &gt; <span class="number">1</span> ? cluster : cluster.markers[<span class="number">0</span>]);
+          })
+          .value();</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-30">
+    <section class="slide-content"><h2 id="-22-">Шаг 22. Вынос кода с целью тестирования</h2>
+<pre><code class="lang-javascript">import UserStatus   from <span class="string">'./user_status'</span>;
+import renderWishes from <span class="string">'./render_wishes'</span>;
+import Wishes       from <span class="string">'./wishes'</span>;
+
+export <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">initApp</span><span class="params">()</span> {</span>
+  UserStatus.bind(user =&gt; {
+    document.getElementById(<span class="string">'karmaPoints'</span>).innerText = user.karma;
+  });
+  UserStatus.poll();
+
+  Wishes.bind(renderWishes);
+  Wishes.poll();
+}</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-31">
+    <section class="slide-content"><h2 id="-23-dependency-injection">Шаг 23. Dependency Injection</h2>
+<pre><code class="lang-javascript">import UserStatus   from <span class="string">'./user_status'</span>;
+import Wishes       from <span class="string">'./wishes'</span>;
+
+export <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">initApp</span><span class="params">(renderWishes)</span> {</span>
+  UserStatus.bind(user =&gt; {
+    document.getElementById(<span class="string">'karmaPoints'</span>).innerText = user.karma;
+  });
+  UserStatus.poll();
+
+  Wishes.bind(renderWishes);
+  Wishes.poll();
+}</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-32">
+    <section class="slide-content"><h2 id="-24-">Шаг 24. Тест на интеграцию модуля</h2>
+<pre><code class="lang-javascript">describe(<span class="string">'initApp'</span>, <span class="keyword">function</span>() {
+  it(<span class="string">'renders clustered wishes'</span>, <span class="keyword">function</span>() {
+    <span class="keyword">var</span> markers = _.times(<span class="number">20</span>, <span class="keyword">function</span>() {
+      <span class="keyword">return</span> {
+        latitude: Math.random(),
+        longitude: Math.random(),
+        id: Faker.random.number()
+      };
+    });
+
+    <span class="comment">// sinon stubs</span>
+    sinon.stub(UserStatus, <span class="string">'bind'</span>);
+    sinon.stub(UserStatus, <span class="string">'poll'</span>);
+    sinon.stub(Wishes, <span class="string">'bind'</span>);
+    sinon.stub(Wishes, <span class="string">'poll'</span>);
+
+    <span class="comment">// rewiring module</span>
+    <span class="keyword">var</span> renderWishes = sinon.stub();
+
+    <span class="comment">// main call</span>
+    initApp(renderWishes);
+
+    <span class="keyword">var</span> callback = Wishes.bind.firstCall.args[<span class="number">0</span>];
+    callback(markers);
+
+    sinon.assert.calledWith(renderWishes, getClusters(markers) );
+  });
+});</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-33">
+    <section class="slide-content"><h2 id="-25-">Шаг 25. Фикс</h2>
+<pre><code class="lang-javascript">export <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">initApp</span><span class="params">(renderWishes)</span> {</span>
+  UserStatus.bind(user =&gt; {
+    document.getElementById(<span class="string">'karmaPoints'</span>).innerText = user.karma;
+  });
+  UserStatus.poll();
+
+  Wishes.bind(<span class="keyword">function</span>(wishes) {
+    renderWishes( getClusters(wishes) );
+  });
+  Wishes.poll();
+}</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-34">
+    <section class="slide-content"><h2 id="-26-">Шаг 26. Спецификация размера кластера</h2>
+<pre><code class="lang-javascript">describe(<span class="string">'initApp'</span>, <span class="keyword">function</span>() {
+  it(<span class="string">'renders clustered wishes'</span>, <span class="keyword">function</span>() {
+    <span class="comment">//...</span>
+
+    sinon.assert.calledWith(renderWishes, getClusters(markers, <span class="number">0.1</span>) );
+  });
+});</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-35">
+    <section class="slide-content"><h2 id="-27-">Шаг 27. Фикс модульного и функционального тестов</h2>
+<pre><code class="lang-javascript">export <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">initApp</span><span class="params">(renderWishes)</span> {</span>
+  UserStatus.bind(user =&gt; {
+    document.getElementById(<span class="string">'karmaPoints'</span>).innerText = user.karma;
+  });
+  UserStatus.poll();
+
+  Wishes.bind(<span class="keyword">function</span>(wishes) {
+    renderWishes( getClusters(wishes, <span class="number">0.1</span>) );
+  });
+  Wishes.poll();
+}</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-36">
+    <section class="slide-content"><h2 id="-28-">Шаг 28. Рефакторинг</h2>
+<pre><code class="lang-javascript">describe(<span class="string">'initApp'</span>, <span class="keyword">function</span>() {
+  beforeEach(<span class="keyword">function</span>() {
+    [UserStatus, Wishes].forEach(obj =&gt; {
+      [<span class="string">'bind'</span>, <span class="string">'poll'</span>].forEach(method =&gt; {
+        sinon.stub(obj, method);
+      });
+    });
+  });
+
+  afterEach(<span class="keyword">function</span>() {
+    [UserStatus, Wishes].forEach(obj =&gt; {
+      [<span class="string">'bind'</span>, <span class="string">'poll'</span>].forEach(method =&gt; {
+        obj[method].restore();
+      });
+    });
+  });
+
+  it(<span class="string">'renders clustered wishes'</span>, <span class="keyword">function</span>() {
+    <span class="comment">// ...</span>
+  });
+});</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-37">
+    <section class="slide-content"><h2 id="-">Если код оказался написан до тестов:</h2>
+<ul>
+<li>Убедиться в работоспособности тестов путем отката изменений</li>
+<li>Переписать с использованием TDD</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-38">
+    <section class="slide-content"><h2 id="-">Предупреждение!</h2>
+<ul>
+<li>Инициализация - долго. Изменение - быстро.</li>
+<li>TDD дополняет, но не заменяет ручное тестирование</li>
+<li>Сохраняйте разумность и помните о техническом долге</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-39">
+    <section class="slide-content"><h1 id="-">Спасибо за внимание!</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-40">
+    <section class="slide-content"><h1 id="-">Вопросы?</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-41">
+    <section class="slide-content"><div class="author">
+  <h1 class="name">Ivan Strelkov</h1>
+    <h3 class="twitter">
+      <a href="http://twitter.com/@i_strel">@i_strel</a>
+    </h3>
+</div>
+</section>
+  </div>
+
+  <div class="controls">
+    <div class="arrow prev"></div>
+    <div class="arrow next"></div>
+  </div>
+
+
+  <script type="text/javascript">
+    /**
+ * Returns the current page number of the presentation.
+ */
+function currentPosition() {
+  return parseInt(document.querySelector('.slide:not(.hidden)').id.slice(6));
+}
+
+
+/**
+ * Navigates forward n pages
+ * If n is negative, we will navigate in reverse
+ */
+function navigate(n) {
+  var position = currentPosition();
+  var numSlides = document.getElementsByClassName('slide').length;
+
+  /* Positions are 1-indexed, so we need to add and subtract 1 */
+  var nextPosition = (position - 1 + n) % numSlides + 1;
+
+  /* Normalize nextPosition in-case of a negative modulo result */
+  nextPosition = (nextPosition - 1 + numSlides) % numSlides + 1;
+
+  document.getElementById('slide-' + position).classList.add('hidden');
+  document.getElementById('slide-' + nextPosition).classList.remove('hidden');
+
+  updateProgress();
+  updateURL();
+  updateTabIndex();
+}
+
+
+/**
+ * Updates the current URL to include a hashtag of the current page number.
+ */
+function updateURL() {
+  window.history.replaceState({} , null, '#' + currentPosition());
+}
+
+
+/**
+ * Sets the progress indicator.
+ */
+function updateProgress() {
+  var progressBar = document.querySelector('.progress-bar');
+
+  if (progressBar !== null) {
+    var numSlides = document.getElementsByClassName('slide').length;
+    var position = currentPosition() - 1;
+    var percent = (numSlides === 1) ? 100 : 100 * position / (numSlides - 1);
+    progressBar.style.width = percent.toString() + '%';
+  }
+}
+
+
+/**
+ * Removes tabindex property from all links on the current slide, sets
+ * tabindex = -1 for all links on other slides. Prevents slides from appearing
+ * out of control.
+ */
+function updateTabIndex() {
+  var allLinks = document.querySelectorAll('.slide a');
+  var position = currentPosition();
+  var currentPageLinks = document.getElementById('slide-' + position).querySelectorAll('a');
+  var i;
+
+  for (i = 0; i < allLinks.length; i++) {
+    allLinks[i].setAttribute('tabindex', -1);
+  }
+
+  for (i = 0; i < currentPageLinks.length; i++) {
+    currentPageLinks[i].removeAttribute('tabindex');
+  }
+}
+
+/**
+ * Determines whether or not we are currently in full screen mode
+ */
+function isFullScreen() {
+  return document.fullscreenElement ||
+         document.mozFullScreenElement ||
+         document.webkitFullscreenElement ||
+         document.msFullscreenElement;
+}
+
+/**
+ * Toggle fullScreen mode on document element.
+ * Works on chrome (>= 15), firefox (>= 9), ie (>= 11), opera(>= 12.1), safari (>= 5).
+ */
+function toggleFullScreen() {
+  /* Convenient renames */
+  var docElem = document.documentElement;
+  var doc = document;
+
+  docElem.requestFullscreen =
+      docElem.requestFullscreen ||
+      docElem.msRequestFullscreen ||
+      docElem.mozRequestFullScreen ||
+      docElem.webkitRequestFullscreen.bind(docElem, Element.ALLOW_KEYBOARD_INPUT);
+
+  doc.exitFullscreen =
+      doc.exitFullscreen ||
+      doc.msExitFullscreen ||
+      doc.mozCancelFullScreen ||
+      doc.webkitExitFullscreen;
+
+  isFullScreen() ? doc.exitFullscreen() : docElem.requestFullscreen();
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Update the tabindex to prevent weird slide transitioning
+  updateTabIndex();
+
+  // If the location hash specifies a page number, go to it.
+  var page = window.location.hash.slice(1);
+  if (page) {
+    navigate(parseInt(page) - 1);
+  }
+
+  document.onkeydown = function (e) {
+    var kc = e.keyCode;
+
+    // left, down, H, J, backspace, PgUp - BACK
+    // up, right, K, L, space, PgDn - FORWARD
+    // enter - FULLSCREEN
+    if (kc === 37 || kc === 40 || kc === 8 || kc === 72 || kc === 74 || kc === 33) {
+      navigate(-1);
+    } else if (kc === 38 || kc === 39 || kc === 32 || kc === 75 || kc === 76 || kc === 34) {
+      navigate(1);
+    } else if (kc === 13) {
+      toggleFullScreen();
+    }
+  };
+
+  if (document.querySelector('.next') && document.querySelector('.prev')) {
+    document.querySelector('.next').onclick = function (e) {
+      e.preventDefault();
+      navigate(1);
+    };
+
+    document.querySelector('.prev').onclick = function (e) {
+      e.preventDefault();
+      navigate(-1);
+    };
+  }
+});
+
+
+  </script>
 </body>
 </html>
