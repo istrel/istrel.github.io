@@ -16,7 +16,10 @@
 	<section class="slide cover" id="Cover"><div>
 		<h2>Test-Driven Development in JavaScript</h2>
 		<p>
-		  <a href="https://twitter.com/i_strel">Ivan Strelkov</a>
+		  <a href="https://twitter.com/i_strel">Ivan Strelkov</a>, Onlinetours.ru
+			<center>
+				<img src="pictures/logo.svg">
+			</center>
 		</p>
 		<!--
 			To apply styles to the certain slides
@@ -42,6 +45,11 @@
 
 			#Cover {
 				background: white;
+			}
+			#Cover img {
+				position: relative;
+				width: 240px;
+				height: 240px;
 			}
 
 			pre code {
@@ -85,26 +93,15 @@
 			}
 		</style>
 	</div></section>
-	<section class="slide" id="QR"><div>
-		<h2>Репозиторий</h2>
-		<center>
-			<img src="pictures/qrcode.png" alt="">
-			<br>
-			<a href="https://goo.gl/tPW1xK">https://goo.gl/tPW1xK</a>
-		</center>
-		<style>
-			#QR img {
-			  height: 300px;
-			}
-		</style>
-	</div></section>
 	<section class="slide"><div>
 		<h2>Инструменты</h2>
 		<ul>
-		  <li>Webdriver.IO</li>
-		  <li>Mocha + Sinon.JS + Chai.JS</li>
-		  <li>Karma runner</li>
-		  <li>Rosie JS</li>
+			<li><a href="http://webdriver.io">Webdriver.IO</a> - для запуска браузера в Selenium Webdriver</li>
+			<li><a href="http://mochajs.org">Mocha</a> - для организации тестов</li>
+			<li><a href="http://sinonjs.org">Sinon.JS</a> - для создания стабов (фальшивых реализаций методов)</li>
+			<li><a href="http://chaijs.com">Chai.JS</a> - для проверок утверждений</li>
+			<li><a href="http://karma-runner.github.io/">Karma runner</a> - запуск юнит тестов</li>
+			<li><a href="https://github.com/rosiejs/rosie">Rosie</a> - для создания фабрик</li>
 		</ul>
 	</div></section>
 	<section class="slide"><div>
@@ -124,6 +121,64 @@
 				background-position-x: 50%;
 			}
 		</style>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Старт</h2>
+		<ul>
+			<li>Шаг 1. Написание функционального теста и его падение</li>
+			<li>Шаг 2. Написание юнит теста функции кластеризации - FAIL с неадекватным сообщением</li>
+			<li>Шаг 3. Делаем сообщение об ошибке вменяемым - FAIL</li>
+			<li>Шаг 4. Исправляем код - SUCCESS</li>
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Кластеризация для двух кластеров</h2>
+		<ul>
+			<li>Шаг 5. Написание теста кластеризации на количество кластеров - FAIL</li>
+			<li>Шаг 6. Простейшее исправление - SUCCESS</li>
+			<li>Шаг 7. Еще один тест на два кластера с проверкой широты - FAIL</li>
+			<li>Шаг 8. Реализация кластеризации для двух маркеров - SUCCESS</li>
+			<li>Шаг 9. Рефакторинг тестов - SUCCESS</li>
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Кластеризация для трех кластеров</h2>
+		<ul>
+			<li>Шаг 10. Написание теста на три кластера - FAIL</li>
+			<li>Шаг 11. Исправление теста на три кластера - FAIL</li>
+			<li>Шаг 12. Исправление теста, проверяющего широту - SUCCESS</li>
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Реализация заголовка кластера (пропускаем)</h2>
+		<ul>
+			<li>Шаг 13. Тест на наличие заголовка кластера - FAIL</li>
+			<li>Шаг 14. Исправление теста на заголовок - FAIL</li>
+			<li>Шаг 15. Исправление самого первого теста - SUCCESS</li>
+			<li>Шаг 16. Рефакторинг тестов - SUCCESS</li>
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Реализация указания размера кластера и id (пропускаем)</h2>
+		<ul>
+			<li>Шаг 17. Тест на мелкие кластеры - FAIL</li>
+			<li>Шаг 18. Исправление - SUCCESS</li>
+			<li>Шаг 19. Рефакторинг кода и тестов - SUCCESS</li>
+			<li>Шаг 20. Тест на id - FAIL</li>
+			<li>Шаг 21. Исправление - SUCCESS</li>
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Интеграция функции кластеризации</h2>
+		<ul>
+			<li>Шаг 22. Вынесение метода инициализации в отдельный файл</li>
+			<li>Шаг 23. Dependency Injection</li>
+			<li>Шаг 24. Тест на вызов рендеринга с результатом кластеризации - FAIL</li>
+			<li>Шаг 25. Исправление - SUCCESS. Неуспешная попытка прогона функциональных тестов</li>
+			<li>Шаг 26. Изменение теста с указанием размера кластера - FAIL</li>
+			<li>Шаг 27. Исправление - SUCCESS. Успешный прогон функционального теста</li>
+			<li>Шаг 28. Рефакторинг тестов - SUCCESS</li>
+		</ul>
 	</div></section>
 	<section class="slide"><div>
 		<h2>Зачем оно надо?</h2>
@@ -146,28 +201,6 @@
 			<li class="next">Возможность разработки кода до интеграции</li>
 		</ul>
 	</div></section>
-	<!-- <section class="slide"><div id="Hamlet"> -->
-	<!-- 	<h2>To test or not to test?</h2> -->
-	<!-- 	Иногда не стоит покрывать модульными тестами -->
-	<!-- 	<ol> -->
-	<!-- 		<li class="next">Статические части кода: -->
-	<!-- 			<ul> -->
-	<!-- 				<li class="next">CSS/HTML</li> -->
-	<!-- 				<li class="next">Статический текст</li> -->
-	<!-- 				<li class="next">Конфиги (да-да, бывает и такое)</li> -->
-	<!-- 			</ul> -->
-	<!-- 		</li> -->
-	<!-- 		<li class="next">Скрипты</li> -->
-	<!-- 		<li class="next">То, что скоро выбросят (прототипы, промо etc.)</li> -->
-	<!-- 		<li class="next">То, что невозможно протестировать, юнит-тестами</li> -->
-	<!-- 	</ol> -->
-	<!-- </div></section> -->
-	<!-- <section class="slide"><div> -->
-	<!-- 	<h2>Как тестировать математику?</h2> -->
-	<!-- 	<p class="next"> -->
-	<!-- 		Только регрессионные тесты и контрольные примеры -->
-	<!-- 	</p> -->
-	<!-- </div></section> -->
 	<section class="slide"><div>
 		<h2>Если тест не починился после провала?</h2>
 		<ol>
@@ -198,19 +231,27 @@
 			<li class="next">Сохраняйте разумность и помните о техническом долге</li>
 		</ul>
 	</div></section>
-	<!-- <section class="slide"><div> -->
-	<!-- 	<h2>Еще раз о разумности</h2> -->
-	<!-- 	<figure> -->
-	<!-- 		<blockquote> -->
-	<!-- 			<p>Лучше написать и выполнить неполные тесты, чем не выполнить полные тесты</p> -->
-	<!-- 		</blockquote> -->
-	<!-- 		<figcaption>Мартин Фаулер</figcaption> -->
-	<!-- 	</figure> -->
-	<!-- </div></section> -->
-	<section class="slide shout"><div>
-		<h2>
-			Спасибо за внимание!
-		</h2>
+	<section class="slide" id="QR"><div>
+		<h2>Репозиторий</h2>
+		<center>
+			<img src="pictures/qrcode.png" alt="">
+			<br>
+			<a href="https://goo.gl/tPW1xK">https://goo.gl/tPW1xK</a>
+		</center>
+		<style>
+			#QR img {
+			  height: 300px;
+			}
+		</style>
+	</div></section>
+	<section class="slide active" id="ThankYou"><div>
+		<h2>Спасибо за внимание!</h2>
+		<p>Ivan Strelkov, Onlinetours.ru</p>
+		<ul>
+			<li><a href="https://twitter.com/i_strel">twitter.com/i_strel</a></li>
+			<li><a href="mailto:iv-strelkov@yandex.ru">iv-strelkov@yandex.ru</a></li>
+		</ul>
+		<p>Презентация: <a href="https://istrel.github.io/">istrel.github.io</a></p>
 	</div></section>
 	<section class="slide shout"><div>
 		<h2>
