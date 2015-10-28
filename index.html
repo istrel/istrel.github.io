@@ -15,7 +15,9 @@
 	</header>
 	<section class="slide cover" id="Cover"><div>
 		<h2>Test-Driven Development in JavaScript</h2>
-		<p>Brought to you by <a href="https://github.com/istrel">Ivan Strelkov</a></p>
+		<p>
+		  <a href="https://twitter.com/i_strel">Ivan Strelkov</a>
+		</p>
 		<!--
 			To apply styles to the certain slides
 			set slide ID to get needed elements
@@ -83,25 +85,45 @@
 			}
 		</style>
 	</div></section>
+	<section class="slide" id="QR"><div>
+		<h2>Репозиторий</h2>
+		<center>
+			<img src="pictures/qrcode.png" alt="">
+			<br>
+			<a href="https://goo.gl/tPW1xK">https://goo.gl/tPW1xK</a>
+		</center>
+		<style>
+			#QR img {
+			  height: 300px;
+			}
+		</style>
+	</div></section>
 	<section class="slide"><div>
-		<pre><code class="language-js">  it('should do some chai assertions', function() {
-    var markersLeft = _.times(10, function() {
-      return Factory.build('wish', {
-        latitude:  defaultLocation.lat + random(0.01),
-        longitude: defaultLocation.lng - 0.2 + random(0.01)
-      });
-    });
-    var markersLeft = '...';
-    var markers = _(markersLeft).union(markersRight).shuffle().value();
-    Stubs.stub.withArgs( match.has('url', match('/wishes.json')) )
-      .returns(function(req, res) { res.json(markers); });
-    return browser.url('http://localhost:3000')
-      .waitForVisible('.wish-marker__title', 5000)
-      .getText('.wish-marker__title')
-      .then(function(titles) { return titles.sort(); })
-      .should.eventually.be.eql(['5', '10'].sort());
-  });
-		</code><pre>
+		<h2>Инструменты</h2>
+		<ul>
+		  <li>Webdriver.IO</li>
+		  <li>Mocha + Sinon.JS + Chai.JS</li>
+		  <li>Karma runner</li>
+		  <li>Rosie JS</li>
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Пререквизиты</h2>
+		<ul>
+		  <li>ExpressJS для статики</li>
+		  <li>Fixtures</li>
+		  <li>Stubs middleware</li>
+		</ul>
+	</div></section>
+	<section class="slide cover" id="Middleware"><div>
+		<style>
+			#Middleware div {
+				background-image: url('pictures/middleware.png');
+				background-repeat: no-repeat;
+				background-size: contain;
+				background-position-x: 50%;
+			}
+		</style>
 	</div></section>
 	<section class="slide"><div>
 		<h2>Зачем оно надо?</h2>
@@ -119,34 +141,33 @@
 	<section class="slide"><div>
 		<h2>Мотивация</h2>
 		<ul>
-			<li class="next">Работающие тесты</li>
-			<li class="next">Уверенность в изменениях</li>
-			<li class="next">Рефакторинг без проблем</li>
+			<li class="next">Работающие тесты (в сравнении с кодом после тестов)</li>
+			<li class="next">Как следствие, уверенность в изменениях и при рефакторинге</li>
 			<li class="next">Возможность разработки кода до интеграции</li>
 		</ul>
 	</div></section>
-	<section class="slide"><div id="Hamlet">
-		<h2>To test or not to test?</h2>
-		Иногда не стоит покрывать модульными тестами
-		<ol>
-			<li class="next">Статические части кода:
-				<ul class="next">
-					<li class="next">CSS/HTML</li>
-					<li class="next">Статический текст</li>
-					<li class="next">Конфиги (да-да, бывает и такое)</li>
-				</ul>
-			</li>
-			<li class="next">Скрипты</li>
-			<li class="next">То, что скоро выбросят (прототипы, промо etc.)</li>
-			<li class="next">То, что невозможно протестировать, юнит-тестами</li>
-		</ol>
-	</div></section>
-	<section class="slide"><div>
-		<h2>Как тестировать математику?</h2>
-		<p class="next">
-			Только регрессионные тесты и контрольные примеры
-		</p>
-	</div></section>
+	<!-- <section class="slide"><div id="Hamlet"> -->
+	<!-- 	<h2>To test or not to test?</h2> -->
+	<!-- 	Иногда не стоит покрывать модульными тестами -->
+	<!-- 	<ol> -->
+	<!-- 		<li class="next">Статические части кода: -->
+	<!-- 			<ul> -->
+	<!-- 				<li class="next">CSS/HTML</li> -->
+	<!-- 				<li class="next">Статический текст</li> -->
+	<!-- 				<li class="next">Конфиги (да-да, бывает и такое)</li> -->
+	<!-- 			</ul> -->
+	<!-- 		</li> -->
+	<!-- 		<li class="next">Скрипты</li> -->
+	<!-- 		<li class="next">То, что скоро выбросят (прототипы, промо etc.)</li> -->
+	<!-- 		<li class="next">То, что невозможно протестировать, юнит-тестами</li> -->
+	<!-- 	</ol> -->
+	<!-- </div></section> -->
+	<!-- <section class="slide"><div> -->
+	<!-- 	<h2>Как тестировать математику?</h2> -->
+	<!-- 	<p class="next"> -->
+	<!-- 		Только регрессионные тесты и контрольные примеры -->
+	<!-- 	</p> -->
+	<!-- </div></section> -->
 	<section class="slide"><div>
 		<h2>Если тест не починился после провала?</h2>
 		<ol>
@@ -177,15 +198,15 @@
 			<li class="next">Сохраняйте разумность и помните о техническом долге</li>
 		</ul>
 	</div></section>
-	<section class="slide"><div>
-		<h2>Еще раз о разумности</h2>
-		<figure>
-			<blockquote>
-				<p>Лучше написать и выполнить неполные тесты, чем не выполнить полные тесты</p>
-			</blockquote>
-			<figcaption>Мартин Фаулер</figcaption>
-		</figure>
-	</div></section>
+	<!-- <section class="slide"><div> -->
+	<!-- 	<h2>Еще раз о разумности</h2> -->
+	<!-- 	<figure> -->
+	<!-- 		<blockquote> -->
+	<!-- 			<p>Лучше написать и выполнить неполные тесты, чем не выполнить полные тесты</p> -->
+	<!-- 		</blockquote> -->
+	<!-- 		<figcaption>Мартин Фаулер</figcaption> -->
+	<!-- 	</figure> -->
+	<!-- </div></section> -->
 	<section class="slide shout"><div>
 		<h2>
 			Спасибо за внимание!
