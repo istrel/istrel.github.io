@@ -1,0 +1,116 @@
+<!doctype html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>ActiAgent</title>
+
+  <link rel="shortcut icon" href="app/template/img/favicon.ico">
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="app/template/img/platform/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="app/template/img/platform/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="app/template/img/platform/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="app/template/img/platform/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon-precomposed" sizes="60x60" href="app/template/img/platform/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="app/template/img/platform/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon-precomposed" sizes="76x76" href="app/template/img/platform/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon-precomposed" sizes="152x152" href="app/template/img/platform/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" sizes="196x196" href="app/template/img/platform/favicon-196x196.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="app/template/img/platform/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="app/template/img/platform/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="app/template/img/platform/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="128x128" href="app/template/img/platform/favicon-128.png">
+  <meta name="application-name" content="ActiAgent">
+  <meta name="msapplication-TileColor" content="#FFFFFF">
+  <meta name="msapplication-TileImage" content="app/template/img/platform/mstile-144x144.png">
+  <meta name="msapplication-square70x70logo" content="app/template/img/platform/mstile-70x70.png">
+  <meta name="msapplication-square150x150logo" content="app/template/img/platform/mstile-150x150.png">
+  <meta name="msapplication-wide310x150logo" content="app/template/img/platform/mstile-310x150.png">
+  <meta name="msapplication-square310x310logo" content="app/template/img/platform/mstile-310x310.png">
+
+  <link rel="stylesheet" href="../acti/old-browser/main.css">
+</head>
+<body>
+  <div>
+    <h1>Here comes the kraken...</h1>
+    <p id="useragent">
+    </p>
+
+    <p>
+      Avito представляет ActiAgent — единое решение для профессионалов рынка недвижимости. Вы сможете управлять своей базой, размещать и отслеживать объявления на площадках, вести клиентов и многое другое.
+    </p>
+  </div>
+
+  <script>
+    document.getElementById('useragent').innerHTML = navigator.userAgent;
+  </script>
+
+  <div class="info-popup" id="old-browser-screen" style="display: none">
+    <div class="info-popup__close" onclick="closeOldBrowserWindow()"></div>
+
+    <div class="info-content">
+      <h1 class="info-content__header">Ваш браузер устарел</h1>
+
+      <div class="info-content__block">
+        <p class="info-content__text">Вы пользуетесь устаревшей версией браузера.
+          В этой версии не поддерживаются многие современные технологии, из-за чего могут работать не все
+          функции. Пожалуйста, установите последнюю версию одного из современных браузеров. Все они бесплатны,
+          легко устанавливаются и просты в использовании.
+        </p>
+      </div>
+
+      <div class="info-content__block">
+        <ul class="browser-list">
+          <li class="browser-list__li">
+            <a href="https://www.microsoft.com/ru-ru/windows/microsoft-edge" class="browser-list__item">
+              <span class="browser-list__item__img"><img src="../acti/old-browser/img/browsers/edge.png" width="48" height="48"></span>
+              <span class="browser-list__item__name">Edge</span>
+            </a>
+          </li>
+          <li class="browser-list__li">
+            <a href="http://windows.microsoft.com/ru-ru/internet-explorer/download-ie" class="browser-list__item">
+              <span class="browser-list__item__img"><img src="../acti/old-browser/img/browsers/ie.png" width="48" height="48"></span>
+              <span class="browser-list__item__name">Internet Explorer</span>
+            </a>
+          </li>
+          <li class="browser-list__li">
+            <a href="http://www.apple.com/safari/" class="browser-list__item">
+              <span class="browser-list__item__img"><img src="../acti/old-browser/img/browsers/safari.png" width="48" height="48"></span>
+              <span class="browser-list__item__name">Safari</span>
+            </a>
+          </li>
+          <li class="browser-list__li">
+            <a href="https://www.mozilla.org/ru/firefox/" class="browser-list__item">
+              <span class="browser-list__item__img"><img src="../acti/old-browser/img/browsers/firefox.png" width="48" height="48"></span>
+              <span class="browser-list__item__name">Firefox</span>
+            </a>
+          </li>
+          <li class="browser-list__li">
+            <a href="http://www.google.com/chrome/" class="browser-list__item">
+              <span class="browser-list__item__img"><img src="../acti/old-browser/img/browsers/chrome.png" width="48" height="48"></span>
+              <span class="browser-list__item__name">Google Chrome</span>
+            </a>
+          </li>
+          <li class="browser-list__li">
+            <a href="http://www.opera.com/" class="browser-list__item">
+              <span class="browser-list__item__img"><img src="../acti/old-browser/img/browsers/opera.png" width="48" height="48"></span>
+              <span class="browser-list__item__name">Opera</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script src="../acti/old-browser/detect.js"></script>
+  <script>
+    function closeOldBrowserWindow() {
+      window.name = 'oldBrowser';
+      window.location.reload();
+    }
+
+    if (!window.isSupportedBrowser) {
+      document.getElementById('old-browser-screen').style.display = '';
+    }
+  </script>
+</body>
+</html>
