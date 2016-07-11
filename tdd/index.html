@@ -1,0 +1,248 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>Shower Presentation Engine</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=792, user-scalable=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<link rel="stylesheet" href="prism.css">
+	<link rel="stylesheet" href="shower/themes/ribbon/styles/screen.css">
+</head>
+<body class="list">
+	<header class="caption">
+		<h1>Test-Driven Development in JavaScript</h1>
+		<p>Ivan Strelkov</p>
+	</header>
+	<section class="slide cover" id="Cover"><div>
+		<h2>Test-Driven Development in JavaScript</h2>
+		<p>
+		  <a href="https://twitter.com/i_strel">Ivan Strelkov</a>, Onlinetours.ru
+			<center>
+				<img src="pictures/logo.svg">
+			</center>
+		</p>
+		<!--
+			To apply styles to the certain slides
+			set slide ID to get needed elements
+			-->
+		<style>
+			#Cover h2 {
+				margin:30px 0 0;
+				color:#000;
+				text-align:center;
+				font-size:70px;
+				}
+			#Cover p {
+				margin:10px 0 0;
+				text-align:center;
+				color:#000;
+				font-style:italic;
+				font-size:20px;
+				}
+				#Cover p a {
+					color:#000;
+					}
+
+			#Cover {
+				background: white;
+			}
+			#Cover img {
+				position: relative;
+				width: 240px;
+				height: 240px;
+			}
+
+			pre code {
+				font-size: 16px;
+			};
+		</style>
+	</div></section>
+	<section class="slide shout"><div>
+		<h2>Что такое?</h2>
+	</div></section>
+	<section class="slide" id="Tdd"><div>
+		<h2>Классика</h2>
+		<center>
+			<img src="pictures/tdd.png" alt="">
+		</center>
+		<style>
+			#Tdd img {
+				height: 400px;
+			}
+		</style>
+	</div></section>
+	<section class="slide" id="Complex"><div>
+		<h2>Комплексный подход</h2>
+		<center>
+			<img src="pictures/complex.png" alt="">
+		</center>
+		<style>
+			#Complex img {
+				height: 400px;
+			}
+		</style>
+	</div></section>
+	<section class="slide shout"><div>
+		<h2>Как внедрить?</h2>
+	</div></section>
+	<section class="slide cover" id="JustDoIt"><div>
+		<style>
+			#JustDoIt div {
+				background-image: url('pictures/just_do_it.jpg');
+				background-size: cover;
+			}
+		</style>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Инструменты</h2>
+		<ul>
+			<li><a href="http://webdriver.io">Webdriver.IO</a> - для запуска браузера в Selenium Webdriver</li>
+			<li><a href="http://mochajs.org">Mocha</a> - для организации тестов</li>
+			<li><a href="http://sinonjs.org">Sinon.JS</a> - для создания стабов (фальшивых реализаций методов)</li>
+			<li><a href="http://chaijs.com">Chai.JS</a> - для проверок утверждений</li>
+			<li><a href="http://karma-runner.github.io/">Karma runner</a> - запуск юнит тестов</li>
+			<li><a href="https://github.com/rosiejs/rosie">Rosie</a> - для создания фабрик</li>
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Пререквизиты</h2>
+		<ul>
+		  <li>ExpressJS для статики</li>
+		  <li>Fixtures</li>
+		  <li>Stubs middleware</li>
+		</ul>
+	</div></section>
+	<section class="slide cover" id="Middleware"><div>
+		<style>
+			#Middleware div {
+				background-image: url('pictures/middleware.png');
+				background-repeat: no-repeat;
+				background-size: contain;
+				background-position-x: 50%;
+			}
+		</style>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Старт</h2>
+		<ul>
+			<li>Шаг 1. Написание функционального теста и его падение</li>
+			<li>Шаг 2. Написание юнит теста функции кластеризации - FAIL с неадекватным сообщением</li>
+			<li>Шаг 3. Делаем сообщение об ошибке вменяемым - FAIL</li>
+			<li>Шаг 4. Исправляем код - SUCCESS</li>
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Кластеризация для двух кластеров</h2>
+		<ul>
+			<li>Шаг 5. Написание теста кластеризации на количество кластеров - FAIL</li>
+			<li>Шаг 6. Простейшее исправление - SUCCESS</li>
+			<li>Шаг 7. Еще один тест на два кластера с проверкой широты - FAIL</li>
+			<li>Шаг 8. Реализация кластеризации для двух маркеров - SUCCESS</li>
+			<li>Шаг 9. Рефакторинг тестов - SUCCESS</li>
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Кластеризация для трех кластеров</h2>
+		<ul>
+			<li>Шаг 10. Написание теста на три кластера - FAIL</li>
+			<li>Шаг 11. Исправление теста на три кластера - FAIL</li>
+			<li>Шаг 12. Исправление теста, проверяющего широту - SUCCESS</li>
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Интеграция функции кластеризации</h2>
+		<ul>
+			<li>Шаг 13. Вынесение метода инициализации в отдельный файл</li>
+			<li>Шаг 14. Dependency Injection</li>
+			<li>Шаг 15. Тест на вызов рендеринга с результатом кластеризации - FAIL</li>
+			<li>Шаг 16. Исправление - SUCCESS. Неуспешная попытка прогона функциональных тестов</li>
+			<li>Шаг 17. Изменение теста с указанием размера кластера - FAIL</li>
+			<li>Шаг 18. Исправление - SUCCESS. Успешный прогон функционального теста</li>
+			<li>Шаг 19. Рефакторинг тестов - SUCCESS</li>
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Зачем оно надо?</h2>
+		<figure>
+			<blockquote>
+				<p>
+				Код без тестов является неудачным.
+				И совершенно неважно, насколько хорошо он написан, объекто-ориентирован или инкапсулирован.
+				С помощью тестов мы можем быстро и под полным контролем изменить поведение нашего кода.
+				А без них мы на самом деле не знаем, становится ли наш код лучше или хуже.</p>
+			</blockquote>
+			<figcaption>Майкл К. Физерс</figcaption>
+		</figure>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Мотивация</h2>
+		<ul>
+			<li class="next">Работающие тесты (в сравнении с кодом после тестов)</li>
+			<li class="next">Как следствие, уверенность в изменениях и при рефакторинге</li>
+			<li class="next">Возможность разработки кода до интеграции</li>
+		</ul>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Если тест не починился после провала?</h2>
+		<ol>
+			<li class="next">Заставить тест проходить без изменения кода</li>
+			<li class="next">Убедиться в работоспособности тестов
+				<ul>
+					<li class="next">Откатить изменения и убедиться, что код работает</li>
+					<li class="next">Переписать код заново</li>
+				</ul>
+			</li>
+		</ol>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Если неизвестно, как написать первый тест?</h2>
+		<ol>
+			<li class="next">Написать код без тестов</li>
+			<li class="next">Написать проходящие тесты к коду</li>
+			<li class="next">Убедиться в работоспособности тестов</li>
+			<li class="next">Получить опыт</li>
+			<li class="next">Все переписать!</li>
+		</ol>
+	</div></section>
+	<section class="slide"><div>
+		<h2>Предупреждение!</h2>
+		<ul>
+			<li class="next">Инициализация - долго. Изменение - быстро.</li>
+			<li class="next">TDD дополняет, но не заменяет ручное тестирование</li>
+			<li class="next">Сохраняйте разумность и помните о техническом долге</li>
+		</ul>
+	</div></section>
+	<section class="slide active" id="ThankYou"><div>
+		<h2>Спасибо за внимание!</h2>
+		<p>Ivan Strelkov, Onlinetours.ru</p>
+		<ul>
+			<li><a href="https://twitter.com/i_strel">twitter.com/i_strel</a></li>
+			<li><a href="mailto:iv-strelkov@yandex.ru">iv-strelkov@yandex.ru</a></li>
+		</ul>
+		<p>
+			Презентация: <a href="https://istrel.github.io/">istrel.github.io</a>
+			<br>
+			Репозиторий (QR-код): <a href="https://goo.gl/tPW1xK">https://goo.gl/tPW1xK</a>
+		</p>
+		<img src="pictures/qrcode.png" alt="">
+		<style>
+			#ThankYou img {
+				position: absolute;
+				top: 200px;
+				right: 100px;
+			  height: 300px;
+			}
+		</style>
+	</div></section>
+
+	<!--
+		To hide progress bar from entire presentation
+		just remove “progress” element.
+		-->
+	<!-- <div class="progress"><div></div></div> -->
+	<script src="shower/shower.min.js"></script>
+	<script src="prism.js"></script>
+	<!-- Copyright © 2014 Yours Truly, Famous Inc. -->
+	<!-- Photos by John Carey, fiftyfootshadows.net -->
+</body>
+</html>
