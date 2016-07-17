@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Shower Presentation Engine</title>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="shower/themes/ribbon/styles/screen-16x10.css">
+</head>
+<body class="shower list">
+	<header class="caption">
+		<h1>О том, как не надо тестировать</h1>
+		<p>Иван Стрелков</p>
+	</header>
+	<section class="slide cover" id="Cover"><div>
+		<h2>О том, как не надо тестировать</h2>
+		<p>
+		  <a href="https://github.com/istrel">Иван Стрелков</a>, Avito
+			<center>
+				<img src="pictures/logo.svg">
+			</center>
+		</p>
+		<!--
+			To apply styles to the certain slides
+			set slide ID to get needed elements
+			-->
+		<style>
+			#Cover h2 {
+				margin:30px 0 0;
+				color:#000;
+				text-align:center;
+				font-size:70px;
+				}
+			#Cover p {
+				margin:10px 0 0;
+				text-align:center;
+				color:#000;
+				font-style:italic;
+				font-size:20px;
+				}
+				#Cover p a {
+					color:#000;
+					}
+
+			#Cover {
+				background: white;
+			}
+			#Cover img {
+				position: relative;
+				width: 240px;
+				height: 240px;
+			}
+
+			pre code {
+				font-size: 16px;
+			};
+		</style>
+	</div></section>
+	<section class="slide"><div>
+		<h2 class="shout">Тестирование</h2>
+	</div></section>
+	<section class="slide" id="pain"><div>
+		<h2 class="shout">Боль</h2>
+		<style>
+			#pain {
+				background: red;
+			}
+
+			#pain h2 {
+				color: white;
+			}
+		</style>
+	</div></section>
+	<section class="slide">
+		<h2>Тест</h2>
+		<pre>
+			<code>describe('VideoView', function() {</code>
+			<code>	it('is editable', function() {</code>
+			<code>		expect(<mark>new VideoView().editable</mark>).toBe(<mark>true</mark>);</code>
+			<code>	});</code>
+			<code>});</code>
+		</pre>
+	</section>
+	<section class="slide">
+		<h2>Код</h2>
+		<pre>
+			<code>var VideoView = GenericView.extend({</code>
+			<code>	<span class="comment">// ...</span></code>
+			<code>	<mark>editable: true</mark></code>
+			<code>	<span class="comment">// ...</span></code>
+			<code>});</code>
+		</pre>
+		<span class="next">Тестируются статические данные</span>
+	</section>
+	<section class="slide">
+		<h2>Тестирование данных - Причины</h2>
+		<ol>
+			<li class="next">
+				"Нужно покрыть любой новый код тестами"
+				<ul>
+					<li class="next">Выбросить код</li>
+				</ul>
+			</li>
+			<li class="next">
+				GenericView может быть как редактируемым, так и нет в зависимости от флага
+			</li>
+		</ol>
+	</section>
+	<section class="slide">
+		<h2>Правильный тест</h2>
+		<pre>
+			<code>describe('GenericView', function() {</code>
+			<code>  it('disallows editing by default', function() {</code>
+			<code>    var view = new GenericView();</code>
+			<code>    expect(function() { view.edit(); }).toThrow();</code>
+			<code>  });</code>
+			<code>  it('allows editing via specifying "editable" flag', function() {</code>
+			<code>    var view = new GenericView();</code>
+			<code>    expect(function() { view.edit(); }).not.toThrow();</code>
+			<code>  });</code>
+			<code>});</code>
+		</pre>
+		<p class="note">Применим в случае если editable - документированный флаг</p>
+	</section>
+	<section class="slide">
+		<h2>Правильный тест</h2>
+		<pre>
+			<code>describe('VideoView', function() {</code>
+			<code>	describe('editing', function() {</code>
+			<code>		it('opens editing popup', function() {</code>
+			<code>			var view = new VideoView();</code>
+			<code>			view.edit();</code>
+			<code>			expect(view.popup).not.toBe(undefined);</code>
+			<code>		});</code>
+			<code>		it('does something else', function() { <span class="comment">/* test other stuff */</span> });</code>
+			<code>});</code>
+		</pre>
+		<p class="note">Применим в случае если editable создан только для VideoView</p>
+	</section>
+	<section class="slide">
+		<h2>Тестирование данных - разновидности</h2>
+		<ol>
+			<li>Тестирование статических текстов</li>
+			<li>Тестирование наличия статичных CSS-классов</li>
+			<li>Тестирование статичной верстки</li>
+		</ol>
+	</section>
+	<section class="slide">
+		<h2>Тест</h2>
+		<pre>
+			<code>describe 'build step', -></code>
+			<code>  beforeEach -></code>
+			<code>    # stub methods</code>
+			<code>    buildSystem.build('/dir1')</code>
+			<code>  it 'cleans directory', -></code>
+			<code>    expect(someLib.clean).toHaveBeenCalledWith('/dir1')</code>
+			<code>  it 'compiles js', -></code>
+			<code>    @resolveClean()</code>
+			<code>    expect(someOtherLib.compileAll).toHaveBeenCalledWith('/dir1')</code>
+			<code>  it 'does something else', -></code>
+			<code>    @resolveClean()</code>
+			<code>    @resolveCompile()</code>
+			<code>    expect(anotherLib.doSomethingElse).toHaveBeenCalled()</code>
+		</pre>
+	</section>
+	<section class="slide">
+		<h2>Код</h2>
+		<pre>
+      <code>module.exports =</code>
+      <code>  build: (dir) -></code>
+      <code>    someLib.clean(dir)</code>
+      <code>      .then -></code>
+      <code>        someOtherLib.compileAll(dir)</code>
+      <code>      .then -></code>
+      <code>        anotherLib.doSomethingElse()</code>
+		</pre>
+		<span class="next">Полное повторение структуры кода в тесте</span>
+	</section>
+	<section class="slide">
+		<img src="pictures/test-script.jpg" alt="" class="cover">
+	</section>
+	<section class="slide">
+		<h2>Тест-близнец</h2>
+		Тест проверяет не результат, а наличие определенного кода
+		<pre>
+			<code>describe 'build step', -></code>
+			<code>  beforeEach -></code>
+			<code>    # stub methods</code>
+			<code>    buildSystem.build('/dir1')</code>
+			<code>  it 'cleans directory', -></code>
+			<code>    expect(someLib.clean).toHaveBeenCalledWith('/dir1')</code>
+			<code>  it 'compiles js', -></code>
+			<code>    @resolveClean()</code>
+			<code>    expect(someOtherLib.compileAll).toHaveBeenCalledWith('/dir1')</code>
+			<code>  ...</code>
+		</pre>
+	</section>
+	<section class="slide">
+		<h2>Код</h2>
+		<pre>
+			<code>class HomePage extends React.Component</code>
+			<code>  render: -&gt;</code>
+			<code>    &lt;div&gt;</code>
+			<code>      &lt;Header</code>
+			<code>        userName={this.props.userName}</code>
+			<code>      /&gt;</code>
+			<code>      &lt;Content&gt;</code>
+			<code>        {this.props.invitation}</code>
+			<code>      &lt;/Content&gt;</code>
+			<code>      &lt;Footer showSocial /&gt;</code>
+			<code>    &lt;/div&gt;</code>
+		</pre>
+	</section>
+	<section class="slide">
+		<h2>Декларативный тест-близнец</h2>
+		<pre>
+			<code>describe 'HomePage', -></code>
+			<code>  beforeEach -></code>
+			<code>    @container = document.createElement 'div'</code>
+			<code>    @homePage = ReactDOM.render &lt;HomePage userName=<mark>"vasya"</mark> invitation=<mark>"hello"</mark>/&gt;, @container</code>
+			<code>  it 'renders header with userName', -></code>
+			<code>    header = TestUtils.findRenderedComponent @homePage, Header</code>
+			<code>    expect(<mark>header.props.userName</mark>).toBe <mark>'vasya'</mark></code>
+			<code>  it 'renders footer', -></code>
+			<code>    footer = TestUtils.findRenderedComponent @homePage, Footer</code>
+			<code>    expect(<mark>footer.props.showSocial</mark>).toBe <mark>true</mark></code>
+			<code>  it 'renders invitation', -></code>
+			<code>    expect(<mark>@container.innerHTML</mark>).toContain <mark>'hello'</mark></code>
+		</pre>
+	</section>
+	<section class="slide">
+		<h2>Тесты-близнецы - причины</h2>
+		<ol>
+			<li class="next">"Тестировать изолированные модули в замоканной среде"</li>
+			<li class="next">
+				Достижение максимального coverage
+				<ul>
+					<li class="next">Выбросить тест</li>
+					<li class="next">Тестировать полезный результат</li>
+				</ul>
+			</li>
+		</ol>
+	</section>
+	<section class="slide">
+		<h2>Код</h2>
+		<pre>
+			<code>class HomePage extends React.Component</code>
+			<code>  render: -&gt;</code>
+			<code>    &lt;div&gt;</code>
+			<code>      &lt;Header</code>
+			<code>        userName={this.props.userName}</code>
+			<code>      /&gt;</code>
+			<code>      &lt;Content&gt;</code>
+			<code>        {this.props.invitation}</code>
+			<code>      &lt;/Content&gt;</code>
+			<code>      &lt;Footer showSocial /&gt;</code>
+			<code>    &lt;/div&gt;</code>
+		</pre>
+	</section>
+	<section class="slide">
+		<h2>Тесты-близнецы - причины</h2>
+		<ol>
+			<li>"Тестировать изолированные модули в замоканной среде"</li>
+			<li>
+				Достижение максимального coverage
+				<ul>
+					<li>Выбросить тест</li>
+					<li>Тестировать полезный результат</li>
+				</ul>
+			</li>
+			<li>
+				Четкое следование методологии TDD
+				<ul>
+					<li class="next">Выбросить тест сейчас и написать его по требованию</li>
+				</ul>
+			</li>
+		</ol>
+		<span class="next">Это анти-TDD совет</span><span class="next">, но в данной ситуации это не так уж и плохо</span>
+	</section>
+	<section class="slide">
+		<h2>Особенности тестирования фронтенда</h2>
+		<ol>
+			<li class="next">Не только JS, но и HTML/CSS</li>
+			<li class="next">Взаимодействие с пользователем</li>
+			<li class="next">Взаимодействие с сервером</li>
+			<li class="next">Асинхронность</li>
+		</ol>
+	</section>
+	<section class="slide" id="long-time-ago">
+		<img src="pictures/A_long_time_ago.png" alt="" class="cover">
+		<style>
+			#long-time-ago {
+				background: black;
+			}
+		</style>
+	</section>
+	<section class="slide">
+		<h2>Тест - инициализация</h2>
+		<pre>
+			<code>describe('search form', function() {</code>
+			<code>  beforeEach(function() {</code>
+			<code class="next">    var container = $('&lt;div&gt;').html(formTemplate).appendTo('body');</code>
+			<div class="next">
+				<code>    this.server = sinon.fakeServer.create();</code>
+				<code>    this.server.respondWith('/countries.json',</code>
+				<code>      JSON.stringify([</code>
+				<code>        { id: 1, value: 'Russia' },</code>
+				<code>        { id: 2, value: 'USA' },</code>
+				<code>        { id: 3, value: 'Belarus' }</code>
+				<code>      ])</code>
+				<code>    );</code>
+			</div>
+			<code class="next">    this.myViewModel = new SearchFormViewModel();</code>
+			<div class="next">
+				<code>    ko.applyBindings(myViewModel);</code>
+				<code>  });</code>
+			</div>
+		</pre>
+	</section>
+	<section class="slide">
+		<h2>Тест - выполнение</h2>
+		<pre>
+		  <code>describe('search form', function() {</code>
+		  <code>  <span class="comment">// ...</span></code>
+		  <code>  it('filters results', function() {</code>
+		  <code>    $(container).find('.query-input').val('rus').change();</code>
+
+		  <code>    expect(</code>
+		  <code>      $(container).find('.search-result').map(function(idx, el) {</code>
+		  <code>        return el.textContent;</code>
+		  <code>      })</code>
+		  <code>    ).toEqual(['Russia', 'Belarus'])</code>
+		  <code>  });</code>
+		</pre>
+		<span class="next">И это ещё без afterEach</span>
+	</section>
+	<section class="slide">
+		<h2>Правильный тест - инициализация</h2>
+		<pre>
+			<code>describe('search form', function() {</code>
+			<code>  beforeEach(function() {</code>
+			<code>    this.myViewModel = new SearchFormViewModel({</code>
+			<code>      countries: [</code>
+			<code>        { id: 1, value: 'Russia' },</code>
+			<code>        { id: 2, value: 'USA' },</code>
+			<code>        { id: 3, value: 'Belarus' }</code>
+			<code>      ]</code>
+			<code>    );</code>
+			<code>  });</code>
+		</pre>
+	</section>
+	<section class="slide">
+		<h2>Правильный тест - выполнение</h2>
+		<pre>
+		  <code>describe('search form', function() {</code>
+		  <code>  <span class="comment">// ...</span></code>
+			<code>  it('filters results', function() {</code>
+			<code>    myViewModel.query(‘rus’);</code>
+			<code>&nbsp;</code>
+			<code>    expect(</code>
+			<code>      myViewModel.filteredCountries().map(function(country) {</code>
+			<code>        return country.value;</code>
+			<code>      })</code>
+			<code>    ).toEqual(['Russia', 'Belarus'])</code>
+			<code>  });</code>
+		</pre>
+	</section>
+	<section class="slide">
+		<h2>Слишком сложный тест - советы</h2>
+		<ol>
+			<li class="next">Выносите больше логики из представления в JS-модуль</li>
+			<li class="next">Тестируйте через методы и свойства JS-модуля, а не через верстку/сеть
+				<ul>
+					<li class="next">Справедливо в случае тривиальной связи JS-модуля с версткой/сетью</li>
+				</ul>
+			</li>
+			<li class="next">
+				Если тестировать через сеть и верстку важно (и больно!) <span class="next"> - перепишите тест на функциональный</span>
+			</li>
+		</ol>
+	</section>
+	<section class="slide">
+		<h2>Тестирование через верстку - Page Object</h2>
+		<pre>
+			<code>init: function() {</code>
+			<code>    var form = {</code>
+			<code>        avito: function() {</code>
+			<code>            return formInstance.satellite.common.childNodes[4].firstChild.firstChild;</code>
+			<code>        },</code>
+			<code>        avitoSelected: function() {</code>
+			<code>            return this.avito().data.isActive;</code>
+			<code>        },</code>
+			<code>        toggleAvito: function() {</code>
+			<code>            this.avito().action.toggle.call(this.avito());</code>
+			<code>            basis.asap.process();</code>
+			<code>        },</code>
+			<code>        <span class="comment">// ...</span></code>
+			<code>    };</code>
+		</pre>
+	</section>
+	<section class="slide">
+		<h2>Тестирование через верстку - Page Object</h2>
+		<pre>
+			<code>test: function() {</code>
+			<code>    form.toggleTube();</code>
+			<code>    form.avitoBalloon().hide();</code>
+			<code>    form.toggleAvito();</code>
+			<code>&nbsp;</code>
+			<code>    assert(false, form.avitoBalloon().visible);</code>
+			<code>}</code>
+		</pre>
+	</section>
+	<section class="slide">
+		<h2>Page Object в функциональном тестировании</h2>
+		<pre>
+			<code>browser.element('.row .entry:nth-Child(1)').click('button*=Add');</code>
+		</pre>
+	</section>
+	<section class="slide">
+		<h2>Page Object в функциональном тестировании</h2>
+		<pre>
+			<code>let getNthMediaItem = (browser, n) => browser.element(`.row .entry:nth-Child(${n})`);</code>
+			<code>let addButton = () => 'button*=Add';</code>
+			<code>&nbsp;</code>
+			<code>// ...</code>
+			<code>&nbsp;</code>
+			<code>getNthMediaItem(browser, 1).click(addButton());</code>
+		</pre>
+	</section>
+	<section class="slide">
+		<h2>Асинхронный код</h2>
+		<pre>
+			<code>class SearchForm extends React.Component</code>
+			<code>  handleChange:</code>
+			<code>    _.debounce -&gt;</code>
+			<code>      @setState({ state: 'loading' })</code>
+			<code>      fetchResults(@refs.query.value)</code>
+			<code>        .then (results) =&gt;</code>
+			<code>          @setState({ state: 'loaded', results })</code>
+			<code>    , 200</code>
+			<code>  render: -&gt;</code>
+			<code>    &lt;div&gt;</code>
+			<code>      &lt;input ref="query" onChange={@handleChange.bind(@)}/&gt;</code>
+			<code>      <span class="comment">...</span></code>
+			<code>    &lt;/div&gt;</code>
+		</pre>
+	</section>
+	<section class="slide">
+		<h2>Тест асинхронного кода</h2>
+		<pre>
+			<code>describe 'SearchForm', -></code>
+			<code>  describe 'changed', -></code>
+			<code>    beforeEach -></code>
+			<code>      jasmine.clock().install()</code>
+			<code>      jasmine.clock().mockDate Date.now()</code>
+			<code>    afterEach -></code>
+			<code>      jasmine.clock().uninstall()</code>
+			<code>    beforeEach -></code>
+			<code>      # … stub fetchResults</code>
+			<code>      @component.refs.query.value = 'vanya'</code>
+			<code>      Simulate.change @component.refs.query</code>
+			<code>      jasmine.clock().tick 200</code>
+		</pre>
+	</section>
+	<section class="slide">
+		<h2>Отделение логики от асинхронного кода</h2>
+		<pre>
+			<code>class SearchForm extends React.Component</code>
+			<code>  <mark>debouncedHandleChange</mark>:</code>
+			<code>    _.debounce (event) -></code>
+			<code>      @handleChange(@event.target.value)</code>
+			<code>    , 200</code>
+			<code>  handleChange: -></code>
+			<code>    @setState({ state: 'loading' })</code>
+			<code>    fetchResults(@refs.query.value)</code>
+			<code>      .then (results) =></code>
+			<code>        @setState({ state: 'loaded', results })</code>
+			<code>  render: -></code>
+			<code>    &lt;div&gt;</code>
+			<code>      &lt;input ref="query" <mark>onChange={@debouncedHandleChange.bind(@)}</mark>/&gt;</code>
+			<code>    &lt;/div&gt;</code>
+		</pre>
+	</section>
+	<section class="slide">
+		<h2>Код после разделения</h2>
+		<pre>
+			<code>describe 'SearchForm', -></code>
+			<code>  describe 'changed', -></code>
+			<code>    beforeEach -></code>
+			<code>      <span class="comment"># … stub fetchResults</span></code>
+			<code>      @component.handleChange('vanya')</code>
+			<code>&nbsp;</code>
+			<code>    it 'sets loading state', -></code>
+			<code>      expect(@component.state.state).toBe 'loading'</code>
+			<code>&nbsp;</code>
+			<code>    it 'sets results', -></code>
+			<code>      expect(@component.state.results).toBe ''</code>
+		</pre>
+	</section>
+	<section class="slide">
+		<h2>Асинхронность - советы</h2>
+		<ol>
+			<li class="next">Отделите логику от асинхронного взаимодействия</li>
+			<li class="next">
+				Но делайте так только тогда, когда логика не завязана на асинхронность
+			</li>
+			<li class="next">
+				Примеры исключений:
+				<ul>
+					<li>Собственный debounce/throttle</li>
+					<li>Собственная библиотека поллинга</li>
+				</ul>
+			</li>
+		</ol>
+	</section>
+	<section class="slide">
+		<h2>Резюме</h2>
+		<ol>
+			<li class="next">Помните: тесты - ваш инструмент, а не самоцель</li>
+			<li class="next">Тестируйте только то, где можете ошибиться</li>
+			<li class="next">Помните: тесты не должны стоить гораздо дороже тестируемого кода</li>
+			<li class="next">Coverage - плохой ориентир</li>
+			<li class="next">Старайтесь писать тесты проще</li>
+		</ol>
+	</section>
+	<section class="slide active" id="ThankYou"><div>
+		<h2>Спасибо за внимание!</h2>
+		<p>Иван Стрелков, Avito</p>
+		<ul>
+			<li><a href="https://github.com/istrel">github.com/istrel</a></li>
+			<li><a href="https://twitter.com/i_strel">twitter.com/i_strel</a></li>
+			<li><a href="mailto:iv-strelkov@yandex.ru">iv-strelkov@yandex.ru</a></li>
+		</ul>
+		<p>
+			Презентация: <a href="https://istrel.github.io/">istrel.github.io</a>
+		</p>
+		<style>
+			#ThankYou img {
+				position: absolute;
+				top: 200px;
+				right: 100px;
+			  height: 300px;
+			}
+		</style>
+	</div></section>
+	<!--
+		To hide progress bar from entire presentation
+		just remove “progress” element.
+		-->
+	<div class="progress"></div>
+	<script src="shower/shower.min.js"></script>
+	<!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+	<!-- Photos by John Carey, fiftyfootshadows.net -->
+</body>
+</html>
