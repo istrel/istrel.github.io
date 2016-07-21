@@ -292,8 +292,17 @@ class HomePage extends React.Component {
       <li class="next">Достаем через верстку значения текстов</li>
       <li class="next">Сравниваем значения текстов с ожидаемыми</li>
       <li class="next">Останавливаем сервер моков</li>
-      <li class="next">Останавливаем knockout (вернее, пытаемся его остановить)</li>
     </ol>
+  </section>
+  <section class="slide">
+    <img src="pictures/cat.jpg" alt="" class="cover fill">
+    <style type="text/css">
+      .slide .fill {
+          width: 100%;
+          max-width: 200%;
+          max-height: 200%;
+      }
+    </style>
   </section>
   <section class="slide">
     <h2>Правильный тест</h2>
@@ -398,10 +407,7 @@ class SearchForm extends React.Component {
     fetchResults(<mark>value</mark>).then(results => {
       this.setState({ state: 'loaded', results });
     });
-  }
-  <mark>@Debounce(200) @autobind
-  debouncedHandleChange { this.handleChange(this.refs.query.value); }</mark>
-}
+
     </code></pre>
     </pre>
   </section>
