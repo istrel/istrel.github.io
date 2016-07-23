@@ -113,7 +113,7 @@ let VideoView = GenericView.extend({
         "Нужно покрыть любой новый код тестами"
       </li>
       <li class="next">
-        editable - флаг GenericView
+        Функционал зависит от статики
       </li>
     </ol>
   </section>
@@ -138,7 +138,7 @@ describe('GenericView', () => {
     expect(() => { view.edit(); }).toThrow();
   });
   it('allows editing via specifying "editable" flag', () => {
-    let view = new GenericView();
+    let view = new GenericView({ editable: true });
     expect(() => { view.edit(); }).not.toThrow();
   });
 });
@@ -311,12 +311,13 @@ describe('HomePage', () => {
     <h2>Тест-близнец - Советы</h2>
     <ol>
       <li class="next">Выбросить тест</li>
+      <li class="next">Переписать на функциональный</li>
       <li class="next">Тестировать полезный результат</li>
-      <li class="next">Переписать тест на функциональный</li>
     </ol>
   </section>
   <section class="slide">
-    <h2>Тест-близнец - Код</h2>
+    <h2>Тест-близнец - Правильный тест</h2>
+    Протестировать наличие в компоненте иконки Twitter
     <pre><code class="html">
 class HomePage extends React.Component {
   render() {
@@ -415,7 +416,7 @@ toggleAvito() {
     <h2>Асинхронный код - Код</h2>
     <pre><code class="javascript">
 class SearchForm extends React.Component {
-  <mark>@Debounce(200)</mark>
+  <mark>@Debounce(200) @autobind</mark>
   handleChange() {
     this.setState({ state: 'loading' });
     fetchResults(this.refs.query.value).then(results => {
@@ -423,7 +424,7 @@ class SearchForm extends React.Component {
     });
   }
   renderInput() {
-    return &lt;input ref="query" onChange={@handleChange.bind(@)}/&gt;;
+    return &lt;input ref="query" onChange={<mark>this.handleChange</mark>}/&gt;;
   }
   // ...
 }
@@ -443,7 +444,7 @@ class SearchForm extends React.Component {
     </ol>
   </section>
   <section class="slide">
-    <h2>Асинхронный код - Код</h2>
+    <h2>Асинхронный код - Правильный код</h2>
     <pre>
       <pre><code class="javascript">
 class SearchForm extends React.Component {
@@ -463,7 +464,7 @@ class SearchForm extends React.Component {
     </pre>
   </section>
   <section class="slide">
-    <h2>Асинхронный код - Код</h2>
+    <h2>Асинхронный код - Правильный код</h2>
     <pre>
       <pre><code class="javascript">
 class SearchForm extends React.Component {
@@ -479,7 +480,7 @@ class SearchForm extends React.Component {
   }
   <mark>@Debounce(200) @autobind
   debouncedHandleChange() {
-    this.handleChange(this.refs.query);
+    this.handleChange(this.refs.query.value);
   }</mark>
 }
     </code></pre>
