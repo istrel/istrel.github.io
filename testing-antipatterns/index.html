@@ -69,20 +69,20 @@
   <section class="slide"><div>
     <h2 class="shout">Тестирование</h2>
   </div></section>
-  <section class="slide" id="pain"><div>
-    <h2 class="shout">Боль</h2>
-    <style>
-      #pain {
-        background: red;
-      }
-
-      #pain h2 {
-        color: white;
-      }
-    </style>
+  <section class="slide">
+    <h2>О чем доклад?</h2>
+    Антипаттерны тестирования:
+    <ol>
+      <li>Тестирование статики</li>
+      <li>Тесты-близнецы</li>
+      <li>Слишком сложный тест</li>
+    </ol>
+  </section>
+  <section class="slide"><div>
+    <h2 class="shout">Тестирование статики</h2>
   </div></section>
   <section class="slide">
-    <h2>Тест</h2>
+    <h2>Тестирование статики - Тест</h2>
     <pre>
       <code class="javascript">
 describe('VideoView', () => {
@@ -94,7 +94,7 @@ describe('VideoView', () => {
     </pre>
   </section>
   <section class="slide">
-    <h2>Код</h2>
+    <h2>Тестирование статики - Код</h2>
     <pre>
       <code class="javascript">
 let VideoView = GenericView.extend({
@@ -118,7 +118,18 @@ let VideoView = GenericView.extend({
     </ol>
   </section>
   <section class="slide">
-    <h2>Правильный тест</h2>
+    <h2>Тестирование данных - Советы</h2>
+    <ol>
+      <li class="next">
+        Выбросить тест
+      </li>
+      <li class="next">
+        Протестировать функционал, зависящий от статики
+      </li>
+    </ol>
+  </section>
+  <section class="slide">
+    <h2>Тестирование статики - Правильный тест</h2>
     <pre>
       <code class="javascript">
 describe('GenericView', () => {
@@ -136,7 +147,7 @@ describe('GenericView', () => {
     <p class="note">Применим в случае если editable - документированный флаг</p>
   </section>
   <section class="slide">
-    <h2>Правильный тест</h2>
+    <h2>Тестирование статики - Правильный тест</h2>
     <pre>
       <code class="javascript">
 describe('VideoView', () => {
@@ -154,14 +165,17 @@ describe('VideoView', () => {
     <p class="note">Применим в случае если editable создан только для VideoView</p>
   </section>
   <section class="slide">
-    <h2>Тестирование данных - разновидности</h2>
+    <h2>Тестирование статики - Разновидности</h2>
     <ol>
       <li>Тестирование статических текстов</li>
       <li>Тестирование статичной верстки</li>
     </ol>
   </section>
+  <section class="slide"><div>
+    <h2 class="shout">Тест-близнец</h2>
+  </div></section>
   <section class="slide">
-    <h2>Тест</h2>
+    <h2>Тест-близнец - Тест</h2>
     <pre><code class="javascript">
 describe('build step', () => {
   beforeEach(() => {
@@ -179,7 +193,7 @@ describe('build step', () => {
     </code></pre>
   </section>
   <section class="slide">
-    <h2>Код</h2>
+    <h2>Тест-близнец - Код</h2>
     <pre><code class="javascript">
 module.exports = {
   build(dir) {
@@ -194,26 +208,7 @@ module.exports = {
     <img src="pictures/test-script.jpg" alt="" class="cover">
   </section>
   <section class="slide">
-    <h2>Тест-близнец</h2>
-    Тест проверяет не результат, а наличие определенного кода
-    <pre><code class="javascript">
-describe('build step', () => {
-  beforeEach(() => {
-    // stub methods
-    buildSystem.build('/dir1');
-  });
-  it('cleans directory', () => {
-    expect(someLib.clean).toHaveBeenCalledWith('/dir1');
-  });
-  it('compiles js', () => {
-    this.resolveClean();
-    expect(someOtherLib.compileAll).toHaveBeenCalledWith('/dir1');
-  });
-});
-    </code></pre>
-  </section>
-  <section class="slide">
-    <h2>Код</h2>
+    <h2>Декларативный тест-близнец - Код</h2>
     <pre><code class="html">
 class HomePage extends React.Component {
   render() {
@@ -229,10 +224,10 @@ class HomePage extends React.Component {
     </code></pre>
   </section>
   <section class="slide">
-    <h2>Декларативный тест-близнец</h2>
+    <h2>Декларативный тест-близнец - Тест</h2>
     <pre><code class="javascript">
 describe('HomePage', () => {
-  beforeEach(() => { /* &lt;HomePage userName="vasya" invitation="hello"/&gt; */ });
+  beforeEach(() => { /* &lt;HomePage <mark>userName="vasya" invitation="hello"</mark>/&gt; */ });
   it('renders header with userName', () => {
     let header = TestUtils.findRenderedComponent(this.homePage, Header);
     expect(header.props.userName).toBe('vasya');
@@ -248,7 +243,64 @@ describe('HomePage', () => {
     </code></pre>
   </section>
   <section class="slide">
-    <h2>Тесты-близнецы - причины</h2>
+    <h2>Декларативный тест-близнец - Тест</h2>
+    <pre><code class="javascript">
+describe('HomePage', () => {
+  beforeEach(() => { /* &lt;HomePage userName="vasya" invitation="hello"/&gt; */ });
+  it('renders header with userName', () => {
+    let header = TestUtils.findRenderedComponent(this.homePage, Header);
+    expect(<mark>header.props.userName</mark>).toBe(<mark>'vasya'</mark>);
+  });
+  it('renders footer', () => {
+    let footer = TestUtils.findRenderedComponent(this.homePage, Footer);
+    expect(footer.props.showSocial).toBe(true);
+  });
+  it('renders invitation', () => {
+    expect(this.container.innerHTML).toContain('hello');
+  });
+});
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Декларативный тест-близнец - Тест</h2>
+    <pre><code class="javascript">
+describe('HomePage', () => {
+  beforeEach(() => { /* &lt;HomePage userName="vasya" invitation="hello"/&gt; */ });
+  it('renders header with userName', () => {
+    let header = TestUtils.findRenderedComponent(this.homePage, Header);
+    expect(header.props.userName).toBe('vasya');
+  });
+  it('renders footer', () => {
+    let footer = TestUtils.findRenderedComponent(this.homePage, Footer);
+    expect(<mark>footer.props.showSocial</mark>).toBe(<mark>true</mark>);
+  });
+  it('renders invitation', () => {
+    expect(this.container.innerHTML).toContain('hello');
+  });
+});
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Декларативный тест-близнец - Тест</h2>
+    <pre><code class="javascript">
+describe('HomePage', () => {
+  beforeEach(() => { /* &lt;HomePage userName="vasya" invitation="hello"/&gt; */ });
+  it('renders header with userName', () => {
+    let header = TestUtils.findRenderedComponent(this.homePage, Header);
+    expect(header.props.userName).toBe('vasya');
+  });
+  it('renders footer', () => {
+    let footer = TestUtils.findRenderedComponent(this.homePage, Footer);
+    expect(footer.props.showSocial).toBe(true);
+  });
+  it('renders invitation', () => {
+    expect(<mark>this.container.innerHTML</mark>).toContain(<mark>'hello'</mark>);
+  });
+});
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Причины</h2>
     <ol>
       <li class="next">"Тестировать изолированные модули в замоканной среде"</li>
       <li class="next">Достижение максимального coverage</li>
@@ -256,7 +308,15 @@ describe('HomePage', () => {
     </ol>
   </section>
   <section class="slide">
-    <h2>Код</h2>
+    <h2>Тест-близнец - Советы</h2>
+    <ol>
+      <li class="next">Выбросить тест</li>
+      <li class="next">Тестировать полезный результат</li>
+      <li class="next">Переписать тест на функциональный</li>
+    </ol>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Код</h2>
     <pre><code class="html">
 class HomePage extends React.Component {
   render() {
@@ -271,6 +331,9 @@ class HomePage extends React.Component {
 }
     </code></pre>
   </section>
+  <section class="slide"><div>
+    <h2 class="shout">Слишком <br> сложный <br> тест</h2>
+  </div></section>
   <section class="slide">
     <h2>Особенности тестирования фронтенда</h2>
     <ol>
@@ -280,8 +343,11 @@ class HomePage extends React.Component {
       <li class="next">Асинхронность</li>
     </ol>
   </section>
+  <section class="slide"><div>
+    <h2 class="shout">Верстка и сеть</h2>
+  </div></section>
   <section class="slide">
-    <h2>Тест</h2>
+    <h2>Верстка и сеть - Тест</h2>
     <ol style="margin-top: -1em">
       <li class="next">Затаскиваем шаблон для SearchViewModel в body</li>
       <li class="next">Создаем cервер моков и мокаем ответ</li>
@@ -305,7 +371,7 @@ class HomePage extends React.Component {
     </style>
   </section>
   <section class="slide">
-    <h2>Правильный тест</h2>
+    <h2>Верстка и сеть - Правильный тест</h2>
     <ol style="margin-top: -1em">
       <li class="next">Создаем экземпляр SearchViewModel, передавая ответ через параметр</li>
       <li class="next">Меняем значение поисковой строки через setter SearchViewModel</li>
@@ -314,12 +380,12 @@ class HomePage extends React.Component {
     </ol>
   </section>
   <section class="slide">
-    <h2>Тестирование через верстку - Page Object</h2>
+    <h2>Верстка и сеть - Page Object</h2>
     <pre><code class="javascript">
 test() {
     form.toggleTube();
     form.avitoBalloon().hide();
-    form.toggleAvito();
+    form.<mark>toggleAvito</mark>();
     assert(form.avitoBalloon().visible === false);
 }
     </code></pre>
@@ -334,7 +400,7 @@ toggleAvito() {
     </div>
   </section>
   <section class="slide">
-    <h2>Слишком сложный тест - советы</h2>
+    <h2>Верстка и сеть - Советы</h2>
     <ol>
       <li class="next">Выносите больше логики из представления в JS-модуль</li>
       <li class="next">Тестируйте через методы и свойства JS-модуля, а не через верстку/сеть</li>
@@ -342,8 +408,11 @@ toggleAvito() {
       <li class="next">При необходимости используйте Page Object</li>
     </ol>
   </section>
+  <section class="slide"><div>
+    <h2 class="shout">Асинхронный код</h2>
+  </div></section>
   <section class="slide">
-    <h2>Асинхронный код</h2>
+    <h2>Асинхронный код - Код</h2>
     <pre><code class="javascript">
 class SearchForm extends React.Component {
   <mark>@Debounce(200)</mark>
@@ -361,7 +430,7 @@ class SearchForm extends React.Component {
     </code></pre>
   </section>
   <section class="slide">
-    <h2>Тест асинхронного кода</h2>
+    <h2>Асинхронный код - Тест</h2>
     <ol>
       <li class="next">Замокать fetchResults</li>
       <li class="next">Заменить реальный таймер поддельным</li>
@@ -374,7 +443,7 @@ class SearchForm extends React.Component {
     </ol>
   </section>
   <section class="slide">
-    <h2>Отделение логики от асинхронного кода</h2>
+    <h2>Асинхронный код - Код</h2>
     <pre>
       <pre><code class="javascript">
 class SearchForm extends React.Component {
@@ -394,7 +463,7 @@ class SearchForm extends React.Component {
     </pre>
   </section>
   <section class="slide">
-    <h2>Отделение логики от асинхронного кода</h2>
+    <h2>Асинхронный код - Код</h2>
     <pre>
       <pre><code class="javascript">
 class SearchForm extends React.Component {
@@ -407,12 +476,17 @@ class SearchForm extends React.Component {
     fetchResults(<mark>value</mark>).then(results => {
       this.setState({ state: 'loaded', results });
     });
-
+  }
+  <mark>@Debounce(200) @autobind
+  debouncedHandleChange() {
+    this.handleChange(this.refs.query);
+  }</mark>
+}
     </code></pre>
     </pre>
   </section>
   <section class="slide">
-    <h2>Правильный тест</h2>
+    <h2>Асинхронный код - Правильный тест</h2>
     <ol>
       <li class="next">Замокать fetchResults</li>
       <li class="next">Вызвать handleChange с новым значением</li>
@@ -421,7 +495,7 @@ class SearchForm extends React.Component {
     </ol>
   </section>
   <section class="slide">
-    <h2>Асинхронность - советы</h2>
+    <h2>Асинхронный код - Советы</h2>
     <ol>
       <li class="next">Отделите тестируемую логику от асинхронного взаимодействия</li>
       <li class="next">Тестируйте только когда пишите свой polling/debounce/throttling</li>
