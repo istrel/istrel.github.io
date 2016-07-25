@@ -73,16 +73,16 @@
     <h2>О чем доклад?</h2>
     Антипаттерны тестирования:
     <ol>
-      <li>Тестирование статики</li>
+      <li>Тестирование данных</li>
       <li>Тесты-близнецы</li>
       <li>Слишком сложный тест</li>
     </ol>
   </section>
   <section class="slide"><div>
-    <h2 class="shout">Тестирование статики</h2>
+    <h2 class="shout">Тестирование данных</h2>
   </div></section>
   <section class="slide">
-    <h2>Тестирование статики - Тест</h2>
+    <h2>Тестирование данных - Тест</h2>
     <pre>
       <code class="javascript">
 describe('VideoView', () => {
@@ -94,7 +94,7 @@ describe('VideoView', () => {
     </pre>
   </section>
   <section class="slide">
-    <h2>Тестирование статики - Код</h2>
+    <h2>Тестирование данных - Код</h2>
     <pre>
       <code class="javascript">
 let VideoView = GenericView.extend({
@@ -129,7 +129,7 @@ let VideoView = GenericView.extend({
     </ol>
   </section>
   <section class="slide">
-    <h2>Тестирование статики - Правильный тест</h2>
+    <h2>Тестирование данных - Правильный тест</h2>
     <pre>
       <code class="javascript">
 describe('GenericView', () => {
@@ -147,7 +147,7 @@ describe('GenericView', () => {
     <p class="note">Применим в случае если editable - документированный флаг</p>
   </section>
   <section class="slide">
-    <h2>Тестирование статики - Правильный тест</h2>
+    <h2>Тестирование данных - Правильный тест</h2>
     <pre>
       <code class="javascript">
 describe('VideoView', () => {
@@ -165,7 +165,7 @@ describe('VideoView', () => {
     <p class="note">Применим в случае если editable создан только для VideoView</p>
   </section>
   <section class="slide">
-    <h2>Тестирование статики - Разновидности</h2>
+    <h2>Тестирование данных - Разновидности</h2>
     <ol>
       <li>Тестирование статических текстов</li>
       <li>Тестирование статичной верстки</li>
