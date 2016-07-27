@@ -193,34 +193,129 @@ describe('VideoView', () => {
     <h2 class="shout">Тест-близнец</h2>
   </div></section>
   <section class="slide">
-    <h2>Тест-близнец - Тест</h2>
+    <h2>Тест-близнец - Код</h2>
     <pre><code class="javascript">
-describe('build step', () => {
-  beforeEach(() => {
-    // stub methods
-    buildSystem.build('/dir1');
-  });
-  it('cleans directory', () => {
-    expect(someLib.clean).toHaveBeenCalledWith('/dir1');
-  });
-  it('compiles js', () => {
-    this.resolveClean();
-    expect(someOtherLib.compileAll).toHaveBeenCalledWith('/dir1');
-  });
-});
+module.exports = {
+  build() {
+    firstLib.clean('build')
+      .then(() => secondLib.compile('src', 'build'))
+      .then(() => thirdLib.doSomethingElse())
+  }
+};
     </code></pre>
   </section>
   <section class="slide">
     <h2>Тест-близнец - Код</h2>
     <pre><code class="javascript">
 module.exports = {
-  build(dir) {
-    someLib.clean(dir)
-      .then(() => someOtherLib.compileAll(dir));
+  build() {
+    <mark>firstLib.clean('build')</mark>                             // очистка
+      .then(() => secondLib.compile('src', 'build'))
+      .then(() => thirdLib.doSomethingElse())
   }
 };
     </code></pre>
-    <span class="next">Полное повторение структуры кода в тесте</span>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Код</h2>
+    <pre><code class="javascript">
+module.exports = {
+  build() {
+    firstLib.clean('build')
+      .then(() => <mark>secondLib.compile('src', 'build')</mark>)    // компиляция
+      .then(() => thirdLib.doSomethingElse())
+  }
+};
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Код</h2>
+    <pre><code class="javascript">
+module.exports = {
+  build() {
+    firstLib.clean('build')
+      .then(() => secondLib.compile('src', 'build'))
+      .then(() => <mark>thirdLib.doSomethingElse()</mark>)           // что-то ещё
+  }
+};
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Тест</h2>
+    <pre><code class="javascript">
+describe('build step', () => {
+  beforeEach(() => {
+    // Подменяем библиотечные методы моками с resolved promises
+    buildSystem.build('/dir1');
+  });
+
+  it('builds, compiles and does something else', () => {
+    assert(firstLib.clean.calledWith('build'));
+
+    assert(secondLib.compile.calledWith('src', 'build'));
+
+    assert(thirdLib.doSomethingElse.called);
+  });
+});
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Тест</h2>
+    <pre><code class="javascript">
+describe('build step', () => {
+  beforeEach(() => {
+    // Подменяем библиотечные методы моками с resolved promises
+    buildSystem.build('/dir1');
+  });
+
+  it('builds, compiles and does something else', () => {
+    assert(<mark>firstLib.clean</mark>.calledWith(<mark>'build'</mark>));           // очистка
+
+    assert(secondLib.compile.calledWith('src', 'build'));
+
+    assert(thirdLib.doSomethingElse.called);
+  });
+});
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Тест</h2>
+    <pre><code class="javascript">
+describe('build step', () => {
+  beforeEach(() => {
+    // Подменяем библиотечные методы моками с resolved promises
+    buildSystem.build('/dir1');
+  });
+
+  it('builds, compiles and does something else', () => {
+    assert(firstLib.clean.calledWith('build'));
+
+    assert(<mark>secondLib.compile</mark>.calledWith(<mark>'src', 'build'</mark>)); // компиляция
+
+    assert(thirdLib.doSomethingElse.called);
+  });
+});
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Тест</h2>
+    <pre><code class="javascript">
+describe('build step', () => {
+  beforeEach(() => {
+    // Подменяем библиотечные методы моками с resolved promises
+    buildSystem.build('/dir1');
+  });
+
+  it('builds, compiles and does something else', () => {
+    assert(firstLib.clean.calledWith('build'));
+
+    assert(secondLib.compile.calledWith('src', 'build'));
+
+    assert(<mark>thirdLib.doSomethingElse</mark>.called);              // что-то еще
+  });
+});
+    </code></pre>
+    <div class="next" style="margin-top: -2em;">Полное повторение структуры кода в тесте</div>
   </section>
   <section class="slide">
     <img src="pictures/test-script.jpg" alt="" class="cover">
