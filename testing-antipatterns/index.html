@@ -25,10 +25,17 @@
   <section class="slide cover" id="Cover"><div>
     <h2>О том, как не надо тестировать</h2>
     <p>
-      <a href="https://github.com/istrel">Иван Стрелков</a>, Avito
-      <center>
-        <img src="pictures/logo.svg">
-      </center>
+      <a href="https://github.com/istrel">Иван Стрелков</a>
+      <div class="table">
+        <div class="row">
+          <div class="cell">
+            <img class="moscow-logo" src="pictures/logo.svg">
+          </div>
+          <div class="cell">
+            <img class="avito-logo" src="pictures/logo-avito.svg">
+          </div>
+        </div>
+      </div>
     </p>
     <!--
       To apply styles to the certain slides
@@ -48,22 +55,41 @@
         font-style:italic;
         font-size:20px;
         }
-        #Cover p a {
+        #Cover a {
           color:#000;
+          font-size: xx-large;
           }
 
       #Cover {
         background: white;
       }
-      #Cover img {
+      .moscow-logo {
         position: relative;
         width: 240px;
         height: 240px;
       }
+      .avito-logo {
+        height: 112px;
+        width: 322px;
+      }
 
       pre code {
         font-size: 21px;
-      };
+      }
+
+      .table {
+        margin-top: 1em;
+        width: 100%;
+        display: table;
+      }
+      .row {
+        display: table-row;
+      }
+      .cell {
+        text-align: center;
+        vertical-align: middle;
+        display: table-cell;
+      }
     </style>
   </div></section>
   <section class="slide"><div>
