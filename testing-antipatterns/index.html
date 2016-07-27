@@ -137,20 +137,19 @@ let VideoView = GenericView.extend({
     <ol>
       <li class="next">
         "Нужно покрыть любой новый код тестами"
+        <ul>
+          <li class="next">
+            Выбросить тест
+          </li>
+        </ul>
       </li>
       <li class="next">
         Функционал зависит от статики
-      </li>
-    </ol>
-  </section>
-  <section class="slide">
-    <h2>Тестирование данных - Советы</h2>
-    <ol>
-      <li class="next">
-        Выбросить тест
-      </li>
-      <li class="next">
-        Протестировать функционал, зависящий от статики
+        <ul>
+          <li class="next">
+            Протестировать функционал, зависящий от статики
+          </li>
+        </ul>
       </li>
     </ol>
   </section>
@@ -321,17 +320,26 @@ describe('HomePage', () => {
   <section class="slide">
     <h2>Тест-близнец - Причины</h2>
     <ol>
-      <li class="next">"Тестировать изолированные модули в замоканной среде"</li>
-      <li class="next">Достижение максимального coverage</li>
-      <li class="next">Четкое следование методологии TDD</li>
-    </ol>
-  </section>
-  <section class="slide">
-    <h2>Тест-близнец - Советы</h2>
-    <ol>
-      <li class="next">Выбросить тест</li>
-      <li class="next">Переписать на функциональный</li>
-      <li class="next">Тестировать полезный результат</li>
+      <li class="next">
+        "Тестировать изолированные модули в замоканной среде"
+        <ul>
+          <li class="next">Выбросить тест</li>
+          <li class="next">Переписать на функциональный</li>
+          <li class="next">Тестировать полезный результат</li>
+        </ul>
+      </li>
+      <li class="next">
+        Достижение максимального coverage
+        <ul>
+          <li class="next">Выбросить тест</li>
+        </ul>
+      </li>
+      <li class="next">
+        Четкое следование методологии TDD
+        <ul>
+          <li class="next">Выбросить тест сейчас, но вернуть потом</li>
+        </ul>
+      </li>
     </ol>
   </section>
   <section class="slide">
