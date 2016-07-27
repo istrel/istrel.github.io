@@ -190,13 +190,6 @@ describe('VideoView', () => {
     </pre>
     <p class="note">Применим в случае если editable создан только для VideoView</p>
   </section>
-  <section class="slide">
-    <h2>Тестирование данных - Разновидности</h2>
-    <ol>
-      <li>Тестирование статических текстов</li>
-      <li>Тестирование статичной верстки</li>
-    </ol>
-  </section>
   <section class="slide"><div>
     <h2 class="shout">Тест-близнец</h2>
   </div></section>
@@ -524,8 +517,9 @@ class SearchForm extends React.Component {
   <section class="slide">
     <h2>Асинхронный код - Советы</h2>
     <ol>
-      <li class="next">Отделите тестируемую логику от асинхронного взаимодействия</li>
-      <li class="next">Тестируйте только когда пишите свой polling/debounce/throttling</li>
+      <li class="next">Отделите тестируемую логику от кода асинхронных библиотек</li>
+      <li class="next">Тестируйте скрытую логику отдельно</li>
+      <li class="next">Тестируйте асинхронные библиотеки отдельно</li>
     </ol>
   </section>
   <section class="slide"><div>
