@@ -529,15 +529,15 @@ toggleAvito() {
     <h2>Асинхронный код - Код</h2>
     <pre><code class="javascript">
 class SearchForm extends React.Component {
+  renderInput() {
+    return &lt;input ref="query" onChange={this.handleChange}/&gt;;
+  }
   <mark>@Debounce(200) @autobind</mark>
   handleChange() {
     this.setState({ state: 'loading' });
     fetchResults(this.refs.query.value).then(results => {
       this.setState({ state: 'loaded', results });
     });
-  }
-  renderInput() {
-    return &lt;input ref="query" onChange={<mark>this.handleChange</mark>}/&gt;;
   }
   // ...
 }
