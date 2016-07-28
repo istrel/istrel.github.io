@@ -101,7 +101,12 @@
     <ol>
       <li>Тестирование данных</li>
       <li>Тесты-близнецы</li>
-      <li>Слишком сложный тест</li>
+      <li>Слишком сложный тест:
+        <ul>
+          <li>Верстка и сеть</li>
+          <li>Асинхронный код</li>
+        </ul>
+      </li>
     </ol>
   </section>
   <section class="slide"><div>
@@ -123,11 +128,11 @@ describe('VideoView', () => {
     <h2>Тестирование данных - Код</h2>
     <pre>
       <code class="javascript">
-let VideoView = GenericView.extend({
+class VideoView extends GenericView {
+  <mark>editable = true;</mark>
+
   <span class="comment">// ...</span>
-  <mark>editable: true</mark>
-  <span class="comment">// ...</span>
-});
+}
       </code>
     </pre>
     <span class="next">Тестируются статические данные</span>
@@ -155,42 +160,28 @@ let VideoView = GenericView.extend({
   </section>
   <section class="slide">
     <h2>Тестирование данных - Правильный тест</h2>
-    <pre>
-      <code class="javascript">
-describe('GenericView', () => {
-  it('disallows editing by default', () => {
-    let view = new GenericView();
-    expect(() => { view.edit(); }).toThrow();
-  });
-  it('allows editing via specifying "editable" flag', () => {
-    let view = new GenericView({ editable: true });
-    expect(() => { view.edit(); }).not.toThrow();
-  });
-});
-      </code>
-    </pre>
-    <p class="note">Применим в случае если editable - документированный флаг</p>
-  </section>
-  <section class="slide">
-    <h2>Тестирование данных - Правильный тест</h2>
-    <pre>
-      <code class="javascript">
-describe('VideoView', () => {
-  describe('editing', () => {
-    it('opens editing popup', () => {
-      let view = new VideoView();
-      view.edit();
-      expect(view.popup).not.toBe(undefined);
-    });
-    it('does something else', () => { /* test other stuff */ });
-  });
-});
-      </code>
-    </pre>
-    <p class="note">Применим в случае если editable создан только для VideoView</p>
+    <ol>
+      <li class="next">
+        Флаг editable - документируемый флаг GenericView (родителя)
+        <ul>
+          <li>Проверить, что если флаг указан, показана кнопка редактирования</li>
+          <li>Проверить, что если флаг не указан, спрятана кнопка редактирования</li>
+        </ul>
+      </li>
+      <li class="next">
+        Флаг editable был создан специально для VideoView
+        <ul>
+          <li>Проверить, что VideoView показывает кнопку редактирования</li>
+          <li>Проверить, что при нажатии на кнопку, показывается форма</li>
+        </ul>
+      </li>
+    </ul>
   </section>
   <section class="slide"><div>
     <h2 class="shout">Тест-близнец</h2>
+  </div></section>
+  <section class="slide"><div>
+    <h2 class="shout">a.k.a. Mockery</h2>
   </div></section>
   <section class="slide">
     <h2>Тест-близнец - Код</h2>
@@ -198,8 +189,8 @@ describe('VideoView', () => {
 module.exports = {
   build() {
     firstLib.clean('build')
-      .then(() => secondLib.compile('src', 'build'))
-      .then(() => thirdLib.doSomethingElse())
+      .then(() => secondLib.compileJS('src', 'build'))
+      .then(() => thirdLib.optimizeCSS())
   }
 };
     </code></pre>
@@ -209,21 +200,9 @@ module.exports = {
     <pre><code class="javascript">
 module.exports = {
   build() {
-    <mark>firstLib.clean('build')</mark>                             // очистка
-      .then(() => secondLib.compile('src', 'build'))
-      .then(() => thirdLib.doSomethingElse())
-  }
-};
-    </code></pre>
-  </section>
-  <section class="slide">
-    <h2>Тест-близнец - Код</h2>
-    <pre><code class="javascript">
-module.exports = {
-  build() {
-    firstLib.clean('build')
-      .then(() => <mark>secondLib.compile('src', 'build')</mark>)    // компиляция
-      .then(() => thirdLib.doSomethingElse())
+    <mark>firstLib.clean('build')</mark>                               // очистка
+      .then(() => secondLib.compileJS('src', 'build'))
+      .then(() => thirdLib.optimizeCSS())
   }
 };
     </code></pre>
@@ -234,8 +213,20 @@ module.exports = {
 module.exports = {
   build() {
     firstLib.clean('build')
-      .then(() => secondLib.compile('src', 'build'))
-      .then(() => <mark>thirdLib.doSomethingElse()</mark>)           // что-то ещё
+      .then(() => <mark>secondLib.compileJS('src', 'build')</mark>)    // JS
+      .then(() => thirdLib.optimizeCSS())
+  }
+};
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Код</h2>
+    <pre><code class="javascript">
+module.exports = {
+  build() {
+    firstLib.clean('build')
+      .then(() => secondLib.compileJS('src', 'build'))
+      .then(() => <mark>thirdLib.optimizeCSS()</mark>)                 // CSS
   }
 };
     </code></pre>
@@ -252,9 +243,9 @@ describe('build step', () => {
   it('builds, compiles and does something else', () => {
     assert(firstLib.clean.calledWith('build'));
 
-    assert(secondLib.compile.calledWith('src', 'build'));
+    assert(secondLib.compileJS.calledWith('src', 'build'));
 
-    assert(thirdLib.doSomethingElse.called);
+    assert(thirdLib.optimizeCSS.called);
   });
 });
     </code></pre>
@@ -269,30 +260,11 @@ describe('build step', () => {
   });
 
   it('builds, compiles and does something else', () => {
-    assert(<mark>firstLib.clean</mark>.calledWith(<mark>'build'</mark>));           // очистка
+    assert(<mark>firstLib.clean</mark>.calledWith(<mark>'build'</mark>));             // очистка
 
-    assert(secondLib.compile.calledWith('src', 'build'));
+    assert(secondLib.compileJS.calledWith('src', 'build'));
 
-    assert(thirdLib.doSomethingElse.called);
-  });
-});
-    </code></pre>
-  </section>
-  <section class="slide">
-    <h2>Тест-близнец - Тест</h2>
-    <pre><code class="javascript">
-describe('build step', () => {
-  beforeEach(() => {
-    // Подменяем библиотечные методы моками с resolved promises
-    buildSystem.build('/dir1');
-  });
-
-  it('builds, compiles and does something else', () => {
-    assert(firstLib.clean.calledWith('build'));
-
-    assert(<mark>secondLib.compile</mark>.calledWith(<mark>'src', 'build'</mark>)); // компиляция
-
-    assert(thirdLib.doSomethingElse.called);
+    assert(thirdLib.optimizeCSS.called);
   });
 });
     </code></pre>
@@ -309,9 +281,28 @@ describe('build step', () => {
   it('builds, compiles and does something else', () => {
     assert(firstLib.clean.calledWith('build'));
 
-    assert(secondLib.compile.calledWith('src', 'build'));
+    assert(<mark>secondLib.compileJS</mark>.calledWith(<mark>'src', 'build'</mark>)); // JS
 
-    assert(<mark>thirdLib.doSomethingElse</mark>.called);              // что-то еще
+    assert(thirdLib.optimizeCSS.called);
+  });
+});
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Тест</h2>
+    <pre><code class="javascript">
+describe('build step', () => {
+  beforeEach(() => {
+    // Подменяем библиотечные методы моками с resolved promises
+    buildSystem.build('/dir1');
+  });
+
+  it('builds, compiles and does something else', () => {
+    assert(firstLib.clean.calledWith('build'));
+
+    assert(secondLib.compileJS.calledWith('src', 'build'));
+
+    assert(<mark>thirdLib.optimizeCSS</mark>.called);                    // CSS
   });
 });
     </code></pre>
@@ -638,7 +629,6 @@ class SearchForm extends React.Component {
       <li class="next">Сложность поддержки</li>
       <li class="next">Стоимость ошибки</li>
       <li class="next">Вероятность ошибки</li>
-      <li class="next">Насколько тест покрывает полезный функционал</li>
     </ol>
   </section>
   <section class="slide active" id="ThankYou"><div>
