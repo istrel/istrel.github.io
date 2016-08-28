@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Как не надо тестировать</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="shower/themes/ribbon/styles/screen-4x3.css">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/docco.min.css"> -->
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/color-brewer.min.css"> -->
+  <link rel="stylesheet" href="highlight/idea.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
+  <style>
+    .slide pre code {
+      line-height: 1.4;
+      margin-top: -1em;
+      margin-bottom: -1em;
+    }
+  </style>
+</head>
+<body class="shower list">
+  <header class="caption">
+    <h1>Как не надо тестировать</h1>
+    <p>Иван Стрелков</p>
+  </header>
+  <section class="slide cover" id="Cover"><div>
+    <h2>Как не надо тестировать</h2>
+    <p>
+      <a href="https://github.com/istrel">Иван Стрелков</a>
+      <div class="table">
+        <div class="row">
+          <div class="cell">
+            <img class="moscow-logo" src="pictures/logo.svg">
+          </div>
+          <div class="cell">
+            <img class="avito-logo" src="pictures/logo-avito.svg">
+          </div>
+        </div>
+      </div>
+    </p>
+    <!--
+      To apply styles to the certain slides
+      set slide ID to get needed elements
+      -->
+    <style>
+      #Cover h2 {
+        margin:30px 0 0;
+        color:#000;
+        text-align:center;
+        font-size:70px;
+        }
+      #Cover p {
+        margin:10px 0 0;
+        text-align:center;
+        color:#000;
+        font-style:italic;
+        font-size:20px;
+        }
+        #Cover a {
+          color:#000;
+          font-size: xx-large;
+          }
+
+      #Cover {
+        background: white;
+      }
+      .moscow-logo {
+        position: relative;
+        width: 200px;
+        height: 200px;
+      }
+      .avito-logo {
+        height: 112px;
+        width: 322px;
+      }
+
+      pre code {
+        font-size: 21px;
+      }
+
+      .table {
+        margin-top: 1em;
+        width: 100%;
+        display: table;
+      }
+      .row {
+        display: table-row;
+      }
+      .cell {
+        text-align: center;
+        vertical-align: middle;
+        display: table-cell;
+      }
+    </style>
+  </div></section>
+  <section class="slide"><div>
+    <h2 class="shout">Тестирование</h2>
+  </div></section>
+  <section class="slide">
+    <h2>О чем доклад?</h2>
+    Антипаттерны тестирования:
+    <ol>
+      <li>Тестирование данных</li>
+      <li>Тесты-близнецы</li>
+      <li>Слишком сложный тест:
+        <ul>
+          <li>Верстка и сеть</li>
+          <li>Асинхронный код</li>
+        </ul>
+      </li>
+    </ol>
+  </section>
+  <section class="slide"><div>
+    <h2 class="shout">Тестирование данных</h2>
+  </div></section>
+  <section class="slide">
+    <h2>Тестирование данных - Тест</h2>
+    <pre>
+      <code class="javascript">
+describe('VideoView', () => {
+  it('is editable', () => {
+    expect(<mark>new VideoView().editable</mark>).toBe(<mark>true</mark>);
+  });
+});
+      </code>
+    </pre>
+  </section>
+  <section class="slide">
+    <h2>Тестирование данных - Код</h2>
+    <pre>
+      <code class="javascript">
+class VideoView extends GenericView {
+  <mark>editable = true;</mark>
+
+  <span class="comment">// ...</span>
+}
+      </code>
+    </pre>
+    <span class="next">Тестируются статические данные</span>
+  </section>
+  <section class="slide">
+    <h2>Тестирование данных - Опасность</h2>
+    <img src="pictures/static-danger.png" alt="" class="cover">
+  </section>
+  <section class="slide">
+    <h2>Тестирование данных - Причины</h2>
+    <ol>
+      <li class="next">
+        "Нужно покрыть любой новый код тестами"
+        <ul>
+          <li class="next">
+            Выбросить тест
+          </li>
+        </ul>
+      </li>
+      <li class="next">
+        Функционал зависит от статики
+        <ul>
+          <li class="next">
+            Протестировать функционал, зависящий от статики
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </section>
+  <section class="slide">
+    <h2>Тестирование данных - Правильный тест</h2>
+    <ol>
+      <li class="next">
+        Флаг editable - документируемый флаг GenericView (родителя)
+        <ul>
+          <li>Проверить, что если флаг указан, показана кнопка редактирования</li>
+          <li>Проверить, что если флаг не указан, спрятана кнопка редактирования</li>
+        </ul>
+      </li>
+      <li class="next">
+        Флаг editable был создан специально для VideoView
+        <ul>
+          <li>Проверить, что VideoView показывает кнопку редактирования</li>
+          <li>Проверить, что при нажатии на кнопку, показывается форма</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+  <section class="slide"><div>
+    <h2 class="shout">Тест-близнец</h2>
+  </div></section>
+  <section class="slide"><div>
+    <h2 class="shout">a.k.a. Mockery</h2>
+  </div></section>
+  <section class="slide">
+    <h2>Тест-близнец - Код</h2>
+    <pre><code class="javascript">
+module.exports = {
+  build() {
+    firstLib.clean('build')
+      .then(() => secondLib.compileJS('src', 'build'))
+      .then(() => thirdLib.optimizeCSS())
+  }
+};
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Код</h2>
+    <pre><code class="javascript">
+module.exports = {
+  build() {
+    <mark>firstLib.clean('build')</mark>                               // очистка
+      .then(() => secondLib.compileJS('src', 'build'))
+      .then(() => thirdLib.optimizeCSS())
+  }
+};
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Код</h2>
+    <pre><code class="javascript">
+module.exports = {
+  build() {
+    firstLib.clean('build')
+      .then(() => <mark>secondLib.compileJS('src', 'build')</mark>)    // JS
+      .then(() => thirdLib.optimizeCSS())
+  }
+};
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Код</h2>
+    <pre><code class="javascript">
+module.exports = {
+  build() {
+    firstLib.clean('build')
+      .then(() => secondLib.compileJS('src', 'build'))
+      .then(() => <mark>thirdLib.optimizeCSS()</mark>)                 // CSS
+  }
+};
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Тест</h2>
+    <pre><code class="javascript">
+describe('build step', () => {
+  beforeEach(() => {
+    // Подменяем библиотечные методы моками с resolved promises
+    buildSystem.build();
+  });
+
+  it('builds, compiles and does something else', () => {
+    assert(firstLib.clean.calledWith('build'));
+
+    assert(secondLib.compileJS.calledWith('src', 'build'));
+
+    assert(thirdLib.optimizeCSS.called);
+  });
+});
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Тест</h2>
+    <pre><code class="javascript">
+describe('build step', () => {
+  beforeEach(() => {
+    // Подменяем библиотечные методы моками с resolved promises
+    buildSystem.build();
+  });
+
+  it('builds, compiles and does something else', () => {
+    assert(<mark>firstLib.clean</mark>.calledWith(<mark>'build'</mark>));             // очистка
+
+    assert(secondLib.compileJS.calledWith('src', 'build'));
+
+    assert(thirdLib.optimizeCSS.called);
+  });
+});
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Тест</h2>
+    <pre><code class="javascript">
+describe('build step', () => {
+  beforeEach(() => {
+    // Подменяем библиотечные методы моками с resolved promises
+    buildSystem.build();
+  });
+
+  it('builds, compiles and does something else', () => {
+    assert(firstLib.clean.calledWith('build'));
+
+    assert(<mark>secondLib.compileJS</mark>.calledWith(<mark>'src', 'build'</mark>)); // JS
+
+    assert(thirdLib.optimizeCSS.called);
+  });
+});
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Тест</h2>
+    <pre><code class="javascript">
+describe('build step', () => {
+  beforeEach(() => {
+    // Подменяем библиотечные методы моками с resolved promises
+    buildSystem.build();
+  });
+
+  it('builds, compiles and does something else', () => {
+    assert(firstLib.clean.calledWith('build'));
+
+    assert(secondLib.compileJS.calledWith('src', 'build'));
+
+    assert(<mark>thirdLib.optimizeCSS</mark>.called);                    // CSS
+  });
+});
+    </code></pre>
+    <div class="next" style="margin-top: -2em;">Полное повторение структуры кода в тесте</div>
+  </section>
+  <section class="slide">
+    <img src="pictures/test-script.jpg" alt="" class="cover">
+  </section>
+  <section class="slide">
+    <h2>Декларативный тест-близнец - Код</h2>
+    <pre><code class="html">
+class HomePage extends React.Component {
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;Header userName={this.props.userName} /&gt;
+        &lt;Content&gt; {this.props.invitation} &lt;/Content&gt;
+        &lt;Footer showSocial /&gt;
+      &lt;/div&gt;
+    )
+  }
+}
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Декларативный тест-близнец - Тест</h2>
+    <pre><code class="javascript">
+describe('HomePage', () => {
+  beforeEach(() => { /* &lt;HomePage <mark>userName="vasya" invitation="hello"</mark>/&gt; */ });
+  it('renders header with userName', () => {
+    let header = TestUtils.findRenderedComponent(this.homePage, Header);
+    expect(header.props.userName).toBe('vasya');
+  });
+  it('renders footer', () => {
+    let footer = TestUtils.findRenderedComponent(this.homePage, Footer);
+    expect(footer.props.showSocial).toBe(true);
+  });
+  it('renders invitation', () => {
+    expect(this.container.innerHTML).toContain('hello');
+  });
+});
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Декларативный тест-близнец - Тест</h2>
+    <pre><code class="javascript">
+describe('HomePage', () => {
+  beforeEach(() => { /* &lt;HomePage userName="vasya" invitation="hello"/&gt; */ });
+  it('renders header with userName', () => {
+    let header = TestUtils.findRenderedComponent(this.homePage, Header);
+    expect(<mark>header.props.userName</mark>).toBe(<mark>'vasya'</mark>);
+  });
+  it('renders footer', () => {
+    let footer = TestUtils.findRenderedComponent(this.homePage, Footer);
+    expect(footer.props.showSocial).toBe(true);
+  });
+  it('renders invitation', () => {
+    expect(this.container.innerHTML).toContain('hello');
+  });
+});
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Декларативный тест-близнец - Тест</h2>
+    <pre><code class="javascript">
+describe('HomePage', () => {
+  beforeEach(() => { /* &lt;HomePage userName="vasya" invitation="hello"/&gt; */ });
+  it('renders header with userName', () => {
+    let header = TestUtils.findRenderedComponent(this.homePage, Header);
+    expect(header.props.userName).toBe('vasya');
+  });
+  it('renders footer', () => {
+    let footer = TestUtils.findRenderedComponent(this.homePage, Footer);
+    expect(<mark>footer.props.showSocial</mark>).toBe(<mark>true</mark>);
+  });
+  it('renders invitation', () => {
+    expect(this.container.innerHTML).toContain('hello');
+  });
+});
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Декларативный тест-близнец - Тест</h2>
+    <pre><code class="javascript">
+describe('HomePage', () => {
+  beforeEach(() => { /* &lt;HomePage userName="vasya" invitation="hello"/&gt; */ });
+  it('renders header with userName', () => {
+    let header = TestUtils.findRenderedComponent(this.homePage, Header);
+    expect(header.props.userName).toBe('vasya');
+  });
+  it('renders footer', () => {
+    let footer = TestUtils.findRenderedComponent(this.homePage, Footer);
+    expect(footer.props.showSocial).toBe(true);
+  });
+  it('renders invitation', () => {
+    expect(<mark>this.container.innerHTML</mark>).toContain(<mark>'hello'</mark>);
+  });
+});
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Опасность</h2>
+    <img src="pictures/twin-flux/twin-flu.001.jpeg" alt="" class="cover">
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Опасность</h2>
+    <img src="pictures/twin-flux/twin-flu.002.jpeg" alt="" class="cover">
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Опасность</h2>
+    <img src="pictures/twin-flux/twin-flu.003.jpeg" alt="" class="cover">
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Опасность</h2>
+    <img src="pictures/twin-flux/twin-flu.004.jpeg" alt="" class="cover">
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Опасность</h2>
+    <img src="pictures/twin-flux/twin-flu.005.jpeg" alt="" class="cover">
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Причины</h2>
+    <ol>
+      <li class="next">
+        "Тестировать изолированные модули в замоканной среде"
+        <ul>
+          <li class="next">Выбросить тест</li>
+          <li class="next">Переписать на функциональный</li>
+          <li class="next">Тестировать полезный результат</li>
+        </ul>
+      </li>
+      <li class="next">
+        Достижение максимального coverage
+        <ul>
+          <li class="next">Выбросить тест</li>
+        </ul>
+      </li>
+      <li class="next">
+        Четкое следование методологии TDD
+        <ul>
+          <li class="next">Выбросить тест сейчас, но вернуть потом</li>
+        </ul>
+      </li>
+    </ol>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Правильный тест</h2>
+    Протестировать наличие в компоненте иконки Twitter
+    <pre><code class="html">
+class HomePage extends React.Component {
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;Header userName={this.props.userName} /&gt;
+        &lt;Content children={this.props.invitation} /&gt;
+        &lt;Footer showSocial /&gt;
+      &lt;/div&gt;
+    )
+  }
+}
+    </code></pre>
+  </section>
+  <section class="slide"><div>
+    <h2 class="shout">Слишком <br> сложный <br> тест</h2>
+  </div></section>
+  <section class="slide">
+    <h2>Особенности тестирования фронтенда</h2>
+    <ol>
+      <li class="next">Не только JS, но и HTML/CSS</li>
+      <li class="next">Взаимодействие с пользователем</li>
+      <li class="next">Взаимодействие с сервером</li>
+      <li class="next">Асинхронность</li>
+    </ol>
+  </section>
+  <section class="slide"><div>
+    <h2 class="shout">Верстка и сеть</h2>
+  </div></section>
+  <section class="slide" id="ko">
+    <h2>Верстка и сеть - Задача</h2>
+    <style>
+      #container {
+        background: #eee;
+        width: 300px;
+        height: 520px;
+        margin: 0 auto;
+        padding: 20px 260px;
+        box-sizing: content-box;
+      }
+
+      .search-input {
+        width: 100%;
+        box-sizing: border-box;
+        outline: none;
+        -webkit-appearance: none;
+        border: none;
+        font-size: 24px;
+        padding: 16px 16px 16px 16px;
+        box-shadow:
+          0 2px 2px 0 rgba(0,0,0,.14),
+          0 3px 1px -2px rgba(0,0,0,.2),
+          0 1px 5px 0 rgba(0,0,0,.12);
+      }
+
+      .country-list {
+        font-family: Arial;
+        display: block;
+        padding: 0;
+        margin: 0;
+        margin-top: 20px;
+        width: 100%;
+        box-shadow:
+          0 2px 2px 0 rgba(0,0,0,.14),
+          0 3px 1px -2px rgba(0,0,0,.2),
+          0 1px 5px 0 rgba(0,0,0,.12);
+      }
+
+      .country {
+        cursor: pointer;
+        box-sizing: border-box;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        margin-top: -1px;
+        font-size: 20px;
+        padding: 10px;
+        width: 100%;
+        display: block;
+        background-color: white;
+        transition-property: background-color;
+        transition-duration: .28s;
+        transition-timing-function: cubic-bezier(.4,0,.2,1);
+      }
+
+      .country:hover {
+        background-color: #eee;
+      }
+    </style>
+    <div id="container">
+      <input class="search-input" placeholder="Имя собеседника.." data-bind='value: searchQuery, valueUpdate: "afterkeydown"'>
+
+      <div class="country-list" data-bind="foreach: filteredCountries">
+        <div class="country" data-bind="text: value"></div>
+      </div>
+    </div>
+
+    <script>
+      function ContactsViewModel() {
+        var self = this;
+
+        this.countries = ko.observableArray([
+          { value: 'Газелле' },
+          { value: 'Буйволсон' },
+          { value: 'Блиц' },
+          { value: 'Златогрив' },
+          { value: 'Барашкис' },
+          { value: 'Когтяузер' },
+          { value: 'Мистер Биг' },
+        ]);
+
+        this.searchQuery = ko.observable('');
+
+        this.filteredCountries = ko.computed(function() {
+              if(!self.searchQuery()) {
+                  return self.countries();
+              } else {
+                  return ko.utils.arrayFilter(self.countries(), function(country) {
+                      return country.value.toLowerCase().match(self.searchQuery().toLowerCase());
+                  });
+              }
+        });
+      }
+
+      ko.applyBindings(new ContactsViewModel());
+    </script>
+  </section>
+  <section class="slide">
+    <h2>Верстка и сеть - Тест</h2>
+    <ol>
+      <li class="next">Затаскиваем шаблон для ContactsViewModel в body</li>
+      <li class="next">Создаем cервер моков и мокаем ответ</li>
+      <li class="next">Создаем экземпляр ContactsViewModel</li>
+      <li class="next">Делаем ko.applyBindings()</li>
+      <li class="next">Находим инпут через верстку и меняем его значение</li>
+      <li class="next">Эмулируем на инпуте событие change</li>
+      <li class="next">Достаем через верстку значения текстов</li>
+      <li class="next">Сравниваем значения текстов с ожидаемыми</li>
+      <li class="next">Останавливаем сервер моков</li>
+    </ol>
+  </section>
+  <section class="slide">
+    <img src="pictures/cat.jpg" alt="" class="cover fill">
+    <style type="text/css">
+      .slide .fill {
+          width: 100%;
+          max-width: 200%;
+          max-height: 200%;
+      }
+    </style>
+  </section>
+  <section class="slide">
+    <h2>Верстка и сеть - Правильный тест</h2>
+    <ol style="margin-top: -1em">
+      <li class="next">Создаем экземпляр ContactsViewModel, передавая ответ через параметр</li>
+      <li class="next">Меняем значение поисковой строки через setter ContactsViewModel</li>
+      <li class="next">Достаем значения текстов через getter ContactsViewModel</li>
+      <li class="next">Сравниваем значения текстов с ожидаемыми</li>
+    </ol>
+  </section>
+  <section class="slide">
+    <h2>Верстка и сеть - Page Object</h2>
+    <pre><code class="javascript">
+test() {
+    form.toggleTube();
+    form.avitoBalloon().hide();
+    form.<mark>toggleAvito</mark>();
+    assert(form.avitoBalloon().visible === false);
+}
+    </code></pre>
+    <div class="next">
+      В коде Page Object:
+      <pre><code class="javascript">
+toggleAvito() {
+    this.avito().action.toggle.call(this.avito());
+    basis.asap.process();
+}
+      </code></pre>
+    </div>
+  </section>
+  <section class="slide">
+    <h2>Верстка и сеть - Советы</h2>
+    <ol>
+      <li class="next">Выносите больше логики из представления в JS-модуль</li>
+      <li class="next">Тестируйте через методы и свойства JS-модуля, а не через верстку/сеть</li>
+      <li class="next">Перепишите тест на функциональный</li>
+      <li class="next">При необходимости используйте Page Object</li>
+    </ol>
+  </section>
+  <section class="slide"><div>
+    <h2 class="shout">Асинхронный код</h2>
+  </div></section>
+  <section class="slide">
+    <h2>Асинхронный код - Код</h2>
+    <pre><code class="javascript">
+class SearchForm extends React.Component {
+  renderInput() {
+    return &lt;input ref="query" onChange={this.handleChange}/&gt;;
+  }
+  <mark>@Debounce(200) @autobind</mark>
+  handleChange() {
+    this.setState({ state: 'loading' });
+    fetchResults(this.refs.query.value).then(results => {
+      this.setState({ state: 'loaded', results });
+    });
+  }
+  // ...
+}
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Асинхронный код - Тест</h2>
+    <ol>
+      <li class="next">Замокать fetchResults</li>
+      <li class="next">Заменить реальный таймер поддельным</li>
+      <li class="next">Изменить значение инпута</li>
+      <li class="next">Сымитировать change</li>
+      <li class="next">Послать поддельному таймеру сигнал о прохождении 200 мс</li>
+      <li class="next">Проверить state</li>
+      <li class="next">Вернуть реальный таймер на место</li>
+      <li class="next">Размокать fetchResults</li>
+    </ol>
+  </section>
+  <section class="slide">
+    <h2>Асинхронный код - Правильный код</h2>
+    <pre>
+      <pre><code class="javascript">
+class SearchForm extends React.Component {
+  renderInput() {
+    return &lt;input ref="query" onChange={this.handleChange}/&gt;;
+  }
+  <mark>@Debounce(200) @autobind</mark>
+  handleChange() {
+    this.setState({ state: 'loading' });
+    fetchResults(this.refs.query.value).then(results => {
+      this.setState({ state: 'loaded', results });
+    });
+  }
+  // ...
+}
+    </code></pre>
+    </pre>
+  </section>
+  <section class="slide">
+    <h2>Асинхронный код - Правильный код</h2>
+    <pre>
+      <pre><code class="javascript">
+class SearchForm extends React.Component {
+  renderInput() {
+    return &lt;input ref="query" onChange={this.debouncedHandleChange}/&gt;;
+  }
+  &nbsp;
+  handleChange() {
+    this.setState({ state: 'loading' });
+    fetchResults(this.refs.query.value).then(results => {
+      this.setState({ state: 'loaded', results });
+    });
+  }
+  <mark>@Debounce(200) @autobind
+  debouncedHandleChange() {
+    this.handleChange.apply(this, arguments);
+  }</mark>
+}
+    </code></pre>
+    </pre>
+  </section>
+  <section class="slide">
+    <h2>Асинхронный код - Правильный тест</h2>
+    <ol>
+      <li class="next">Замокать fetchResults</li>
+      <li class="next">Изменить значение инпута</li>
+      <li class="next">Вызвать метод handleChange</li>
+      <li class="next">Проверить state</li>
+      <li class="next">Размокать fetchResults</li>
+    </ol>
+  </section>
+  <section class="slide">
+    <h2>Асинхронный код - Советы</h2>
+    <ol>
+      <li class="next">Отделите тестируемую логику от кода асинхронных библиотек</li>
+      <li class="next">Тестируйте скрытую логику отдельно</li>
+      <li class="next">Тестируйте асинхронные библиотеки отдельно</li>
+    </ol>
+  </section>
+  <section class="slide">
+    <h2>Слишком сложный тест - Опасность</h2>
+    <ol>
+      <li class="next">Большие затраты</li>
+      <li class="next">Отключение существующего теста</li>
+      <li class="next">Прекращение тестирования компонентов</li>
+    </ol>
+  </section>
+  <section class="slide"><div>
+    <h2 class="shout">Сухой остаток</h2>
+  </div></section>
+  <section class="slide"><div>
+    <h2 class="shout">Оправдывает ли тест свое написание?</h2>
+  </div></section>
+  <section class="slide">
+    <h2>Критерии оценки</h2>
+    <ol>
+      <li class="next">Сложность написания</li>
+      <li class="next">Сложность поддержки</li>
+      <li class="next">Стоимость ошибки</li>
+      <li class="next">Вероятность ошибки</li>
+    </ol>
+  </section>
+  <section class="slide active" id="ThankYou"><div>
+    <h2>Спасибо за внимание!</h2>
+    <p>Иван Стрелков, Avito</p>
+    <ul>
+      <li><a href="https://github.com/istrel">github.com/istrel</a></li>
+      <li><a href="https://twitter.com/i_strel">twitter.com/i_strel</a></li>
+      <li><a href="mailto:iv-strelkov@yandex.ru">iv-strelkov@yandex.ru</a></li>
+    </ul>
+    <p>
+      Презентация: <a href="https://istrel.github.io/">istrel.github.io</a>
+    </p>
+    <style>
+      #ThankYou img {
+        position: absolute;
+        top: 200px;
+        right: 100px;
+        height: 300px;
+      }
+    </style>
+  </div></section>
+  <!--
+    To hide progress bar from entire presentation
+    just remove “progress” element.
+    -->
+  <div class="progress"></div>
+  <script src="shower/shower.min.js"></script>
+  <!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+  <!-- Photos by John Carey, fiftyfootshadows.net -->
+  <script src="highlight/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>
