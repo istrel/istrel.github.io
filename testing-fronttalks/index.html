@@ -136,6 +136,24 @@ describe('sample enzyme test', function() {
   <section class="slide"><div>
     <h2 class="shout">Зачем нужны тесты?</h2>
   </div></section>
+  <section class="slide"><div>
+    <h2>Три истории о тестировании</h2>
+    <center>
+      <img src="pictures/miranovich.jpg" width="800">
+      <a href="https://www.youtube.com/watch?v=dfYZ6QejnnM">https://www.youtube.com/watch?v=dfYZ6QejnnM</a>
+    </center>
+  </div></section>
+  <section class="slide" id="pain"><div>
+    <h2 class="shout">Боль тестирования</h2>
+    <style>
+      #pain h2 {
+        color: white;
+      }
+      #pain {
+        background: red;
+      }
+    </style>
+  </div></section>
   <section class="slide">
     <h2>О чем доклад?</h2>
     Антипаттерны тестирования:
@@ -673,7 +691,7 @@ class SearchForm extends React.Component {
       <li class="next">Замокать fetchResults</li>
       <li class="next">Заменить реальный таймер поддельным</li>
       <li class="next">Изменить значение инпута</li>
-      <li class="next">Сымитировать change</li>
+      <li class="next">Вызвать handleChange</li>
       <li class="next">Послать поддельному таймеру сигнал о прохождении 200 мс</li>
       <li class="next">Проверить state</li>
       <li class="next">Вернуть реальный таймер на место</li>
