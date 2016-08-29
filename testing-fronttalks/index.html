@@ -9,7 +9,7 @@
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/docco.min.css"> -->
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/color-brewer.min.css"> -->
   <link rel="stylesheet" href="highlight/idea.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script> -->
   <style>
     .slide pre code {
       line-height: 1.4;
@@ -30,7 +30,7 @@
       <div class="table">
         <div class="row">
           <div class="cell">
-            <img class="moscow-logo" src="pictures/logo.svg">
+            <img class="fronttalks-logo" src="pictures/fronttalks-logo.png">
           </div>
           <div class="cell">
             <img class="avito-logo" src="pictures/logo-avito.svg">
@@ -64,7 +64,7 @@
       #Cover {
         background: white;
       }
-      .moscow-logo {
+      .fronttalks-logo {
         position: relative;
         width: 200px;
         height: 200px;
@@ -139,10 +139,6 @@ class VideoView extends GenericView {
     <span class="next">Тестируются статические данные</span>
   </section>
   <section class="slide">
-    <h2>Тестирование данных - Опасность</h2>
-    <img src="pictures/static-danger.png" alt="" class="cover">
-  </section>
-  <section class="slide">
     <h2>Тестирование данных - Причины</h2>
     <ol>
       <li class="next">
@@ -181,6 +177,10 @@ class VideoView extends GenericView {
         </ul>
       </li>
     </ul>
+  </section>
+  <section class="slide">
+    <h2>Тестирование данных - Опасность</h2>
+    <img src="pictures/static-danger.png" alt="" class="cover">
   </section>
   <section class="slide"><div>
     <h2 class="shout">Тест-близнец</h2>
@@ -409,26 +409,6 @@ describe('HomePage', () => {
     </code></pre>
   </section>
   <section class="slide">
-    <h2>Тест-близнец - Опасность</h2>
-    <img src="pictures/twin-flux/twin-flu.001.jpeg" alt="" class="cover">
-  </section>
-  <section class="slide">
-    <h2>Тест-близнец - Опасность</h2>
-    <img src="pictures/twin-flux/twin-flu.002.jpeg" alt="" class="cover">
-  </section>
-  <section class="slide">
-    <h2>Тест-близнец - Опасность</h2>
-    <img src="pictures/twin-flux/twin-flu.003.jpeg" alt="" class="cover">
-  </section>
-  <section class="slide">
-    <h2>Тест-близнец - Опасность</h2>
-    <img src="pictures/twin-flux/twin-flu.004.jpeg" alt="" class="cover">
-  </section>
-  <section class="slide">
-    <h2>Тест-близнец - Опасность</h2>
-    <img src="pictures/twin-flux/twin-flu.005.jpeg" alt="" class="cover">
-  </section>
-  <section class="slide">
     <h2>Тест-близнец - Причины</h2>
     <ol>
       <li class="next">
@@ -470,6 +450,50 @@ class HomePage extends React.Component {
 }
     </code></pre>
   </section>
+  <section class="slide">
+    <h2>Тест-близнец - Опасность</h2>
+    <img src="pictures/twin-flux/twin-flux.001.jpeg" alt="" class="cover">
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Опасность</h2>
+    <img src="pictures/twin-flux/twin-flux.002.jpeg" alt="" class="cover">
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Опасность</h2>
+    <img src="pictures/twin-flux/twin-flux.003.jpeg" alt="" class="cover">
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Опасность</h2>
+    <img src="pictures/twin-flux/twin-flux.004.jpeg" alt="" class="cover">
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Опасность</h2>
+    <img src="pictures/twin-flux/twin-flux.005.jpeg" alt="" class="cover">
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Опасность</h2>
+    <img src="pictures/twin-flux/twin-flux.006.jpeg" alt="" class="cover">
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Опасность</h2>
+    <img src="pictures/twin-flux/twin-flux.007.jpeg" alt="" class="cover">
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Опасность</h2>
+    <img src="pictures/twin-flux/twin-flux.008.jpeg" alt="" class="cover">
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Опасность</h2>
+    <img src="pictures/twin-flux/twin-flux.009.jpeg" alt="" class="cover">
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Опасность</h2>
+    <img src="pictures/twin-flux/twin-flux.010.jpeg" alt="" class="cover">
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Опасность</h2>
+    <img src="pictures/twin-flux/twin-flux.011.jpeg" alt="" class="cover">
+  </section>
   <section class="slide"><div>
     <h2 class="shout">Слишком <br> сложный <br> тест</h2>
   </div></section>
@@ -487,70 +511,9 @@ class HomePage extends React.Component {
   </div></section>
   <section class="slide" id="ko">
     <h2>Верстка и сеть - Задача</h2>
-    <style>
-      #container {
-        background: #eee;
-        width: 300px;
-        height: 520px;
-        margin: 0 auto;
-        padding: 20px 260px;
-        box-sizing: content-box;
-      }
-
-      .search-input {
-        width: 100%;
-        box-sizing: border-box;
-        outline: none;
-        -webkit-appearance: none;
-        border: none;
-        font-size: 24px;
-        padding: 16px 16px 16px 16px;
-        box-shadow:
-          0 2px 2px 0 rgba(0,0,0,.14),
-          0 3px 1px -2px rgba(0,0,0,.2),
-          0 1px 5px 0 rgba(0,0,0,.12);
-      }
-
-      .country-list {
-        font-family: Arial;
-        display: block;
-        padding: 0;
-        margin: 0;
-        margin-top: 20px;
-        width: 100%;
-        box-shadow:
-          0 2px 2px 0 rgba(0,0,0,.14),
-          0 3px 1px -2px rgba(0,0,0,.2),
-          0 1px 5px 0 rgba(0,0,0,.12);
-      }
-
-      .country {
-        cursor: pointer;
-        box-sizing: border-box;
-        border: 1px solid rgba(0, 0, 0, 0.12);
-        margin-top: -1px;
-        font-size: 20px;
-        padding: 10px;
-        width: 100%;
-        display: block;
-        background-color: white;
-        transition-property: background-color;
-        transition-duration: .28s;
-        transition-timing-function: cubic-bezier(.4,0,.2,1);
-      }
-
-      .country:hover {
-        background-color: #eee;
-      }
-    </style>
-    <div id="container">
-      <input class="search-input" placeholder="Имя собеседника.." data-bind='value: searchQuery, valueUpdate: "afterkeydown"'>
-
-      <div class="country-list" data-bind="foreach: filteredCountries">
-        <div class="country" data-bind="text: value"></div>
-      </div>
-    </div>
-
+    <center>
+      <img src="pictures/task.gif" width="820"/>
+    </center>
     <script>
       function ContactsViewModel() {
         var self = this;
@@ -760,6 +723,12 @@ class SearchForm extends React.Component {
       <li class="next">Стоимость ошибки</li>
       <li class="next">Вероятность ошибки</li>
     </ol>
+  </section>
+  <section class="slide">
+    <h2>P.S.</h2>
+    <center>
+      <img src="pictures/ps.gif" width="800">
+    </center>
   </section>
   <section class="slide active" id="ThankYou"><div>
     <h2>Спасибо за внимание!</h2>
