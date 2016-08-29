@@ -96,6 +96,46 @@
   <section class="slide"><div>
     <h2 class="shout">Тестирование</h2>
   </div></section>
+  <section class="slide"><div>
+    <h2 class="shout">Каким бывает тестирование в проектах?</h2>
+  </div></section>
+  <section class="slide"><div>
+    <h2>Проект с тестами</h2>
+    <center>
+      <img src="pictures/with-tests.jpg">
+    </center>
+  </div></section>
+  <section class="slide"><div>
+    <h2>Проект без тестов</h2>
+    <center>
+      <img src="pictures/without-tests.jpg">
+    </center>
+  </div></section>
+  <section class="slide"><div>
+    <h2>Проект с видимостью присутствия тестов</h2>
+        <pre><code class="javascript">
+'use strict';
+import {shallow, mount} from 'enzyme';
+import Slider from '../src';
+
+describe('basic test', function() {
+  it('should add numbers', function() {
+   expect(2 + 2).toBe(4);
+  });
+});
+
+describe('sample enzyme test', function() {
+  it('should render', function() {
+    const wrapper = shallow(&lt;Slider&gt;&lt;div&gt;slide1&lt;/div&gt;&lt;/Slider&gt;);
+    expect(wrapper.contains(&lt;div&gt;slide1&lt;/div&gt;)).toBe(true);
+  });
+});
+    </code></pre>
+  </section>
+  </div></section>
+  <section class="slide"><div>
+    <h2 class="shout">Зачем нужны тесты?</h2>
+  </div></section>
   <section class="slide">
     <h2>О чем доклад?</h2>
     Антипаттерны тестирования:
