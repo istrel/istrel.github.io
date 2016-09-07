@@ -317,6 +317,58 @@ describe('VideoView', () => {
     <h2 class="shout">a.k.a. Mockery</h2>
   </div></section>
   <section class="slide">
+    <h2>Тест-близнец - Spy</h2>
+    <figure>
+      <blockquote>
+        <p>A test spy is a function that records arguments, return value, the value of this and exception thrown (if any) for all its calls. A test spy can be an anonymous function or it can wrap an existing function.</p>
+      </blockquote>
+      <figcaption><a href="http://sinonjs.org/docs/#spies">SinonJS documentation</a></figcaption>
+    </figure>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Spy</h2>
+    <pre><code class="javascript">
+it('calls callback', () => {
+  let fakeCallback = sinon.spy();
+
+  new MyObject({ afterInit: fakeCallback });
+
+  assert(afterInit.calledOnce);
+});
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Stub/Mock</h2>
+    <figure>
+      <blockquote>
+        <p>Test stubs are functions (spies) with pre-programmed behavior. ... As spies, stubs can be either anonymous, or wrap existing functions. When wrapping an existing function with a stub, the original function is not called.</p>
+      </blockquote>
+      <figcaption><a href="http://sinonjs.org/docs/#stubs">SinonJS documentation</a></figcaption>
+    </figure>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Stub/Mock</h2>
+    <pre><code class="javascript">
+function stub(obj, methodName, fakeMethod) {
+  let fakeMethod = sinon.spy(fakeMethod);
+
+  obj[methodName] = fakeMethod;
+}
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Stub/Mock</h2>
+    <pre><code class="javascript">
+it('performs ajax call to /rest/images', () => {
+  sinon.stub(jQuery, 'ajax');
+
+  fetchImages();
+
+  assert(jQuery.ajax.calledWith('/rest/images'));
+});
+    </code></pre>
+  </section>
+  <section class="slide">
     <h2>Тест-близнец - Код</h2>
     <pre><code class="javascript">
 module.exports = {
@@ -576,6 +628,20 @@ class HomePage extends React.Component {
     )
   }
 }
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Правильный тест</h2>
+    <pre><code class="javascript">
+describe('HomePage', () => {
+  beforeEach(() => { /* &lt;HomePage userName="vasya" invitation="hello"/&gt; */ });
+  it('renders social icons', () => {
+    let twitterIcon =
+      this.container.querySelector('a[href^="https://twitter.com"]');
+
+    expect(twitterIcon).not.toBe(null);
+  });
+});
     </code></pre>
   </section>
   <section class="slide">
