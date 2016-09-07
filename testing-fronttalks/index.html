@@ -317,7 +317,7 @@ describe('VideoView', () => {
   </div></section>
   <section class="slide">
     <h2>Тест-близнец - Stub/Mock</h2>
-      Стаб - метод, который заменяет настоящий метод и при этом следит за тем, как его вызывают.
+      Стаб или мок - метод, который заменяет настоящий метод и при этом следит за тем, как его вызывают.
     <pre><code style="margin-top: 2em;" class="javascript">
 it('performs ajax call to /rest/images', () => {
   sinon.stub(jQuery, 'ajax');
@@ -326,30 +326,6 @@ it('performs ajax call to /rest/images', () => {
 
   assert(jQuery.ajax.calledWith('/rest/images'));
 });
-    </code></pre>
-  </section>
-  <section class="slide">
-    <h2>Тест-близнец - Код</h2>
-    <pre><code class="javascript">
-module.exports = {
-  build() {
-    firstLib.clean('build')
-      .then(() => secondLib.compileJS('src', 'build'))
-      .then(() => thirdLib.optimizeCSS())
-  }
-};
-    </code></pre>
-  </section>
-  <section class="slide">
-    <h2>Тест-близнец - Код</h2>
-    <pre><code class="javascript">
-module.exports = {
-  build() {
-    <mark>firstLib.clean('build')</mark>                               // очистка
-      .then(() => secondLib.compileJS('src', 'build'))
-      .then(() => thirdLib.optimizeCSS())
-  }
-};
     </code></pre>
   </section>
   <section class="slide">
