@@ -882,6 +882,36 @@ it('performs ajax call to /rest/images', () => {
     </ol>
   </section>
   <section class="slide">
+    <h2>Верстка и сеть - getter/setter</h2>
+    <table>
+    <tr>
+      <th scope="col"></th>
+      <th>getter</th>
+      <th>setter</th>
+    </tr>
+    <tr>
+      <th scope="row">React</th>
+      <td>comp.state.myProp</td>
+      <td>comp.setState({ myProp: 'new value' })</td>
+    </tr>
+    <tr>
+      <th scope="row">Angular</th>
+      <td>$scope.myProp</td>
+      <td>$scope.myProp = 'new value'</td>
+    </tr>
+    <tr>
+      <th scope="row">Knockout</th>
+      <td>viewModel.myProp()</td>
+      <td>viewModel.myProp('new value')</td>
+    </tr>
+    <tr>
+      <th scope="row">Backbone</th>
+      <td>model.get('myProp')</td>
+      <td>model.set('myProp', 'new value')</td>
+    </tr>
+    </table>
+  </section>
+  <section class="slide">
     <h2>Верстка и сеть - Page Object</h2>
     <pre><code class="javascript">
 test() {
