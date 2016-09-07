@@ -158,7 +158,7 @@ describe('sample enzyme test', function() {
     <h2>О чем доклад?</h2>
     Антипаттерны тестирования:
     <ol>
-      <li>Тестирование данных</li>
+      <li>Тестирование статики</li>
       <li>Тесты-близнецы</li>
       <li>Слишком сложный тест:
         <ul>
@@ -169,10 +169,10 @@ describe('sample enzyme test', function() {
     </ol>
   </section>
   <section class="slide"><div>
-    <h2 class="shout">Тестирование данных</h2>
+    <h2 class="shout">Тестирование статики</h2>
   </div></section>
   <section class="slide">
-    <h2>Тестирование данных - Тест</h2>
+    <h2>Тестирование статики - Тест</h2>
     <pre>
       <code class="javascript">
 describe('VideoView', () => {
@@ -184,7 +184,7 @@ describe('VideoView', () => {
     </pre>
   </section>
   <section class="slide">
-    <h2>Тестирование данных - Код</h2>
+    <h2>Тестирование статики - Код</h2>
     <pre>
       <code class="javascript">
 class VideoView extends GenericView {
@@ -197,7 +197,7 @@ class VideoView extends GenericView {
     <span class="next">Тестируются статические данные</span>
   </section>
   <section class="slide">
-    <h2>Тестирование данных - Причины</h2>
+    <h2>Тестирование статики - Причины</h2>
     <ol>
       <li class="next">
         "Нужно покрыть любой новый код тестами"
@@ -218,7 +218,7 @@ class VideoView extends GenericView {
     </ol>
   </section>
   <section class="slide">
-    <h2>Тестирование данных - Правильный тест</h2>
+    <h2>Тестирование статики - Правильный тест</h2>
     <ol>
       <li class="next">
         Флаг editable - документируемый флаг GenericView (родителя)
@@ -230,14 +230,52 @@ class VideoView extends GenericView {
       <li class="next">
         Флаг editable был создан специально для VideoView
         <ul>
-          <li>Проверить, что VideoView показывает кнопку редактирования</li>
           <li>Проверить, что при нажатии на кнопку, показывается форма</li>
+          <li>Проверить, что форма редактирования сохраняет введенные данные</li>
         </ul>
       </li>
     </ul>
   </section>
   <section class="slide">
-    <h2>Тестирование данных - Опасность</h2>
+    <h2>Тестирование статики - Правильный тест</h2>
+    <pre><code class="javascript">
+describe('GenericView', () => {
+  it('disallows editing by default', () => {
+    var view = new GenericView();
+    expect(() => { view.edit(); }).toThrow();
+  });
+
+  it('allows editing via specifying "editable" flag', () => {
+    var view = new GenericView();
+    expect(() => { view.edit(); }).not.toThrow();
+  });
+});
+    </code></pre>
+    <p class="note">Применим в случае если editable - документированный флаг</p>
+  </section>
+  <section class="slide">
+     <h2>Тестирование статики - Правильный тест</h2>
+     <pre><code class="javascript">
+describe('VideoView', () => {
+  describe('editing', () => {
+    beforeEach(() => {
+      this.view = new VideoView();
+      this.view.edit();
+    });
+    it('opens editing popup', () => {
+      expect(this.view.$el.find('.editing-popup').length).toBe(1);
+    });
+    it('saves on editing', () => {
+      this.view.$el.find('.title').val('new value').change();
+      this.view.$el.find('.save').click();
+      expect(this.view.model.get('title')).toBe('new value');
+    });
+});
+     </code></pre>
+     <p class="note">Применим в случае если editable создан только для VideoView</p>
+  </section>
+  <section class="slide">
+    <h2>Тестирование статики - Опасность</h2>
     <img src="pictures/static-danger.png" alt="" class="cover">
   </section>
   <section class="slide"><div>
@@ -639,16 +677,16 @@ class HomePage extends React.Component {
     <h2>Верстка и сеть - Page Object</h2>
     <pre><code class="javascript">
 test() {
-    form.toggleTube();
-    form.avitoBalloon().hide();
-    form.<mark>toggleAvito</mark>();
-    assert(form.avitoBalloon().visible === false);
+    formPageObject.togglePartnersCheckbox();
+    formPageObject.avitoBalloon().hide();
+    formPageObject.<mark>toggleAvitoCheckbox</mark>();
+    assert(formPageObject.avitoBalloon().visible === false);
 }
     </code></pre>
     <div class="next">
       В коде Page Object:
       <pre><code class="javascript">
-toggleAvito() {
+toggleAvitoCheckbox() {
     this.avito().action.toggle.call(this.avito());
     basis.asap.process();
 }
