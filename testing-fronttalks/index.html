@@ -962,17 +962,19 @@ toggleAvitoCheckbox() {
     <h2>Асинхронный код - Код</h2>
     <pre><code class="javascript">
 class SearchForm extends React.Component {
+  constructor(props) {
+    this.handleChange =
+      _.debounce(this.handleChange.bind(this), 200);
+  }
   renderInput() {
     return &lt;input ref="query" onChange={this.handleChange}/&gt;;
   }
-  <mark>@Debounce(200) @autobind</mark>
   handleChange() {
     this.setState({ state: 'loading' });
     fetchResults(this.refs.query.value).then(results => {
       this.setState({ state: 'loaded', results });
     });
   }
-  // ...
 }
     </code></pre>
   </section>
@@ -994,17 +996,19 @@ class SearchForm extends React.Component {
     <pre>
       <pre><code class="javascript">
 class SearchForm extends React.Component {
+  constructor(props) {
+    this.handleChange =
+      _.debounce(this.handleChange.bind(this), 200);
+  }
   renderInput() {
     return &lt;input ref="query" onChange={this.handleChange}/&gt;;
   }
-  <mark>@Debounce(200) @autobind</mark>
   handleChange() {
     this.setState({ state: 'loading' });
     fetchResults(this.refs.query.value).then(results => {
       this.setState({ state: 'loaded', results });
     });
   }
-  // ...
 }
     </code></pre>
     </pre>
@@ -1014,20 +1018,19 @@ class SearchForm extends React.Component {
     <pre>
       <pre><code class="javascript">
 class SearchForm extends React.Component {
+  constructor(props) {
+    this.debouncedHandleChange =
+      _.debounce(this.handleChange.bind(this), 200);
+  }
   renderInput() {
     return &lt;input ref="query" onChange={this.debouncedHandleChange}/&gt;;
   }
-  &nbsp;
   handleChange() {
     this.setState({ state: 'loading' });
     fetchResults(this.refs.query.value).then(results => {
       this.setState({ state: 'loaded', results });
     });
   }
-  <mark>@Debounce(200) @autobind
-  debouncedHandleChange() {
-    this.handleChange.apply(this, arguments);
-  }</mark>
 }
     </code></pre>
     </pre>
