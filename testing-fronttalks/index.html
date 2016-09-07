@@ -97,54 +97,69 @@
     <h2 class="shout">Тестирование</h2>
   </div></section>
   <section class="slide"><div>
-    <h2 class="shout">Каким бывает тестирование в проектах?</h2>
+    <h2 class="shout">Люди, которые пишут тесты</h2>
   </div></section>
   <section class="slide"><div>
-    <h2>Проект с тестами</h2>
-    <center>
-      <img src="pictures/with-tests.jpg">
-    </center>
+    <h2 class="shout">Путь тестирования</h2>
   </div></section>
   <section class="slide"><div>
-    <h2>Проект без тестов</h2>
-    <center>
-      <img src="pictures/without-tests.jpg">
-    </center>
+    <h2>Шаг 0. Вызов</h2>
+    <ul>
+      <li class="next">
+        Статья на хабре
+      </li>
+      <li class="next">
+        Книга про тестирование <span class="next">на Java</span><span class="next"> или на Ruby</span>
+      </li>
+      <li class="next">
+        Доклады (<a href="https://www.youtube.com/watch?v=dfYZ6QejnnM">Три истории о тестировании</a>)
+      </li>
+      <li class="next">
+        Менеджер/Тимлид/etc, который заставляет писать тесты
+      </li>
+    </ul>
   </div></section>
   <section class="slide"><div>
-    <h2>Проект с видимостью присутствия тестов</h2>
-        <pre><code class="javascript">
-'use strict';
-import {shallow, mount} from 'enzyme';
-import Slider from '../src';
-
-describe('basic test', function() {
-  it('should add numbers', function() {
-   expect(2 + 2).toBe(4);
-  });
-});
-
-describe('sample enzyme test', function() {
-  it('should render', function() {
-    const wrapper = shallow(&lt;Slider&gt;&lt;div&gt;slide1&lt;/div&gt;&lt;/Slider&gt;);
-    expect(wrapper.contains(&lt;div&gt;slide1&lt;/div&gt;)).toBe(true);
-  });
-});
-    </code></pre>
-  </section>
+    <h2>Шаг 1. Начало</h2>
+    <ul>
+      <li class="next">
+        Начинаем писать тесты к написанному коду
+      </li>
+      <li class="next">
+        Через тернии пытаемся писать TDD
+      </li>
+      <li class="next">
+        Не понимаем, но терпим
+      </li>
+    </ul>
   </div></section>
   <section class="slide"><div>
-    <h2 class="shout">Зачем нужны тесты?</h2>
+    <h2>Шаг 2. Принятие</h2>
+    <ul>
+      <li class="next">
+        Пишем больше модульных тестов
+      </li>
+      <li class="next">
+        Иногда отлавливаем ошибки
+      </li>
+      <li class="next">
+        Уже разобрались с тестами
+      </li>
+    </ul>
   </div></section>
   <section class="slide"><div>
-    <h2>Три истории о тестировании</h2>
-    <center>
-      <img src="pictures/miranovich.jpg" width="800">
-      <a href="https://www.youtube.com/watch?v=dfYZ6QejnnM">https://www.youtube.com/watch?v=dfYZ6QejnnM</a>
-    </center>
+    <h2>Шаг 3. Test all the things!</h2>
+    <ul>
+      <li class="next">
+        Пишем тесты на всё
+      </li>
+      <li class="next">
+        Ощущаем легкость в написании тестов
+      </li>
+    </ul>
   </div></section>
   <section class="slide" id="pain"><div>
-    <h2 class="shout">Боль тестирования</h2>
+    <h2 class="shout">Шаг4. Боль</h2>
     <style>
       #pain h2 {
         color: white;
@@ -153,6 +168,23 @@ describe('sample enzyme test', function() {
         background: red;
       }
     </style>
+  </div></section>
+  <section class="slide"><div>
+    <h2>Шаг 4. Боль</h2>
+    <ul>
+      <li class="next">
+        Баги все равно появляются
+      </li>
+      <li class="next">
+        Тесты во много раз затратнее, чем код
+      </li>
+      <li class="next">
+        "Я занимаюсь какой-то фигней"
+      </li>
+    </ul>
+  </div></section>
+  <section class="slide"><div>
+    <h2 class="shout">Вредные тесты</h2>
   </div></section>
   <section class="slide">
     <h2>О чем доклад?</h2>
