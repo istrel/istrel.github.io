@@ -316,48 +316,9 @@ describe('VideoView', () => {
     <h2 class="shout">a.k.a. Mockery</h2>
   </div></section>
   <section class="slide">
-    <h2>Тест-близнец - Spy</h2>
-    <figure>
-      <blockquote>
-        <p>A test spy is a function that records arguments, return value, the value of this and exception thrown (if any) for all its calls. A test spy can be an anonymous function or it can wrap an existing function.</p>
-      </blockquote>
-      <figcaption><a href="http://sinonjs.org/docs/#spies">SinonJS documentation</a></figcaption>
-    </figure>
-  </section>
-  <section class="slide">
-    <h2>Тест-близнец - Spy</h2>
-    <pre><code class="javascript">
-it('calls callback', () => {
-  let fakeCallback = sinon.spy();
-
-  new MyObject({ afterInit: fakeCallback });
-
-  assert(afterInit.calledOnce);
-});
-    </code></pre>
-  </section>
-  <section class="slide">
     <h2>Тест-близнец - Stub/Mock</h2>
-    <figure>
-      <blockquote>
-        <p>Test stubs are functions (spies) with pre-programmed behavior. ... As spies, stubs can be either anonymous, or wrap existing functions. When wrapping an existing function with a stub, the original function is not called.</p>
-      </blockquote>
-      <figcaption><a href="http://sinonjs.org/docs/#stubs">SinonJS documentation</a></figcaption>
-    </figure>
-  </section>
-  <section class="slide">
-    <h2>Тест-близнец - Stub/Mock</h2>
-    <pre><code class="javascript">
-function stub(obj, methodName, fakeMethod) {
-  let fakeMethod = sinon.spy(fakeMethod);
-
-  obj[methodName] = fakeMethod;
-}
-    </code></pre>
-  </section>
-  <section class="slide">
-    <h2>Тест-близнец - Stub/Mock</h2>
-    <pre><code class="javascript">
+      Стаб - метод, который заменяет настоящий метод и при этом следит за тем, как его вызывают.
+    <pre><code style="margin-top: 2em;" class="javascript">
 it('performs ajax call to /rest/images', () => {
   sinon.stub(jQuery, 'ajax');
 
@@ -365,6 +326,30 @@ it('performs ajax call to /rest/images', () => {
 
   assert(jQuery.ajax.calledWith('/rest/images'));
 });
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Код</h2>
+    <pre><code class="javascript">
+module.exports = {
+  build() {
+    firstLib.clean('build')
+      .then(() => secondLib.compileJS('src', 'build'))
+      .then(() => thirdLib.optimizeCSS())
+  }
+};
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Код</h2>
+    <pre><code class="javascript">
+module.exports = {
+  build() {
+    <mark>firstLib.clean('build')</mark>                               // очистка
+      .then(() => secondLib.compileJS('src', 'build'))
+      .then(() => thirdLib.optimizeCSS())
+  }
+};
     </code></pre>
   </section>
   <section class="slide">
@@ -416,14 +401,59 @@ module.exports = {
     </code></pre>
   </section>
   <section class="slide">
-    <h2>Тест-близнец - Stub/Mock</h2>
+    <h2>Тест-близнец - Тест</h2>
     <pre><code class="javascript">
-it('performs ajax call to /rest/images', () => {
-  sinon.stub(jQuery, 'ajax');
+describe('build step', () => {
+  beforeEach(() => {
+    // Подменяем библиотечные методы моками с resolved promises
+    buildSystem.build();
+  });
 
-  fetchImages();
+  it('builds, compiles and does something else', () => {
+    assert(firstLib.clean.calledWith('build'));
 
-  assert(jQuery.ajax.calledWith('/rest/images'));
+    assert(secondLib.compileJS.calledWith('src', 'build'));
+
+    assert(thirdLib.optimizeCSS.called);
+  });
+});
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Тест</h2>
+    <pre><code class="javascript">
+describe('build step', () => {
+  beforeEach(() => {
+    <mark>// Подменяем библиотечные методы моками с resolved promises</mark>
+    buildSystem.build();
+  });
+
+  it('builds, compiles and does something else', () => {
+    assert(firstLib.clean.calledWith('build'));
+
+    assert(secondLib.compileJS.calledWith('src', 'build'));
+
+    assert(thirdLib.optimizeCSS.called);
+  });
+});
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Тест-близнец - Тест</h2>
+    <pre><code class="javascript">
+describe('build step', () => {
+  beforeEach(() => {
+    // Подменяем библиотечные методы моками с resolved promises
+    <mark>buildSystem.build();</mark>
+  });
+
+  it('builds, compiles and does something else', () => {
+    assert(firstLib.clean.calledWith('build'));
+
+    assert(secondLib.compileJS.calledWith('src', 'build'));
+
+    assert(thirdLib.optimizeCSS.called);
+  });
 });
     </code></pre>
   </section>
@@ -581,17 +611,6 @@ describe('HomePage', () => {
     </code></pre>
   </section>
   <section class="slide">
-    <h2>Тест-близнец - Что не так?</h2>
-    <ol>
-      <li class="next">
-        Проверяем ТОЛЬКО вызовы моков, а не результат
-      </li>
-      <li class="next">
-        Нас интересует что делают методы/объекты, а не их композиция
-      </li>
-    </ol>
-  </section>
-  <section class="slide">
     <h2>Тест-близнец - Причины</h2>
     <ol>
       <li class="next">
@@ -718,127 +737,6 @@ describe('HomePage', () => {
   <section class="slide"><div>
     <h2 class="shout">Верстка и сеть</h2>
   </div></section>
-  <section class="slide">
-    <h2>Верстка и сеть - Сервер моков</h2>
-    <ol>
-      <li class="next">Заменяет XMLHttpRequest стабом</li>
-      <li class="next">Можно задать callback для обработки запросов</li>
-    </ol>
-  </section>
-  <section class="slide">
-    <h2>Верстка и сеть - Сервер моков</h2>
-    <pre><code class="javascript">
-it('performs ajax call to /rest/images', () => {
-  sinon.stub(jQuery, 'ajax');
-
-  fetchImages();
-
-  assert(jQuery.ajax.calledWith('/rest/images'));
-});
-    </code></pre>
-  </section>
-  <section class="slide">
-    <h2>Верстка и сеть - Сервер моков</h2>
-    <pre><code class="javascript">
-it('performs ajax call to /rest/images', () => {
-  this.xhr = sinon.useFakeXMLHttpRequest();
-  this.xhr.onCreate = xhr => {
-    this.url = xhr.url;
-  };
-
-  fetchImages();
-
-  expect(this.url).toBe('/rest/images');
-
-  this.xhr.restore();
-});
-    </code></pre>
-  </section>
-  <section class="slide">
-    <h2>Верстка и сеть - Сервер моков</h2>
-    <pre><code class="javascript">
-it('performs ajax call to /rest/images', () => {
-  this.xhr = sinon.useFakeXMLHttpRequest(); // создаем сервер
-  this.xhr.onCreate = xhr => {
-    this.url = xhr.url;
-  };
-
-  fetchImages();
-
-  expect(this.url).toBe('/rest/images');
-
-  this.xhr.restore();
-});
-    </code></pre>
-  </section>
-  <section class="slide">
-    <h2>Верстка и сеть - Сервер моков</h2>
-    <pre><code class="javascript">
-it('performs ajax call to /rest/images', () => {
-  this.xhr = sinon.useFakeXMLHttpRequest();
-  this.xhr.onCreate = xhr => {
-    this.url = xhr.url;                     // сохраняем URL
-  };
-
-  fetchImages();
-
-  expect(this.url).toBe('/rest/images');
-
-  this.xhr.restore();
-});
-    </code></pre>
-  </section>
-  <section class="slide">
-    <h2>Верстка и сеть - Сервер моков</h2>
-    <pre><code class="javascript">
-it('performs ajax call to /rest/images', () => {
-  this.xhr = sinon.useFakeXMLHttpRequest();
-  this.xhr.onCreate = xhr => {
-    this.url = xhr.url;
-  };
-
-  fetchImages();                            // делаем действие
-
-  expect(this.url).toBe('/rest/images');
-
-  this.xhr.restore();
-});
-    </code></pre>
-  </section>
-  <section class="slide">
-    <h2>Верстка и сеть - Сервер моков</h2>
-    <pre><code class="javascript">
-it('performs ajax call to /rest/images', () => {
-  this.xhr = sinon.useFakeXMLHttpRequest();
-  this.xhr.onCreate = xhr => {
-    this.url = xhr.url;
-  };
-
-  fetchImages();
-
-  expect(this.url).toBe('/rest/images');    // проверяем URL
-
-  this.xhr.restore();
-});
-    </code></pre>
-  </section>
-  <section class="slide">
-    <h2>Верстка и сеть - Сервер моков</h2>
-    <pre><code class="javascript">
-it('performs ajax call to /rest/images', () => {
-  this.xhr = sinon.useFakeXMLHttpRequest();
-  this.xhr.onCreate = xhr => {
-    this.url = xhr.url;
-  };
-
-  fetchImages();
-
-  expect(this.url).toBe('/rest/images');
-
-  this.xhr.restore();                       // восстанавливаем сервер
-});
-    </code></pre>
-  </section>
   <section class="slide" id="ko">
     <h2>Верстка и сеть - Задача</h2>
     <center>
@@ -852,18 +750,18 @@ it('performs ajax call to /rest/images', () => {
     <h2>Верстка и сеть - Тест</h2>
     <ol>
       <li class="next">Затаскиваем шаблон для ContactsViewModel в body</li>
-      <li class="next">Создаем cервер моков и мокаем ответ</li>
+      <li class="next">Мокаем ответ сервера</li>
       <li class="next">Создаем экземпляр ContactsViewModel</li>
       <li class="next">Делаем ko.applyBindings()</li>
       <li class="next">Находим инпут через верстку и меняем его значение</li>
       <li class="next">Эмулируем на инпуте событие change</li>
       <li class="next">Достаем через верстку значения текстов</li>
       <li class="next">Сравниваем значения текстов с ожидаемыми</li>
-      <li class="next">Останавливаем сервер моков</li>
+      <li class="next">Возвращаем моки сервера на место</li>
     </ol>
   </section>
   <section class="slide">
-    <img src="pictures/cat.jpg" alt="" class="cover fill">
+    <img src="pictures/garold.png" alt="" class="cover fill">
     <style type="text/css">
       .slide .fill {
           width: 100%;
@@ -912,13 +810,12 @@ it('performs ajax call to /rest/images', () => {
     </table>
   </section>
   <section class="slide">
-    <h2>Верстка и сеть - Page Object</h2>
+    <h2>Верстка и сеть - паттерн Page Object</h2>
     Описывает типовые действия с компонентом:
     <ol>
       <li>Нахождение компонента</li>
       <li>Получение какого-то значения элемента (текст, атрибут)</li>
-      <li>
-        Произведение действия над компонентом:
+      <li>Произведение действия над компонентом:
         <ul>
           <li>Клики</li>
           <li>Редактирование</li>
@@ -927,7 +824,7 @@ it('performs ajax call to /rest/images', () => {
     </ul>
   </section>
   <section class="slide">
-    <h2>Верстка и сеть - Page Object</h2>
+    <h2>Верстка и сеть - паттерн Page Object</h2>
     <pre><code class="javascript">
 test() {
     formPageObject.togglePartnersCheckbox();
@@ -981,14 +878,14 @@ class SearchForm extends React.Component {
   <section class="slide">
     <h2>Асинхронный код - Тест</h2>
     <ol>
-      <li class="next">Замокать fetchResults</li>
+      <li class="next">Мокаем ответ сервера</li>
       <li class="next">Заменить реальный таймер поддельным</li>
       <li class="next">Изменить значение инпута</li>
       <li class="next">Вызвать handleChange</li>
       <li class="next">Послать поддельному таймеру сигнал о прохождении 200 мс</li>
       <li class="next">Проверить state</li>
       <li class="next">Вернуть реальный таймер на место</li>
-      <li class="next">Размокать fetchResults</li>
+      <li class="next">Возвращаем моки сервера на место</li>
     </ol>
   </section>
   <section class="slide">
@@ -1062,7 +959,7 @@ class SearchForm extends React.Component {
     </ol>
   </section>
   <section class="slide"><div>
-    <h2 class="shout">Сухой остаток</h2>
+    <h2 class="shout">Короче, Склифосовский</h2>
   </div></section>
   <section class="slide"><div>
     <h2 class="shout">Оправдывает ли тест свое написание?</h2>
@@ -1092,6 +989,15 @@ class SearchForm extends React.Component {
     <center>
       <img src="pictures/ps.gif" width="800">
     </center>
+  </section>
+  <section class="slide">
+    <h2>И что делать?</h2>
+    <ol>
+      <li class="next">Определить функцию-источник ошибок</li>
+      <li class="next">Протестировать её отдельно при помощи модульных тестов</li>
+      <li class="next">Использовать протестированную функцию в коде</li>
+      <li class="next">Положить тесты рядом с кодом (необязательно)</li>
+    </ol>
   </section>
   <section class="slide"><div>
     <h2 class="shout"><a href="http://tryjasmine.com/">tryjasmine.com</a></h2>
