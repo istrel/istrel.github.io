@@ -9,7 +9,6 @@
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/docco.min.css"> -->
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/color-brewer.min.css"> -->
   <link rel="stylesheet" href="highlight/idea.min.css">
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script> -->
   <style>
     .slide pre code {
       line-height: 1.4;
@@ -417,21 +416,14 @@ module.exports = {
     </code></pre>
   </section>
   <section class="slide">
-    <h2>Тест-близнец - Тест</h2>
+    <h2>Тест-близнец - Stub/Mock</h2>
     <pre><code class="javascript">
-describe('build step', () => {
-  beforeEach(() => {
-    // Подменяем библиотечные методы моками с resolved promises
-    buildSystem.build();
-  });
+it('performs ajax call to /rest/images', () => {
+  sinon.stub(jQuery, 'ajax');
 
-  it('builds, compiles and does something else', () => {
-    assert(firstLib.clean.calledWith('build'));
+  fetchImages();
 
-    assert(secondLib.compileJS.calledWith('src', 'build'));
-
-    assert(thirdLib.optimizeCSS.called);
-  });
+  assert(jQuery.ajax.calledWith('/rest/images'));
 });
     </code></pre>
   </section>
@@ -726,40 +718,135 @@ describe('HomePage', () => {
   <section class="slide"><div>
     <h2 class="shout">Верстка и сеть</h2>
   </div></section>
+  <section class="slide">
+    <h2>Верстка и сеть - Сервер моков</h2>
+    <ol>
+      <li class="next">Заменяет XMLHttpRequest стабом</li>
+      <li class="next">Можно задать callback для обработки запросов</li>
+    </ol>
+  </section>
+  <section class="slide">
+    <h2>Верстка и сеть - Сервер моков</h2>
+    <pre><code class="javascript">
+it('performs ajax call to /rest/images', () => {
+  sinon.stub(jQuery, 'ajax');
+
+  fetchImages();
+
+  assert(jQuery.ajax.calledWith('/rest/images'));
+});
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Верстка и сеть - Сервер моков</h2>
+    <pre><code class="javascript">
+it('performs ajax call to /rest/images', () => {
+  this.xhr = sinon.useFakeXMLHttpRequest();
+  this.xhr.onCreate = xhr => {
+    this.url = xhr.url;
+  };
+
+  fetchImages();
+
+  expect(this.url).toBe('/rest/images');
+
+  this.xhr.restore();
+});
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Верстка и сеть - Сервер моков</h2>
+    <pre><code class="javascript">
+it('performs ajax call to /rest/images', () => {
+  this.xhr = sinon.useFakeXMLHttpRequest(); // создаем сервер
+  this.xhr.onCreate = xhr => {
+    this.url = xhr.url;
+  };
+
+  fetchImages();
+
+  expect(this.url).toBe('/rest/images');
+
+  this.xhr.restore();
+});
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Верстка и сеть - Сервер моков</h2>
+    <pre><code class="javascript">
+it('performs ajax call to /rest/images', () => {
+  this.xhr = sinon.useFakeXMLHttpRequest();
+  this.xhr.onCreate = xhr => {
+    this.url = xhr.url;                     // сохраняем URL
+  };
+
+  fetchImages();
+
+  expect(this.url).toBe('/rest/images');
+
+  this.xhr.restore();
+});
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Верстка и сеть - Сервер моков</h2>
+    <pre><code class="javascript">
+it('performs ajax call to /rest/images', () => {
+  this.xhr = sinon.useFakeXMLHttpRequest();
+  this.xhr.onCreate = xhr => {
+    this.url = xhr.url;
+  };
+
+  fetchImages();                            // делаем действие
+
+  expect(this.url).toBe('/rest/images');
+
+  this.xhr.restore();
+});
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Верстка и сеть - Сервер моков</h2>
+    <pre><code class="javascript">
+it('performs ajax call to /rest/images', () => {
+  this.xhr = sinon.useFakeXMLHttpRequest();
+  this.xhr.onCreate = xhr => {
+    this.url = xhr.url;
+  };
+
+  fetchImages();
+
+  expect(this.url).toBe('/rest/images');    // проверяем URL
+
+  this.xhr.restore();
+});
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Верстка и сеть - Сервер моков</h2>
+    <pre><code class="javascript">
+it('performs ajax call to /rest/images', () => {
+  this.xhr = sinon.useFakeXMLHttpRequest();
+  this.xhr.onCreate = xhr => {
+    this.url = xhr.url;
+  };
+
+  fetchImages();
+
+  expect(this.url).toBe('/rest/images');
+
+  this.xhr.restore();                       // восстанавливаем сервер
+});
+    </code></pre>
+  </section>
   <section class="slide" id="ko">
     <h2>Верстка и сеть - Задача</h2>
     <center>
       <img src="pictures/task.gif" width="820"/>
     </center>
-    <script>
-      function ContactsViewModel() {
-        var self = this;
-
-        this.countries = ko.observableArray([
-          { value: 'Газелле' },
-          { value: 'Буйволсон' },
-          { value: 'Блиц' },
-          { value: 'Златогрив' },
-          { value: 'Барашкис' },
-          { value: 'Когтяузер' },
-          { value: 'Мистер Биг' },
-        ]);
-
-        this.searchQuery = ko.observable('');
-
-        this.filteredCountries = ko.computed(function() {
-              if(!self.searchQuery()) {
-                  return self.countries();
-              } else {
-                  return ko.utils.arrayFilter(self.countries(), function(country) {
-                      return country.value.toLowerCase().match(self.searchQuery().toLowerCase());
-                  });
-              }
-        });
-      }
-
-      ko.applyBindings(new ContactsViewModel());
-    </script>
+    <span style="position: absolute; top: 238px; left: 130px; color: red; font-weight: bold;">
+      ContactsViewModel
+    </span>
   </section>
   <section class="slide">
     <h2>Верстка и сеть - Тест</h2>
