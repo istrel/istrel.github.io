@@ -350,7 +350,7 @@ module.exports = {
   build() {
     <mark>firstLib.clean('build')</mark>                               // очистка
       .then(() => secondLib.compileJS('src', 'build'))
-      .then(() => thirdLib.optimizeCSS())
+      .then(() => thirdLib.optimizeCSS());
   }
 };
     </code></pre>
@@ -362,7 +362,7 @@ module.exports = {
   build() {
     firstLib.clean('build')
       .then(() => <mark>secondLib.compileJS('src', 'build')</mark>)    // JS
-      .then(() => thirdLib.optimizeCSS())
+      .then(() => thirdLib.optimizeCSS());
   }
 };
     </code></pre>
@@ -374,7 +374,7 @@ module.exports = {
   build() {
     firstLib.clean('build')
       .then(() => secondLib.compileJS('src', 'build'))
-      .then(() => <mark>thirdLib.optimizeCSS()</mark>)                 // CSS
+      .then(() => <mark>thirdLib.optimizeCSS()</mark>);                // CSS
   }
 };
     </code></pre>
@@ -492,7 +492,6 @@ describe('build step', () => {
   });
 });
     </code></pre>
-    <div class="next" style="margin-top: -2em;">Полное повторение структуры кода в тесте</div>
   </section>
   <section class="slide">
     <img src="pictures/test-script.jpg" alt="" class="cover">
@@ -916,9 +915,8 @@ class SearchForm extends React.Component {
   <section class="slide">
     <h2>Слишком сложный тест - Опасность</h2>
     <ol>
-      <li class="next">Большие затраты</li>
+      <li class="next">Прекращение тестирования уже покрытого тестами кода</li>
       <li class="next">Отключение существующего теста</li>
-      <li class="next">Прекращение тестирования компонентов</li>
     </ol>
   </section>
   <section class="slide"><div>
@@ -952,18 +950,19 @@ class SearchForm extends React.Component {
     <ol>
       <li class="next">console.log</li>
       <li class="next">debugger</li>
-      <li class="next">Внутреннее ощущение запутанности</li>
+      <li class="next">Ощущение запутанности</li>
     </ol>
   </section>
-  <section class="slide"><div>
-    <h2 class="shout">... (гифка запутанности)</h2>
-  </div></section>
   <section class="slide">
-    <h2>Поводы написать тест</h2>
+    <h2>Ощущение запутанности</h2>
     <center>
-      <img src="pictures/ps.gif" width="820">
+      <div style="width: 602px; height: 340px; background-position: -664px -25px; background-image: url(pictures/ps.gif);">
+      </div>
     </center>
   </section>
+  <section class="slide"><div>
+    <img src="pictures/griffin.gif" class="cover"/>
+  </div></section>
   <section class="slide" style="background-color: black;">
     <img src="pictures/cat.jpg" class="cover">
   </section>
@@ -976,7 +975,7 @@ class SearchForm extends React.Component {
       <li><a href="mailto:iv-strelkov@yandex.ru">iv-strelkov@yandex.ru</a></li>
     </ul>
     <p>
-      Презентация: <a href="https://istrel.github.io/">istrel.github.io</a>
+      Презентация: <a href="https://istrel.github.io/testing-fronttalks/">istrel.github.io/testing-fronttalks/</a>
     </p>
     <style>
       #ThankYou img {
