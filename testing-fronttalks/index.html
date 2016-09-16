@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="shower/themes/ribbon/styles/screen-4x3.css">
+  <link rel="stylesheet" href="shower/themes/ribbon/styles/screen-16x10.css">
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/docco.min.css"> -->
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/color-brewer.min.css"> -->
   <link rel="stylesheet" href="highlight/idea.min.css">
@@ -180,6 +180,9 @@
       <li class="next">
         "Я занимаюсь какой-то фигней"
       </li>
+      <li class="next">
+        "Ты слишком много времени тратишь на тесты"
+      </li>
     </ul>
   </div></section>
   <section class="slide"><div>
@@ -277,7 +280,7 @@ describe('GenericView', () => {
   });
 
   it('allows editing via specifying "editable" flag', () => {
-    var view = new GenericView();
+    var view = new GenericView({ editable: true });
     expect(() => { view.edit(); }).not.toThrow();
   });
 });
@@ -647,43 +650,33 @@ describe('HomePage', () => {
     <img src="pictures/twin-flux/twin-flux.001.jpeg" alt="" class="cover">
   </section>
   <section class="slide">
-    <h2>Тест-близнец - Опасность</h2>
     <img src="pictures/twin-flux/twin-flux.002.jpeg" alt="" class="cover">
   </section>
   <section class="slide">
-    <h2>Тест-близнец - Опасность</h2>
     <img src="pictures/twin-flux/twin-flux.003.jpeg" alt="" class="cover">
   </section>
   <section class="slide">
-    <h2>Тест-близнец - Опасность</h2>
     <img src="pictures/twin-flux/twin-flux.004.jpeg" alt="" class="cover">
   </section>
   <section class="slide">
-    <h2>Тест-близнец - Опасность</h2>
     <img src="pictures/twin-flux/twin-flux.005.jpeg" alt="" class="cover">
   </section>
   <section class="slide">
-    <h2>Тест-близнец - Опасность</h2>
     <img src="pictures/twin-flux/twin-flux.006.jpeg" alt="" class="cover">
   </section>
   <section class="slide">
-    <h2>Тест-близнец - Опасность</h2>
     <img src="pictures/twin-flux/twin-flux.007.jpeg" alt="" class="cover">
   </section>
   <section class="slide">
-    <h2>Тест-близнец - Опасность</h2>
     <img src="pictures/twin-flux/twin-flux.008.jpeg" alt="" class="cover">
   </section>
   <section class="slide">
-    <h2>Тест-близнец - Опасность</h2>
     <img src="pictures/twin-flux/twin-flux.009.jpeg" alt="" class="cover">
   </section>
   <section class="slide">
-    <h2>Тест-близнец - Опасность</h2>
     <img src="pictures/twin-flux/twin-flux.010.jpeg" alt="" class="cover">
   </section>
   <section class="slide">
-    <h2>Тест-близнец - Опасность</h2>
     <img src="pictures/twin-flux/twin-flux.011.jpeg" alt="" class="cover">
   </section>
   <section class="slide">
@@ -691,11 +684,9 @@ describe('HomePage', () => {
     <img src="pictures/twin-flux/twin-flux.012.jpeg" alt="" class="cover">
   </section>
   <section class="slide">
-    <h2>Тест-близнец - А как надо?</h2>
     <img src="pictures/twin-flux/twin-flux.013.jpeg" alt="" class="cover">
   </section>
   <section class="slide">
-    <h2>Тест-близнец - А как надо?</h2>
     <img src="pictures/twin-flux/twin-flux.015.jpeg" alt="" class="cover">
   </section>
   <section class="slide"><div>
@@ -713,10 +704,10 @@ describe('HomePage', () => {
   <section class="slide"><div>
     <h2 class="shout">Верстка и сеть</h2>
   </div></section>
-  <section class="slide" id="ko">
+  <section class="slide" id="ko" style="background-color: #efedef">
     <h2>Верстка и сеть - Задача</h2>
     <center>
-      <img src="pictures/task.gif" width="820"/>
+      <img src="pictures/task.gif" width="670"/>
     </center>
     <span style="position: absolute; top: 238px; left: 130px; color: red; font-weight: bold;">
       ContactsViewModel
@@ -724,7 +715,7 @@ describe('HomePage', () => {
   </section>
   <section class="slide">
     <h2>Верстка и сеть - Тест</h2>
-    <ol>
+    <ol style="margin-top: -0.5em;">
       <li class="next">Затаскиваем шаблон для ContactsViewModel в body</li>
       <li class="next">Мокаем ответ сервера</li>
       <li class="next">Создаем экземпляр ContactsViewModel</li>
@@ -833,7 +824,7 @@ toggleAvitoCheckbox() {
   </div></section>
   <section class="slide">
     <h2>Асинхронный код - Код</h2>
-    <pre><code class="javascript">
+    <pre style="margin-top: -1em;"><code class="javascript">
 class SearchForm extends React.Component {
   constructor(props) {
     this.handleChange =
@@ -866,8 +857,7 @@ class SearchForm extends React.Component {
   </section>
   <section class="slide">
     <h2>Асинхронный код - Правильный код</h2>
-    <pre>
-      <pre><code class="javascript">
+      <pre style="margin-top: -1em;"><code class="javascript">
 class SearchForm extends React.Component {
   constructor(props) {
     this.handleChange =
@@ -884,12 +874,10 @@ class SearchForm extends React.Component {
   }
 }
     </code></pre>
-    </pre>
   </section>
   <section class="slide">
     <h2>Асинхронный код - Правильный код</h2>
-    <pre>
-      <pre><code class="javascript">
+      <pre style="margin-top: -1em;"><code class="javascript">
 class SearchForm extends React.Component {
   constructor(props) {
     this.debouncedHandleChange =
@@ -906,16 +894,15 @@ class SearchForm extends React.Component {
   }
 }
     </code></pre>
-    </pre>
   </section>
   <section class="slide">
     <h2>Асинхронный код - Правильный тест</h2>
     <ol>
-      <li class="next">Замокать fetchResults</li>
+      <li class="next">Замокать ответ сервера</li>
       <li class="next">Изменить значение инпута</li>
       <li class="next">Вызвать метод handleChange</li>
       <li class="next">Проверить state</li>
-      <li class="next">Размокать fetchResults</li>
+      <li class="next">Вернуть моки сервера на место</li>
     </ol>
   </section>
   <section class="slide">
@@ -943,14 +930,22 @@ class SearchForm extends React.Component {
   <section class="slide">
     <h2>Критерии оценки</h2>
     <ol>
-      <li class="next">Сложность написания</li>
-      <li class="next">Сложность поддержки</li>
-      <li class="next">Стоимость ошибки</li>
-      <li class="next">Вероятность ошибки</li>
+      <li class="next">Критерии против написания теста
+        <ul>
+          <li class="next">Сложность написания теста</li>
+          <li class="next">Сложность поддержки теста</li>
+        </ul>
+      </li>
+      <li class="next">За написание теста
+        <ul>
+          <li class="next">Стоимость ошибки</li>
+          <li class="next">Вероятность ошибки</li>
+        </ul>
+      </li>
     </ol>
   </section>
   <section class="slide"><div>
-    <h2 class="shout">Ну и что?</h2>
+    <h2 class="shout">Вероятность ошибки</h2>
   </div></section>
   <section class="slide">
     <h2>Поводы написать тест</h2>
@@ -960,24 +955,18 @@ class SearchForm extends React.Component {
       <li class="next">Внутреннее ощущение запутанности</li>
     </ol>
   </section>
+  <section class="slide"><div>
+    <h2 class="shout">... (гифка запутанности)</h2>
+  </div></section>
   <section class="slide">
     <h2>Поводы написать тест</h2>
     <center>
-      <img src="pictures/ps.gif" width="800">
+      <img src="pictures/ps.gif" width="820">
     </center>
   </section>
-  <section class="slide">
-    <h2>И что делать?</h2>
-    <ol>
-      <li class="next">Определить функцию-источник ошибок</li>
-      <li class="next">Протестировать её отдельно при помощи модульных тестов</li>
-      <li class="next">Использовать протестированную функцию в коде</li>
-      <li class="next">Положить тесты рядом с кодом (необязательно)</li>
-    </ol>
+  <section class="slide" style="background-color: black;">
+    <img src="pictures/cat.jpg" class="cover">
   </section>
-  <section class="slide"><div>
-    <h2 class="shout"><a href="http://tryjasmine.com/">tryjasmine.com</a></h2>
-  </div></section>
   <section class="slide active" id="ThankYou"><div>
     <h2>Спасибо за внимание!</h2>
     <p>Иван Стрелков, Avito</p>
