@@ -15,6 +15,10 @@
       margin-top: -1em;
       margin-bottom: -1em;
     }
+
+    .hljs-tag {
+      background-color: transparent !important;
+    }
   </style>
 </head>
 <body class="shower list">
@@ -96,7 +100,7 @@
     <h2 class="shout">Тестирование</h2>
   </div></section>
   <section class="slide"><div>
-    <h2 class="shout">Люди, которые пишут тесты</h2>
+    <h2 class="shout">Модульное тестирование <span class="next">фронтенда</span></h2>
   </div></section>
   <section class="slide"><div>
     <h2 class="shout">Путь тестирования</h2>
@@ -276,12 +280,80 @@ class VideoView extends GenericView {
 describe('GenericView', () => {
   it('disallows editing by default', () => {
     var view = new GenericView();
-    expect(() => { view.edit(); }).toThrow();
+    expect(view.$el.find('.edit').length).toBe(0);
   });
 
   it('allows editing via specifying "editable" flag', () => {
     var view = new GenericView({ editable: true });
-    expect(() => { view.edit(); }).not.toThrow();
+    expect(view.$el.find('.edit').length).toBe(1);
+  });
+});
+    </code></pre>
+    <p class="note">Применим в случае если editable - документированный флаг</p>
+  </section>
+  <section class="slide">
+    <h2>Тестирование статики - Правильный тест</h2>
+    <pre><code class="javascript">
+describe('GenericView', () => {
+  it('disallows editing by default', () => {
+    <mark>var view = new GenericView();</mark>
+    expect(view.$el.find('.edit').length).toBe(0);
+  });
+
+  it('allows editing via specifying "editable" flag', () => {
+    var view = new GenericView({ editable: true });
+    expect(view.$el.find('.edit').length).toBe(1);
+  });
+});
+    </code></pre>
+    <p class="note">Применим в случае если editable - документированный флаг</p>
+  </section>
+  <section class="slide">
+    <h2>Тестирование статики - Правильный тест</h2>
+    <pre><code class="javascript">
+describe('GenericView', () => {
+  it('disallows editing by default', () => {
+    var view = new GenericView();
+    <mark>expect(view.$el.find('.edit').length).toBe(0);</mark>
+  });
+
+  it('allows editing via specifying "editable" flag', () => {
+    var view = new GenericView({ editable: true });
+    expect(view.$el.find('.edit').length).toBe(1);
+  });
+});
+    </code></pre>
+    <p class="note">Применим в случае если editable - документированный флаг</p>
+  </section>
+  <section class="slide">
+    <h2>Тестирование статики - Правильный тест</h2>
+    <pre><code class="javascript">
+describe('GenericView', () => {
+  it('disallows editing by default', () => {
+    var view = new GenericView();
+    expect(view.$el.find('.edit').length).toBe(0);
+  });
+
+  it('allows editing via specifying "editable" flag', () => {
+    <mark>var view = new GenericView({ editable: true });</mark>
+    expect(view.$el.find('.edit').length).toBe(1);
+  });
+});
+    </code></pre>
+    <p class="note">Применим в случае если editable - документированный флаг</p>
+  </section>
+  <section class="slide">
+    <h2>Тестирование статики - Правильный тест</h2>
+    <pre><code class="javascript">
+describe('GenericView', () => {
+  it('disallows editing by default', () => {
+    var view = new GenericView();
+    expect(view.$el.find('.edit').length).toBe(0);
+  });
+
+  it('allows editing via specifying "editable" flag', () => {
+    var view = new GenericView({ editable: true });
+    <mark>expect(view.$el.find('.edit').length).toBe(1);</mark>
   });
 });
     </code></pre>
@@ -294,7 +366,7 @@ describe('VideoView', () => {
   describe('editing', () => {
     beforeEach(() => {
       this.view = new VideoView();
-      this.view.edit();
+      view.$el.find('.edit').click();
     });
     it('opens editing popup', () => {
       expect(this.view.$el.find('.editing-popup').length).toBe(1);
@@ -306,7 +378,126 @@ describe('VideoView', () => {
     });
 });
      </code></pre>
-     <p class="note">Применим в случае если editable создан только для VideoView</p>
+  </section>
+  <section class="slide">
+     <h2>Тестирование статики - Правильный тест</h2>
+     <pre><code class="javascript">
+describe('VideoView', () => {
+  describe('editing', () => {
+    beforeEach(() => {
+      <mark>this.view = new VideoView();</mark>
+      view.$el.find('.edit').click();
+    });
+    it('opens editing popup', () => {
+      expect(this.view.$el.find('.editing-popup').length).toBe(1);
+    });
+    it('saves on editing', () => {
+      this.view.$el.find('.title').val('new value').change();
+      this.view.$el.find('.save').click();
+      expect(this.view.model.get('title')).toBe('new value');
+    });
+});
+     </code></pre>
+  </section>
+  <section class="slide">
+     <h2>Тестирование статики - Правильный тест</h2>
+     <pre><code class="javascript">
+describe('VideoView', () => {
+  describe('editing', () => {
+    beforeEach(() => {
+      this.view = new VideoView();
+      <mark>view.$el.find('.edit').click();</mark>
+    });
+    it('opens editing popup', () => {
+      expect(this.view.$el.find('.editing-popup').length).toBe(1);
+    });
+    it('saves on editing', () => {
+      this.view.$el.find('.title').val('new value').change();
+      this.view.$el.find('.save').click();
+      expect(this.view.model.get('title')).toBe('new value');
+    });
+});
+     </code></pre>
+  </section>
+  <section class="slide">
+     <h2>Тестирование статики - Правильный тест</h2>
+     <pre><code class="javascript">
+describe('VideoView', () => {
+  describe('editing', () => {
+    beforeEach(() => {
+      this.view = new VideoView();
+      view.$el.find('.edit').click();
+    });
+    it('opens editing popup', () => {
+      <mark>expect(this.view.$el.find('.editing-popup').length).toBe(1);</mark>
+    });
+    it('saves on editing', () => {
+      this.view.$el.find('.title').val('new value').change();
+      this.view.$el.find('.save').click();
+      expect(this.view.model.get('title')).toBe('new value');
+    });
+});
+     </code></pre>
+  </section>
+  <section class="slide">
+     <h2>Тестирование статики - Правильный тест</h2>
+     <pre><code class="javascript">
+describe('VideoView', () => {
+  describe('editing', () => {
+    beforeEach(() => {
+      this.view = new VideoView();
+      view.$el.find('.edit').click();
+    });
+    it('opens editing popup', () => {
+      expect(this.view.$el.find('.editing-popup').length).toBe(1);
+    });
+    it('saves on editing', () => {
+      <mark>this.view.$el.find('.title').val('new value').change();</mark>
+      this.view.$el.find('.save').click();
+      expect(this.view.model.get('title')).toBe('new value');
+    });
+});
+     </code></pre>
+  </section>
+  <section class="slide">
+     <h2>Тестирование статики - Правильный тест</h2>
+     <pre><code class="javascript">
+describe('VideoView', () => {
+  describe('editing', () => {
+    beforeEach(() => {
+      this.view = new VideoView();
+      view.$el.find('.edit').click();
+    });
+    it('opens editing popup', () => {
+      expect(this.view.$el.find('.editing-popup').length).toBe(1);
+    });
+    it('saves on editing', () => {
+      this.view.$el.find('.title').val('new value').change();
+      <mark>this.view.$el.find('.save').click();</mark>
+      expect(this.view.model.get('title')).toBe('new value');
+    });
+});
+     </code></pre>
+  </section>
+  <section class="slide">
+     <h2>Тестирование статики - Правильный тест</h2>
+     <pre><code class="javascript">
+describe('VideoView', () => {
+  describe('editing', () => {
+    beforeEach(() => {
+      this.view = new VideoView();
+      view.$el.find('.edit').click();
+    });
+    it('opens editing popup', () => {
+      expect(this.view.$el.find('.editing-popup').length).toBe(1);
+    });
+    it('saves on editing', () => {
+      this.view.$el.find('.title').val('new value').change();
+      this.view.$el.find('.save').click();
+      <mark>expect(this.view.model.get('title')).toBe('new value');</mark>
+    });
+});
+     </code></pre>
   </section>
   <section class="slide">
     <h2>Тестирование статики - Опасность</h2>
@@ -513,6 +704,54 @@ class HomePage extends React.Component {
     </code></pre>
   </section>
   <section class="slide">
+    <h2>Декларативный тест-близнец - Код</h2>
+    <pre><code class="html">
+class HomePage extends React.Component {
+  render() {
+    return (
+      &lt;div&gt;
+        <mark>&lt;Header userName={this.props.userName} /&gt;</mark>
+        &lt;Content&gt; {this.props.invitation} &lt;/Content&gt;
+        &lt;Footer showSocial /&gt;
+      &lt;/div&gt;
+    )
+  }
+}
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Декларативный тест-близнец - Код</h2>
+    <pre><code class="html">
+class HomePage extends React.Component {
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;Header userName={this.props.userName} /&gt;
+        <mark>&lt;Content&gt; {this.props.invitation} &lt;/Content&gt;</mark>
+        &lt;Footer showSocial /&gt;
+      &lt;/div&gt;
+    )
+  }
+}
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Декларативный тест-близнец - Код</h2>
+    <pre><code class="html">
+class HomePage extends React.Component {
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;Header userName={this.props.userName} /&gt;
+        &lt;Content&gt; {this.props.invitation} &lt;/Content&gt;
+        <mark>&lt;Footer showSocial /&gt;</mark>
+      &lt;/div&gt;
+    )
+  }
+}
+    </code></pre>
+  </section>
+  <section class="slide">
     <h2>Декларативный тест-близнец - Тест</h2>
     <pre><code class="javascript">
 describe('HomePage', () => {
@@ -623,7 +862,7 @@ class HomePage extends React.Component {
       &lt;div&gt;
         &lt;Header userName={this.props.userName} /&gt;
         &lt;Content children={this.props.invitation} /&gt;
-        &lt;Footer showSocial /&gt;
+        &lt;Footer <mark>showSocial</mark> /&gt;
       &lt;/div&gt;
     )
   }
@@ -842,6 +1081,66 @@ class SearchForm extends React.Component {
     </code></pre>
   </section>
   <section class="slide">
+    <h2>Асинхронный код - Код</h2>
+    <pre style="margin-top: -1em;"><code class="javascript">
+class SearchForm extends React.Component {
+  constructor(props) {
+    this.handleChange =
+      _.debounce(this.handleChange.bind(this), 200);
+  }
+  renderInput() {
+    return <mark>&lt;input ref="query" onChange={this.handleChange}/&gt;;</mark>
+  }
+  handleChange() {
+    this.setState({ state: 'loading' });
+    fetchResults(this.refs.query.value).then(results => {
+      this.setState({ state: 'loaded', results });
+    });
+  }
+}
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Асинхронный код - Код</h2>
+    <pre style="margin-top: -1em;"><code class="javascript">
+class SearchForm extends React.Component {
+  constructor(props) {
+    this.handleChange =
+      _.debounce(this.handleChange.bind(this), 200);
+  }
+  renderInput() {
+    return &lt;input ref="query" onChange={<mark>this.handleChange</mark>}/&gt;;
+  }
+  handleChange() {
+    this.setState({ state: 'loading' });
+    fetchResults(this.refs.query.value).then(results => {
+      this.setState({ state: 'loaded', results });
+    });
+  }
+}
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Асинхронный код - Код</h2>
+    <pre style="margin-top: -1em;"><code class="javascript">
+class SearchForm extends React.Component {
+  constructor(props) {
+    this.handleChange =
+      <mark>_.debounce(</mark>this.handleChange.bind(this)<mark>, 200);</mark>
+  }
+  renderInput() {
+    return &lt;input ref="query" onChange={this.handleChange}/&gt;;
+  }
+  handleChange() {
+    this.setState({ state: 'loading' });
+    fetchResults(this.refs.query.value).then(results => {
+      this.setState({ state: 'loaded', results });
+    });
+  }
+}
+    </code></pre>
+  </section>
+  <section class="slide">
     <h2>Асинхронный код - Тест</h2>
     <ol>
       <li class="next">Мокаем ответ сервера</li>
@@ -879,11 +1178,31 @@ class SearchForm extends React.Component {
       <pre style="margin-top: -1em;"><code class="javascript">
 class SearchForm extends React.Component {
   constructor(props) {
-    this.debouncedHandleChange =
+    this.<mark>handleChange</mark> =
       _.debounce(this.handleChange.bind(this), 200);
   }
   renderInput() {
-    return &lt;input ref="query" onChange={this.debouncedHandleChange}/&gt;;
+    return &lt;input ref="query" onChange={this.<mark>handleChange</mark>}/&gt;;
+  }
+  handleChange() {
+    this.setState({ state: 'loading' });
+    fetchResults(this.refs.query.value).then(results => {
+      this.setState({ state: 'loaded', results });
+    });
+  }
+}
+    </code></pre>
+  </section>
+  <section class="slide">
+    <h2>Асинхронный код - Правильный код</h2>
+      <pre style="margin-top: -1em;"><code class="javascript">
+class SearchForm extends React.Component {
+  constructor(props) {
+    this.<mark>debouncedHandleChange</mark> =
+      _.debounce(this.handleChange.bind(this), 200);
+  }
+  renderInput() {
+    return &lt;input ref="query" onChange={this.<mark>debouncedHandleChange</mark>}/&gt;;
   }
   handleChange() {
     this.setState({ state: 'loading' });
