@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Как не надо тестировать</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="shower/themes/ribbon/styles/screen-16x10.css">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/docco.min.css"> -->
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/color-brewer.min.css"> -->
+  <link rel="stylesheet" href="highlight/idea.min.css">
+  <style>
+    .slide pre code {
+      line-height: 1.4;
+      margin-top: -1em;
+      margin-bottom: -1em;
+    }
+
+    .hljs-tag {
+      background-color: transparent !important;
+    }
+  </style>
+</head>
+<body class="shower list">
+  <header class="caption">
+    <h1>Как, черт возьми, надо ревьювить код</h1>
+    <p>Иван Стрелков</p>
+  </header>
+  <section class="slide cover" id="Cover"><div>
+    <h2>Как, черт возьми, надо ревьювить код</h2>
+    <p>
+      <a href="https://github.com/istrel">Иван Стрелков</a>
+      <div class="table">
+        <div class="row">
+          <div class="cell">
+            <img class="moscow-logo" src="pictures/logo.svg">
+          </div>
+          <div class="cell">
+            <img class="avito-logo" src="pictures/logo-avito.svg">
+          </div>
+        </div>
+      </div>
+    </p>
+    <!--
+      To apply styles to the certain slides
+      set slide ID to get needed elements
+      -->
+    <style>
+      #Cover h2 {
+        margin:30px 0 0;
+        color:#000;
+        text-align:center;
+        font-size:70px;
+        }
+      #Cover p {
+        margin:10px 0 0;
+        text-align:center;
+        color:#000;
+        font-style:italic;
+        font-size:20px;
+        }
+        #Cover a {
+          color:#000;
+          font-size: xx-large;
+          }
+
+      #Cover {
+        background: white;
+      }
+      .moscow-logo {
+        position: relative;
+        width: 200px;
+        height: 200px;
+      }
+      .avito-logo {
+        height: 112px;
+        width: 322px;
+      }
+
+      pre code {
+        font-size: 21px;
+      }
+
+      .table {
+        margin-top: 1em;
+        width: 100%;
+        display: table;
+      }
+      .row {
+        display: table-row;
+      }
+      .cell {
+        text-align: center;
+        vertical-align: middle;
+        display: table-cell;
+      }
+    </style>
+  </div></section>
+  <section class="slide"><div>
+    <h2 class="shout">Предыстория</h2>
+  </div></section>
+  <section class="slide"><div>
+    <h2>Пуллреквест</h2>
+    <ul>
+      <li>
+        Шесть человекомесяцев
+      </li>
+      <li>
+        Несколько тысяч строк кода
+      </li>
+      <li class="next">
+        Очень хочется разобраться, как работает...
+      </li>
+      <li class="next">
+        Но не знаю, как 😞
+      </li>
+    </ul>
+  </div></section>
+  <section class="slide"><div>
+    <h2>Как ревьювил раньше</h2>
+    <ol>
+      <li class="next">
+        Приехала ссылка в чат
+      </li>
+      <li class="next">
+        Открыл дифф на github/stash/etc
+      </li>
+      <li class="next">
+        Файл за файлом, строка за строкой пытаюсь разобрать дифф
+      </li>
+    </ol>
+  </div></section>
+  <section class="slide"><div>
+    <h2 class="shout">Проблема - отсутствие контекста</h2>
+  </div></section>
+  <section class="slide"><div>
+    <h2>Метод</h2>
+    <ol>
+      <li class="next">
+        Ознакомление с задачей
+      </li>
+      <li class="next">
+        Ознакомление с реализацией
+      </li>
+      <li class="next">
+        Установление связи между реализацией и кодом
+      </li>
+    </ol>
+  </div></section>
+  <section class="slide"></section>
+  <section class="slide"><div>
+    <h2 class="shout">Шаг 1 - Ознакомление с задачей</h2>
+  </div></section>
+  <section class="slide"><div>
+    <h2>Шаг 1 - Ознакомление с задачей</h2>
+    <ol>
+      <li class="next">
+        Открыть задачу в JIRA/Redmine/Pivotal Tracker/etc
+      </li>
+      <li class="next">
+        Ответить на вопросы
+        <ul>
+          <li class="next">
+            Что делалось?
+          </li>
+          <li class="next">
+            Зачем это нужно?
+          </li>
+        </ul>
+      </li>
+      <li class="next">
+        Ознакомиться с кейсами
+      </li>
+      <li class="next">
+        Ознакомиться с дизайном
+      </li>
+    </ol>
+  </div></section>
+  <section class="slide"></section>
+    <section class="slide"><div>
+    <h2 class="shout">Шаг 2 - Ознакомление с реализацией</h2>
+  </div></section>
+  <section class="slide"><div>
+    <h2>Шаг 2 - Ознакомление с реализацией</h2>
+    <ol>
+      <li class="next">
+        git checkout <ветка-пуллреквеста>
+      </li>
+      <li class="next">
+        npm start | gulp | webpack
+      </li>
+      <li class="next">
+        Открыть в браузере
+      </li>
+      <li class="next">
+        Прокликать все, что было сделано
+      </li>
+    </ol>
+  </div></section>
+  <section class="slide"><div>
+    <h2>Шаг 2 - Ознакомление с реализацией</h2>
+    В итоге получаем в голове визуальное представление того, что должно быть и как оно работает
+  </div></section>
+  <section class="slide"></section>
+  </div></section>
+    <section class="slide"><div>
+    <h2 class="shout">Шаг 3 - Фиксация</h2>
+  </div></section>
+  <section class="slide"><div>
+    <h2>Шаг 3 - Фиксация</h2>
+    Фиксация - Установление связей между реализацией и кодом.<br/>
+    Предстоит решать две подзадачи:
+    <ol>
+      <li>Компонент в браузере -> код</li>
+      <li>Код -> компонент в браузере</li>
+    </ol>
+  </div></section>
+  <section class="slide"><div>
+    <h2 class="shout">Компонент в браузере -> код</h2>
+  </div></section>
+  <section class="slide"><div>
+    <h2>Компонент в браузере -> код</h2>
+    Основной вопрос - "Точно ли это именно тот код, который я вижу сейчас?"
+  </div></section>
+  <section class="slide"><div>
+    <h2>Компонент в браузере -> код</h2>
+    component-inspector
+    TODO - гифка
+  </div></section>
+  <section class="slide"><div>
+    <h2>Компонент в браузере -> код</h2>
+    React Dev Tools
+    TODO - гифка
+  </div></section>
+  <section class="slide"><div>
+    <h2>Компонент в браузере -> код</h2>
+    Другие способы:
+    <ol>
+      <li class="next">Поправить код, чтобы убедиться, что это именно он:
+        <ul>
+          <li class="next">outline: 1px solid red</li>
+          <li class="next">добавить prefix/postfix к строке</li>
+        </ul>
+      </li>
+      <li class="next">Отладить
+        <ul>
+          <li class="next">console.log();</li>
+          <li class="next">debugger;</li>
+        </ul>
+      </li>
+    </ol>
+  </div></section>
+  <section class="slide"><div>
+    <h2 class="shout">Код -> компонент в браузере</h2>
+  </div></section>
+  <section class="slide"><div>
+    <h2>Код -> компонент в браузере</h2>
+    Не всегда возможно (код может оказаться мертвым)
+  </div></section>
+  <section class="slide"><div>
+    <h2>Код -> компонент в браузере</h2>
+    <ol>
+      <li class="next">Угадать по названию и проверить гипотезу
+        <ul>
+          <li class="next">(см. предыдущий пункт)</li>
+        </ul>
+      </li>
+      <li class="next">Если проверить не удалось, проверяем, что код не мертвый
+        <ul>
+          <li class="next">console.log();</li>
+          <li class="next">debugger;</li>
+        </ul>
+      </li>
+      <li class="next">Если код оказался не мертвым
+        <ul>
+          <li class="next">переходим на п.1</li>
+          <li class="next">в противном случае - удаляем</li>
+        </ul>
+      </li>
+    </ol>
+  </div></section>
+  <section class="slide"><div>
+    <h2>Шаг 3 - Фиксация</h2>
+    Установить связи для каждого куска диффа в каждом файле сверху вниз, отвечая на вопросы:
+    <ol>
+      <li class="next">
+        Как он выглядит?
+      </li>
+      <li class="next">
+        Зачем он нужен?
+      </li>
+    </ol>
+  </div></section>
+  <section class="slide"><div>
+    <h2>Шаг 3 - Фиксация</h2>
+    TODO - скриншот стэша/гитхаба
+  </div></section>
+  <section class="slide"><div>
+    <h2>ВАЖНО! - Открывать в редакторе, а не на github</h2>
+    <ol>
+      <li class="next">
+        Удобная среда (подсветка, шорткаты, etc)
+      </li>
+      <li class="next">
+        Наличие контекста:
+        <ul>
+          <li class="next">
+            соседние файлы
+          </li>
+          <li class="next">
+            grep, случаи использования
+          </li>
+          <li class="next">
+            переход по определениям
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </div></section>
+  <section class="slide"><div>
+    <h2>ВАЖНО! - Открывать в редакторе, а не на github</h2>
+    Можно автоматизировать
+    TODO - гифка
+  </div></section>
+  <section class="slide"><div>
+    <h2 class="shout">Вернемся к февралю 2017го</h2>
+  </div></section>
+  <section class="slide"><div>
+    <h2>Итоги просмотра</h2>
+    <ul>
+      <li>
+        6 человекомесяцев
+      </li>
+      <li class="next">
+        Просмотрено за 2-2.5 дня
+      </li>
+      <li class="next">
+        Нетривиальная реализация
+      </li>
+      <li class="next">
+        Пришлось лезть в недры фреймворка
+      </li>
+      <li class="next">
+        Много объективных комментариев (отписал за 2.5 часа)
+      </li>
+    </ul>
+  </div></section>
+  <section class="slide"><div>
+    <h2 class="shout">P.S.<br>Толерантность</h2>
+  </div></section>
+  <section class="slide"><div>
+    <h2>Ловушки ревью - субъективность</h2>
+    Высокий соблазн выпендриться (а-ля "лучше было бы сделать не так, а так")
+    <ol>
+      <li class="next">
+        Субъективно (может испортить отношения)
+      </li>
+      <li class="next">
+        Отвлекает от истинных целей ревью
+      </li>
+    </ol>
+    <span class="next">Лучше оставлять только объективные замечания</span>
+  </div></section>
+  <section class="slide"><div>
+    <h2>Объективные замечания</h2>
+    <ol>
+      <li class="next">
+        Баги в реализации
+      </li>
+      <li class="next">
+        Мертвый код
+      </li>
+      <li class="next">
+        Названия, которые вводят в заблуждение (TODO пример картинкой)
+      </li>
+    </ol>
+  </div></section>
+  <section class="slide"><div>
+    <h2 class="shout">Итог</h2>
+  </div></section>
+  <section class="slide"><div>
+    <h2>Цель</h2>
+    Полностью разобраться в коде, написанном другим человеком
+    <div class="next">
+      Разобраться можно только нарисовав в голове картину
+    </div>
+    <div class="next">
+      Картину можно выстроить, выстраивая связи между картинкой и кодом
+    </div>
+  </div></section>
+  <section class="slide"><div>
+    <h2>Метод</h2>
+    <ol>
+      <li class="next">
+        Ознакомление с задачей
+      </li>
+      <li class="next">
+        Ознакомление с реализацией
+      </li>
+      <li class="next">
+        Установление связи между реализацией и кодом
+      </li>
+    </ol>
+  </div></section>
+  <section class="slide"><div>
+    <h2>Ссылки</h2>
+    <ul>
+      <li>
+        component-inspector TODO
+      </li>
+      <li>
+        React Dev Tools TODO
+      </li>
+      <li>
+        dkunin script TODO
+      </li>
+    </ul>
+  </div></section>
+  <section class="slide active" id="ThankYou"><div>
+    <h2>Спасибо за внимание!</h2>
+    <p>Иван Стрелков, Avito</p>
+    <ul>
+      <li><a href="https://github.com/istrel">github.com/istrel</a></li>
+      <li><a href="https://twitter.com/i_strel">twitter.com/i_strel</a></li>
+      <li><a href="mailto:iv-strelkov@yandex.ru">iv-strelkov@yandex.ru</a></li>
+    </ul>
+    <p>
+      Презентация: <a href="https://istrel.github.io/review/">istrel.github.io/review/</a>
+    </p>
+    <style>
+      #ThankYou img {
+        position: absolute;
+        top: 200px;
+        right: 100px;
+        height: 300px;
+      }
+    </style>
+  </div></section>
+  <!--
+    To hide progress bar from entire presentation
+    just remove “progress” element.
+    -->
+  <div class="progress"></div>
+  <script src="shower/shower.min.js"></script>
+  <!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+  <!-- Photos by John Carey, fiftyfootshadows.net -->
+  <script src="highlight/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>
