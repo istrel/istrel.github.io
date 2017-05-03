@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Как не надо тестировать</title>
+  <title>Как, черт возьми, надо ревьювить код</title>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -223,18 +223,15 @@
     Основной вопрос - "Точно ли это именно тот код, который я вижу сейчас?"
   </div></section>
   <section class="slide"><div>
-    <h2>Компонент в браузере -> код</h2>
-    component-inspector
-    TODO - гифка
+    <h2>component-inspector</h2>
+    <img width="800" src="pictures/inspector.gif"/>
   </div></section>
   <section class="slide"><div>
-    <h2>Компонент в браузере -> код</h2>
-    React Dev Tools
-    TODO - гифка
+    <h2>React Developer Tools</h2>
+    <img width="600" src="pictures/react.gif"/>
   </div></section>
   <section class="slide"><div>
-    <h2>Компонент в браузере -> код</h2>
-    Другие способы:
+    <h2>Другие способы</h2>
     <ol>
       <li class="next">Поправить код, чтобы убедиться, что это именно он:
         <ul>
@@ -281,7 +278,11 @@
   </div></section>
   <section class="slide"><div>
     <h2>Шаг 3 - Фиксация</h2>
-    Установить связи для каждого куска диффа в каждом файле сверху вниз, отвечая на вопросы:
+    <img width="800" src="pictures/review-total.png" style="position: relative; top: -20px;">
+  </div></section>
+  <section class="slide"><div>
+    <h2>Шаг 3 - Фиксация</h2>
+    Установить связи для каждого куска диффа, отвечая на вопросы:
     <ol>
       <li class="next">
         Как он выглядит?
@@ -290,10 +291,6 @@
         Зачем он нужен?
       </li>
     </ol>
-  </div></section>
-  <section class="slide"><div>
-    <h2>Шаг 3 - Фиксация</h2>
-    TODO - скриншот стэша/гитхаба
   </div></section>
   <section class="slide"><div>
     <h2>ВАЖНО! - Открывать в редакторе, а не на github</h2>
@@ -320,7 +317,7 @@
   <section class="slide"><div>
     <h2>ВАЖНО! - Открывать в редакторе, а не на github</h2>
     Можно автоматизировать
-    TODO - гифка
+    <img src="pictures/open-review-in-editor.gif"/>
   </div></section>
   <section class="slide"><div>
     <h2 class="shout">Вернемся к февралю 2017го</h2>
@@ -404,17 +401,21 @@
   </div></section>
   <section class="slide"><div>
     <h2>Ссылки</h2>
-    <ul>
+    <ol>
       <li>
-        component-inspector TODO
+        <a href="https://github.com/lahmatiy/component-inspector">https://github.com/lahmatiy/component-inspector</a>
       </li>
       <li>
-        React Dev Tools TODO
+        <a href="https://github.com/facebook/react-devtools">https://github.com/facebook/react-devtools</a>
       </li>
       <li>
-        dkunin script TODO
+        Открытие файла из пуллреквеста:
+        <ul>
+          <li>User-script (нужен Tampermonkey): <a href="https://github.com/DKunin/dotfiles/blob/master/tempermonkey/stash-editor-jump.user.js">https://goo.gl/07JiZy</a></li>
+          <li>Приложение: <a href="https://github.com/DKunin/menubar-helper">https://github.com/DKunin/menubar-helper</a></li>
+        </ul>
       </li>
-    </ul>
+    </ol>
   </div></section>
   <section class="slide active" id="ThankYou"><div>
     <h2>Спасибо за внимание!</h2>
