@@ -9,17 +9,6 @@
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/docco.min.css"> -->
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/color-brewer.min.css"> -->
   <link rel="stylesheet" href="highlight/idea.min.css">
-  <style>
-    .slide pre code {
-      line-height: 1.4;
-      margin-top: -1em;
-      margin-bottom: -1em;
-    }
-
-    .hljs-tag {
-      background-color: transparent !important;
-    }
-  </style>
 </head>
 <body class="shower list">
   <header class="caption">
@@ -75,10 +64,6 @@
       .avito-logo {
         height: 112px;
         width: 322px;
-      }
-
-      pre code {
-        font-size: 21px;
       }
 
       .table {
@@ -368,9 +353,17 @@
         Мертвый код
       </li>
       <li class="next">
-        Названия, которые вводят в заблуждение (TODO пример картинкой)
+        Названия, которые вводят в заблуждение
       </li>
     </ol>
+  </div></section>
+  <section class="slide"><div>
+    <h2>Названия, которые вводят в заблуждение</h2>
+    <pre>
+      <code>&lt;a href="{viewLink}" class="item {selected}"&gt;</code>
+      <code>  &lt;span class="<mark class="important">close</mark>" event-click="<mark>toggleMenu</mark>"&gt;<mark>&#9776;</mark>&lt;/span&gt;</code>
+      <code>&lt;/a&gt;</code>
+    </pre>
   </div></section>
   <section class="slide"><div>
     <h2 class="shout">Итог</h2>
@@ -443,9 +436,5 @@
     -->
   <div class="progress"></div>
   <script src="shower/shower.min.js"></script>
-  <!-- Copyright © 2015 Yours Truly, Famous Inc. -->
-  <!-- Photos by John Carey, fiftyfootshadows.net -->
-  <script src="highlight/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
 </body>
 </html>
