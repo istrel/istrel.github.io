@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Как, черт возьми, надо ревьювить код</title>
+  <title>Как, черт возьми, надо ревьювить</title>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,11 +12,11 @@
 </head>
 <body class="shower list">
   <header class="caption">
-    <h1>Как, черт возьми, надо ревьювить код</h1>
+    <h1>Как, черт возьми, надо ревьювить</h1>
     <p>Иван Стрелков</p>
   </header>
   <section class="slide cover" id="Cover"><div>
-    <h2>Как, черт возьми, надо ревьювить код</h2>
+    <h2>Как, черт возьми, надо ревьювить</h2>
     <p>
       <a href="https://github.com/istrel">Иван Стрелков</a>
       <div class="table">
@@ -79,131 +79,114 @@
         vertical-align: middle;
         display: table-cell;
       }
+
+      .question {
+        color: grey;
+      }
     </style>
   </div></section>
   <section class="slide"><div>
-    <h2 class="shout">Предыстория</h2>
-  </div></section>
-  <section class="slide"><div>
-    <h2>Пуллреквест</h2>
+    <h2>Пришла большая задача...</h2>
     <ul>
       <li>
         Шесть человекомесяцев
       </li>
       <li>
-        Несколько тысяч строк кода
+        225 files changed, 5506 insertions(+), 659 deletions(-)
       </li>
-      <li class="next">
-        Очень хочется разобраться, как работает...
-      </li>
-      <li class="next">
-        Но не знаю, как 😞
+      <li>
+        Очень хочется разобраться, как работает, но не знаю как 😞
       </li>
     </ul>
   </div></section>
   <section class="slide"><div>
     <h2>Как ревьювил раньше</h2>
     <ol>
-      <li class="next">
+      <li>
         Приехала ссылка в чат
       </li>
-      <li class="next">
+      <li>
         Открыл дифф на github/stash/etc
       </li>
-      <li class="next">
+      <li>
         Файл за файлом, строка за строкой пытаюсь разобрать дифф
       </li>
     </ol>
   </div></section>
   <section class="slide"><div>
-    <h2 class="shout">Проблема - отсутствие контекста</h2>
-  </div></section>
-  <section class="slide"><div>
     <h2>Метод</h2>
     <ol>
-      <li class="next">
-        Ознакомление с задачей
+      <li>
+        Понять задачу <span class="question">(Что нужно было сделать?)</span>
       </li>
-      <li class="next">
-        Ознакомление с реализацией
+      <li>
+        Потрогать реализацию <span class="question">(Что сделано?)</span>
       </li>
-      <li class="next">
-        Фиксация - установление связи между реализацией и кодом
+      <li>
+        Понять код <span class="question">(Как сделано?)</span>
       </li>
     </ol>
   </div></section>
   <section class="slide"><div>
-    <h2 class="shout">Шаг 1 - Ознакомление с задачей</h2>
+    <h2 class="shout">1. Понять задачу</h2>
   </div></section>
   <section class="slide"><div>
-    <h2>Шаг 1 - Ознакомление с задачей</h2>
+    <h2>Шаг 1 - Понять задачу</h2>
     <ol>
-      <li class="next">
+      <li>
         Открыть задачу в JIRA/Redmine/Pivotal Tracker/etc
       </li>
-      <li class="next">
-        Ответить на вопросы
+      <li>
+        Прочитать описание
+      </li>
+      <li>
+        Ответить на вопросы:
         <ul>
-          <li class="next">
-            Что делалось?
+          <li>
+            Что это?
           </li>
-          <li class="next">
+          <li>
             Зачем это нужно?
+          </li>
+          <li>
+            Как делать? (спеки, макеты)
           </li>
         </ul>
       </li>
-      <li class="next">
-        Ознакомиться с кейсами
-      </li>
-      <li class="next">
-        Ознакомиться с дизайном
-      </li>
     </ol>
   </div></section>
   <section class="slide"><div>
-    <h2 class="shout">Шаг 2 - Ознакомление с реализацией</h2>
+    <h2 class="shout">2. Потрогать реализацию</h2>
   </div></section>
   <section class="slide"><div>
-    <h2>Шаг 2 - Ознакомление с реализацией</h2>
+    <h2>Шаг 2 - Потрогать реализацию</h2>
     <ol>
-      <li class="next">
+      <li>
         git checkout <ветка-пуллреквеста>
       </li>
-      <li class="next">
+      <li>
         npm start | gulp | webpack
       </li>
-      <li class="next">
+      <li>
         Открыть в браузере
       </li>
-      <li class="next">
-        Прокликать все, что было сделано
+      <li>
+        Прокликать основные сценарии
       </li>
     </ol>
   </div></section>
   <section class="slide"><div>
-    <h2>Шаг 2 - Ознакомление с реализацией</h2>
-    В итоге получаем в голове визуальное представление того, что должно быть и как оно работает
-  </div></section>
-  </div></section>
-    <section class="slide"><div>
-    <h2 class="shout">Шаг 3 - Фиксация</h2>
+    <h2 class="shout">3. Понять код</h2>
   </div></section>
   <section class="slide"><div>
-    <h2>Шаг 3 - Фиксация</h2>
-    Фиксация - Установление связи между реализацией и кодом.<br/>
-    Предстоит решать две подзадачи:
-    <ol>
-      <li>Компонент в браузере -> код</li>
-      <li>Код -> компонент в браузере</li>
-    </ol>
+    <h2 class="shout">Как разобраться?</h2>
   </div></section>
-  <section class="slide"><div>
-    <h2 class="shout">Компонент в браузере -> код</h2>
-  </div></section>
-  <section class="slide"><div>
-    <h2>Компонент в браузере -> код</h2>
-    Основной вопрос - "Точно ли это именно тот код, который я вижу сейчас?"
-  </div></section>
+  <section class="slide">
+    <img src="pictures/chain/all.jpeg" alt="" class="cover">
+  </section>
+  <section class="slide">
+    <img src="pictures/chain/to-editor.jpeg" alt="" class="cover">
+  </section>
   <section class="slide"><div>
     <h2>component-inspector</h2>
     <img width="800" src="pictures/inspector.gif"/>
@@ -213,134 +196,71 @@
     <img width="600" src="pictures/react.gif"/>
   </div></section>
   <section class="slide"><div>
-    <h2>Другие способы</h2>
+    <h2>Классика отладки</h2>
+    <ul>
+      <li>Поменять стили (background, outline)</li>
+      <li>Поменять разметку (добавить что-то к строке)</li>
+    </ul>
+  </div></section>
+  <section class="slide">
+    <img src="pictures/chain/to-browser.jpeg" alt="" class="cover">
+  </section>
+  <section class="slide"><div>
+    <h2 class="shout">Не всегда возможно</h2>
+  </div></section>
+  <section class="slide"><div>
+    <h2>Метод от противного</h2>
     <ol>
-      <li class="next">Поправить код, чтобы убедиться, что это именно он:
+      <li>Попытаться угадать компонент по коду</li>
+      <li>Проверить, что угадали правильно (см. предыдущий пункт)</li>
+      <li>Если не угадали, проверяем, что код не мертвый
         <ul>
-          <li class="next">Поменять стили (background, outline)</li>
-          <li class="next">Поменять разметку (добавить что-то к строке)</li>
+          <li>console.log();</li>
+          <li>debugger;</li>
         </ul>
       </li>
-      <li class="next">Отладить
-        <ul>
-          <li class="next">console.log();</li>
-          <li class="next">debugger;</li>
-        </ul>
-      </li>
+      <li>Если код оказался мертвым - уточняем у автора, где он используется</li>
+      <li>Если код все же используется - угадываем дальше</li>
     </ol>
   </div></section>
+  <section class="slide">
+    <img src="pictures/chain/all.jpeg" alt="" class="cover">
+  </section>
   <section class="slide"><div>
-    <h2 class="shout">Код -> компонент в браузере</h2>
-  </div></section>
-  <section class="slide"><div>
-    <h2>Код -> компонент в браузере</h2>
-    Не всегда возможно (код может оказаться мертвым)
-  </div></section>
-  <section class="slide"><div>
-    <h2>Код -> компонент в браузере</h2>
-    <ol>
-      <li class="next">Угадать по названию и проверить гипотезу
-        <ul>
-          <li class="next">(см. предыдущий пункт)</li>
-        </ul>
-      </li>
-      <li class="next">Если проверить не удалось, проверяем, что код не мертвый
-        <ul>
-          <li class="next">console.log();</li>
-          <li class="next">debugger;</li>
-        </ul>
-      </li>
-      <li class="next">Если код оказался не мертвым
-        <ul>
-          <li class="next">переходим на п.1</li>
-          <li class="next">в противном случае - уточняем, точно ли используется</li>
-        </ul>
-      </li>
-    </ol>
-  </div></section>
-  <section class="slide"><div>
-    <h2>Шаг 3 - Фиксация</h2>
+    <h2>Теперь можно смотреть</h2>
     <img width="800" src="pictures/review-total.png" style="position: relative; top: -20px;">
   </div></section>
   <section class="slide"><div>
-    <h2>Шаг 3 - Фиксация</h2>
-    Установить связи для каждого куска диффа, отвечая на вопросы:
+    <h2>Лучше открывать код в редакторе</h2>
     <ol>
-      <li class="next">
-        Как он выглядит?
-      </li>
-      <li class="next">
-        Зачем он нужен?
+        <li>
+          файловая структура
+        </li>
+        <li>
+          grep
+        </li>
+        <li>
+          возможности IDE
+        </li>
+        <li>
+          возможность отладки
+        </li>
       </li>
     </ol>
   </div></section>
   <section class="slide"><div>
-    <h2>ВАЖНО! - Открывать в редакторе, а не на github</h2>
-    <ol>
-      <li class="next">
-        Удобная среда (подсветка, шорткаты, etc)
-      </li>
-      <li class="next">
-        Наличие контекста:
-        <ul>
-          <li class="next">
-            файловая структура
-          </li>
-          <li class="next">
-            grep, случаи использования
-          </li>
-          <li class="next">
-            переход по определениям
-          </li>
-        </ul>
-      </li>
-    </ol>
-  </div></section>
-  <section class="slide"><div>
-    <h2>ВАЖНО! - Открывать в редакторе, а не на github</h2>
+    <h2>Лучше открывать код в редакторе</h2>
     <img src="pictures/open-review-in-editor.gif" width="600"/>
   </div></section>
   <section class="slide"><div>
-    <h2 class="shout">Вернемся к февралю 2017го</h2>
+    <h2 class="shout">К слову о комментариях...</h2>
   </div></section>
   <section class="slide"><div>
-    <h2>Итоги просмотра</h2>
-    <ul>
-      <li>
-        6 человекомесяцев
-      </li>
-      <li class="next">
-        Просмотрено за 2-2.5 дня
-      </li>
-      <li class="next">
-        Нетривиальная реализация
-      </li>
-      <li class="next">
-        Пришлось лезть в недры фреймворка
-      </li>
-      <li class="next">
-        Много объективных комментариев (отписал за 1.5 часа)
-      </li>
-    </ul>
+    <h2>Гордыня</h2>
+    <img src="pictures/shit.png" width="800"/>
   </div></section>
   <section class="slide"><div>
-    <h2 class="shout">P.S.<br>Толерантность</h2>
-  </div></section>
-  <section class="slide"><div>
-    <h2>Ловушки ревью - необъективность</h2>
-    Высокий соблазн выпендриться (а-ля "лучше было бы сделать не так, а так")
-    <ol>
-      <li class="next">
-        Субъективно (может испортить отношения)
-      </li>
-      <li class="next">
-        Отвлекает от истинных целей ревью
-      </li>
-    </ol>
-    <span class="next">Лучше оставлять только объективные замечания</span>
-  </div></section>
-  <section class="slide"><div>
-    <h2>Объективные замечания</h2>
+    <h2>Только объективные замечания</h2>
     <ol>
       <li class="next">
         Баги в реализации
@@ -356,56 +276,61 @@
   <section class="slide"><div>
     <h2>Названия, которые вводят в заблуждение</h2>
     <pre>
+      <code>.<mark>close</mark></code>
+      <code>{</code>
+      <code>  position: absolute;</code>
+      <code>  right: 10px;</code>
+      <code>  top: 5px;</code>
+      <code>  cursor: pointer;</code>
+      <code>  opacity: 0.5;</code>
+      <code>}</code>
+    </pre>
+  </div></section>
+  <section class="slide"><div>
+    <h2>Названия, которые вводят в заблуждение</h2>
+    <pre>
       <code>&lt;a href="{viewLink}" class="item {selected}"&gt;</code>
       <code>  &lt;span class="<mark class="important">close</mark>" event-click="<mark>toggleMenu</mark>"&gt;<mark>&#9776;</mark>&lt;/span&gt;</code>
       <code>&lt;/a&gt;</code>
     </pre>
   </div></section>
   <section class="slide"><div>
-    <h2 class="shout">Итог</h2>
-  </div></section>
-  <section class="slide"><div>
-    <h2>Цель</h2>
-    Полностью разобраться в коде, написанном другим человеком
-    <div class="next">
-      Разобраться можно только нарисовав в голове картину
-    </div>
-    <div class="next">
-      Картину можно выстроить, выстраивая связи между картинкой и кодом
-    </div>
-  </div></section>
-  <section class="slide"><div>
-    <h2>Метод</h2>
-    <ol>
-      <li class="next">
-        Ознакомление с задачей
-      </li>
-      <li class="next">
-        Ознакомление с реализацией
-      </li>
-      <li class="next">
-        Фиксация - установление связи между реализацией и кодом
-      </li>
-    </ol>
-  </div></section>
-  <section class="slide"><div>
-    <h2>Ссылки</h2>
-    <ol>
+    <h2>Чем кончилось</h2>
+    <ul>
       <li>
-        <a href="https://github.com/lahmatiy/component-inspector">https://github.com/lahmatiy/component-inspector</a>
+        6 человекомесяцев
       </li>
       <li>
-        <a href="https://github.com/facebook/react-devtools">https://github.com/facebook/react-devtools</a>
+        Просмотрено за 2-2.5 дня
       </li>
       <li>
-        Открытие файла из пуллреквеста:
-        <ul>
-          <li>User-script (нужен Tampermonkey): <a href="https://github.com/DKunin/dotfiles/blob/master/tempermonkey/stash-editor-jump.user.js">https://goo.gl/07JiZy</a></li>
-          <li>Приложение: <a href="https://github.com/DKunin/menubar-helper">https://github.com/DKunin/menubar-helper</a></li>
-        </ul>
+        Замечания отписал за 1.5 часа)
       </li>
-    </ol>
+    </ul>
   </div></section>
+  <section class="slide"><div>
+    <h2 class="shout">Цель ревью - понять код</h2>
+  </div></section>
+  <section class="slide">
+    <img src="pictures/final/final.001.jpeg" alt="" class="cover">
+  </section>
+  <section class="slide"><div>
+    <h2>Что это дает?</h2>
+    <ul>
+      <li>
+        Нахождение багов, недоступных тестировщикам
+      </li>
+      <li>
+        Полное владение кодом
+      </li>
+      <li>
+        Возможность разобраться лучше, чем автор
+      </li>
+    </ul>
+  </div></section>
+  <section class="slide">
+    <img src="pictures/folks.jpg" alt="" class="cover" style="height: 100%; max-width: none;">
+  </section>
   <section class="slide active" id="ThankYou"><div>
     <h2>Спасибо за внимание!</h2>
     <p>Иван Стрелков, Avito</p>
@@ -425,6 +350,27 @@
         height: 300px;
       }
     </style>
+  </div></section>
+  <section class="slide">
+    <img src="pictures/final/final.001.jpeg" alt="" class="cover">
+  </section>
+  <section class="slide"><div>
+    <h2>Ссылки</h2>
+    <ol>
+      <li>
+        <a href="https://github.com/lahmatiy/component-inspector">https://github.com/lahmatiy/component-inspector</a>
+      </li>
+      <li>
+        <a href="https://github.com/facebook/react-devtools">https://github.com/facebook/react-devtools</a>
+      </li>
+      <li>
+        Открытие файла из пуллреквеста:
+        <ul>
+          <li>User-script (нужен Tampermonkey): <a href="https://github.com/DKunin/dotfiles/blob/master/tempermonkey/stash-editor-jump.user.js">https://goo.gl/07JiZy</a></li>
+          <li>Приложение: <a href="https://github.com/DKunin/menubar-helper">https://github.com/DKunin/menubar-helper</a></li>
+        </ul>
+      </li>
+    </ol>
   </div></section>
   <!--
     To hide progress bar from entire presentation
