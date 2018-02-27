@@ -671,6 +671,7 @@ moduleScope.variables.forEach(v => {
       <code class="javascript">
 if (identifierParent.type !== 'MemberExpression' ||
     identifierParent.object !== ref.identifier) {
+
   console.log(identifierParent);
   console.log(ref.identifier);
   throw new Error('Not expected usage');
