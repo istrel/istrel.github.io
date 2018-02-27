@@ -411,7 +411,7 @@ esprima.parse(sourceCode, { jsx: true }, node => {
     </pre>
   </section>
   <section class="slide">
-    <h2>Реализация - ищем CallExpression</h2>
+    <h2>Реализация - вытаскиваем имя файла/пакета</h2>
     <pre>
       <code class="javascript">
 esprima.parse(sourceCode, { jsx: true }, node => {
@@ -669,7 +669,8 @@ moduleScope.variables.forEach(v => {
     <h2>Валидация</h2>
     <pre>
       <code class="javascript">
-if (identifierParent.type !== 'MemberExpression' || identifierParent.object !== ref.identifier) {
+if (identifierParent.type !== 'MemberExpression' ||
+    identifierParent.object !== ref.identifier) {
   console.log(identifierParent);
   console.log(ref.identifier);
   throw new Error('Not expected usage');
