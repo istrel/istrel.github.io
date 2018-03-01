@@ -28,6 +28,10 @@
     code.property:after {
       content: ':'
     }
+
+    code.black-only * {
+      color: black !important;
+    }
   </style>
 </head>
 
@@ -459,7 +463,7 @@ esprima.parse(sourceCode, { jsx: true }, node => {
   <section class="slide">
     <h2>Почему не RegExp?</h2>
     <pre>
-      <code style="font-size: 48px;">
+      <code class="black-only" style="font-size: 48px;">
 /require\('\.[^')]+'\)/g
         </code>
       </pre>
