@@ -51,6 +51,10 @@
             </div>
           </div>
         </div>
+        <center>
+          <a href="https://twitter.com/i_strel" class="twitter">
+            <img src="pictures/twitter.svg" class="twitter-icon"> @i_strel</a>
+        </center>
       </p>
       <!--
       To apply styles to the certain slides
@@ -72,9 +76,19 @@
           font-size: 20px;
         }
 
-        #Cover a {
+        #Cover a:not(.twitter) {
           color: #000;
           font-size: xx-large;
+        }
+
+        a.twitter {
+          background: transparent;
+        }
+
+        .twitter-icon {
+          height: 1em;
+          position: relative;
+          top: 0.2em;
         }
 
         #Cover {
@@ -274,6 +288,9 @@ console.log(esprima.parse(sourceCode));
         <li>Нахождение недостижимых файлов</li>
         <li>Нахождение неиспользуемых CSS-классов</li>
       </ol>
+
+      Демки -
+      <a href="https://goo.gl/2ktLN6">https://goo.gl/2ktLN6</a>
     </div>
   </section>
   <section class="slide">
@@ -716,8 +733,8 @@ if (identifierParent.type !== 'MemberExpression' ||
         <a href="https://istrel.github.io/ast-getting-started/">istrel.github.io/ast-getting-started/</a>
       </p>
       <p>
-        Ссылки:
-        <a href="https://istrel.github.io/ast-links/">istrel.github.io/ast-links/</a>
+        Ссылки и демки:
+        <a href="https://github.com/istrel/ast-getting-started-talk/">https://goo.gl/2ktLN6</a>
       </p>
       <style>
         #ThankYou img {
