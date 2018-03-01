@@ -554,9 +554,33 @@ csstree.walk(cssAst, node => {
           Находим все
           <code>require('*.css')</code>
         </li>
+        <li class="next">
+          Запоминаем объявленные импорты в объекте
+          <code>nameToPathMap</code>
+        </li>
+        <pre class="next">
+            <code class="javascript">
+    {
+      styles: './style.css',
+      sharedStyles: '../shared.css',
+      itemStyles: './item/style.css'
+    }
+            </code>
+          </pre>
+      </ol>
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h2>Находим использованные CSS-классы из JS</h2>
+      <ol>
+        <li>
+          Находим все
+          <code>require('*.css')</code>
+        </li>
         <li>
           Запоминаем объявленные импорты в объекте
-          <code>nameToMap</code>
+          <code>nameToPathMap</code>
         </li>
         <li>
           Проходимся по всем MemberExpression
@@ -663,7 +687,7 @@ moduleScope.variables.forEach(v => {
         </li>
         <li>
           Запоминаем объявленные импорты в объекте
-          <code>nameToMap</code>
+          <code>nameToPathMap</code>
         </li>
         <li>
           Для каждого CSS-импорта находим его references
