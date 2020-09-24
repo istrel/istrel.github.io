@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>etcd как БД</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="shower/themes/ribbon/styles/screen-16x10.css">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/docco.min.css"> -->
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/color-brewer.min.css"> -->
+  <link rel="stylesheet" href="highlight/idea.min.css">
+  <style>
+    .slide pre code {
+      line-height: 1.4;
+      margin-top: -1em;
+      margin-bottom: -1em;
+    }
+
+    .hljs-tag {
+      background-color: transparent !important;
+    }
+
+    code.property {
+      background: transparent;
+    }
+
+    code.property:after {
+      content: ':'
+    }
+
+    code.black-only * {
+      color: black !important;
+    }
+  </style>
+</head>
+
+<body class="shower list">
+  <header class="caption">
+    <h1>etcd как БД</h1>
+    <p>Иван Стрелков, OZON</p>
+  </header>
+  <section class="slide cover" id="Cover">
+    <div>
+      <h2>etcd как БД</h2>
+      <p>
+        <a href="https://github.com/istrel">Иван Стрелков</a>
+        <center>
+          <a href="https://twitter.com/i_strel" class="twitter">
+            <img src="pictures/twitter.svg" class="twitter-icon"> @i_strel</a>
+        </center>
+      </p>
+      <!--
+      To apply styles to the certain slides
+      set slide ID to get needed elements
+      -->
+      <style>
+        #Cover h2 {
+          margin: 150px 0 0;
+          color: #000;
+          text-align: center;
+          font-size: 70px;
+        }
+
+        #Cover p {
+          margin: 10px 0 0;
+          text-align: center;
+          color: #000;
+          font-style: italic;
+          font-size: 20px;
+        }
+
+        #Cover a:not(.twitter) {
+          color: #000;
+          font-size: xx-large;
+        }
+
+        a.twitter {
+          background: transparent;
+        }
+
+        .twitter-icon {
+          height: 1em;
+          position: relative;
+          top: 0.2em;
+        }
+
+        #Cover {
+          background: white;
+        }
+
+        .moscow-logo {
+          position: relative;
+          width: 200px;
+          height: 200px;
+        }
+
+        .table {
+          margin-top: 1em;
+          width: 100%;
+          display: table;
+        }
+
+        .row {
+          display: table-row;
+        }
+
+        .cell {
+          text-align: center;
+          vertical-align: middle;
+          display: table-cell;
+        }
+
+        .question {
+          color: grey;
+        }
+
+        code.smaller {
+            font-size: 21px;
+        }
+
+        code.xs {
+          font-size: 18px;
+        }
+      </style>
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+        <h2>Что за зверь такой?</h2>
+        <ul>
+            <li class="next">Key-value БД</li>
+            <li class="next">Strongly consistent</li>
+            <li class="next">Immutable</li>
+            <li class="next">Транзакционная</li>
+            <li class="next">Много паттернов построено на основе неё</li>
+          </li>
+        </ol>
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h2 class="shout">Key-Value DB interface</h2>
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+        <h2>Интерфейс запросов БД</h2>
+        <ul>
+            <li>Построен на основе GRPC</li>
+            <li>И ключ, и значение - массивы байт</li>
+            <li>Чтение ключей на основе диапазонов значений</li>
+            <li>Запись одиночных ключей</li>
+          </li>
+        </ol>
+    </div>
+  </section>
+  <section class="slide">
+    <pre>
+      <code class="protobuf smaller">
+message RangeRequest {
+    bytes key = 1;
+    bytes range_end = 2;
+    int64 limit = 3;
+    int64 revision = 4;
+    SortOrder sort_order = 5; // NONE | ASCEND | DESCEND
+    SortTarget sort_target = 6; // KEY | VERSION | CREATE | MOD | VALUE
+    bool serializable = 7;
+    bool keys_only = 8;
+    bool count_only = 9;
+    int64 min_mod_revision = 10;
+    int64 max_mod_revision = 11;
+    int64 min_create_revision = 12;
+    int64 max_create_revision = 13;
+}
+      </code>
+    </pre>
+  </section>
+  <section class="slide">
+    <pre>
+      <code class="protobuf smaller">
+message RangeRequest {
+    <mark>bytes key = 1;</mark>
+    <mark>bytes range_end = 2;</mark>
+    int64 limit = 3;
+    int64 revision = 4;
+    SortOrder sort_order = 5; // NONE | ASCEND | DESCEND
+    SortTarget sort_target = 6; // KEY | VERSION | CREATE | MOD | VALUE
+    bool serializable = 7;
+    bool keys_only = 8;
+    bool count_only = 9;
+    int64 min_mod_revision = 10;
+    int64 max_mod_revision = 11;
+    int64 min_create_revision = 12;
+    int64 max_create_revision = 13;
+}
+      </code>
+    </pre>
+  </section>
+  <section class="slide">
+    <h2>Пример 1</h2>
+
+    Ключи:
+    <ul>
+      <li>aa</li>
+      <li>ab</li>
+      <li>abc</li>
+      <li>abb</li>
+      <li>b</li>
+      <li>ba</li>
+    </ul>
+
+    Запрос: <code>{ key: 'ab', range_end: 'b' }</code>
+  </section>
+  <section class="slide">
+    <h2>Пример 1</h2>
+
+    Ключи:
+    <ul>
+      <li>aa</li>
+      <li><mark>ab</mark></li>
+      <li><mark>abc</mark></li>
+      <li><mark>abb</mark></li>
+      <li><mark>b</mark></li>
+      <li>ba</li>
+    </ul>
+
+    Запрос: <code>{ key: 'ab', range_end: 'b' }</code>
+  </section>
+  <section class="slide">
+    <h2>Пример 2</h2>
+
+    Ключи:
+    <ul>
+      <li>bx/details/1</li>
+      <li>sc.sub</li>
+      <li>sc/support</li>
+      <li>sc/finance</li>
+      <li>sca</li>
+      <li>var</li>
+    </ul>
+  </section>
+  <section class="slide">
+    <h2>Пример 2</h2>
+
+    Ключи:
+    <ul>
+      <li>bx/details/1</li>
+      <li>sc.sub</li>
+      <li><mark>sc/support</mark></li>
+      <li><mark>sc/finance</mark></li>
+      <li>sca</li>
+      <li>var</li>
+    </ul>
+  </section>
+  <section class="slide">
+    <h2>Пример 2</h2>
+
+    Ключи:
+    <ul>
+      <li>bx/details/1</li>
+      <li>sc.sub</li>
+      <li><mark>sc/support</mark></li>
+      <li><mark>sc/finance</mark></li>
+      <li>sca</li>
+      <li>var</li>
+    </ul>
+
+    Запрос: <code>{ key: 'sc/', range_end: ? }</code>
+  </section>
+  <section class="slide">
+    <h2>Пример 2</h2>
+
+    Ключи:
+    <ul>
+      <li>bx/details/1</li>
+      <li>sc.sub</li>
+      <li><mark>sc/support</mark></li>
+      <li><mark>sc/finance</mark></li>
+      <li>sca</li>
+      <li>var</li>
+    </ul>
+
+    Запрос: <code>{ key: 'sc/', range_end: 'sc0' }</code>
+  </section>
+  <!-- <section class="slide">
+    <pre>
+      <code class="protobuf smaller">
+message RangeRequest {
+    bytes key = 1;
+    bytes range_end = 2;
+    int64 limit = 3;
+    <mark>int64 revision = 4;</mark>
+    SortOrder sort_order = 5; // NONE | ASCEND | DESCEND
+    SortTarget sort_target = 6; // KEY | VERSION | CREATE | MOD | VALUE
+    bool serializable = 7;
+    bool keys_only = 8;
+    bool count_only = 9;
+    int64 min_mod_revision = 10;
+    int64 max_mod_revision = 11;
+    int64 min_create_revision = 12;
+    int64 max_create_revision = 13;
+}
+      </code>
+    </pre>
+  </section> -->
+  <section class="slide">
+    <pre>
+      <code class="protobuf">
+message KeyValue {
+  bytes key = 1;
+  int64 create_revision = 2;
+  int64 mod_revision = 3;
+  int64 version = 4;
+  bytes value = 5;
+  int64 lease = 6;
+}
+      </code>
+    </pre>
+  </section>
+  <!-- <section class="slide">
+    <pre>
+      <code class="protobuf">
+message RangeResponse {
+  ResponseHeader header = 1;
+  repeated mvccpb.KeyValue kvs = 2;
+  bool more = 3;
+  int64 count = 4;
+}
+      </code>
+    </pre>
+  </section> -->
+  <section class="slide">
+    <div>
+      <h2 class="shout">Immutability</h2>
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h2 class="shout">TODO - some text on immutability</h2>
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+      <h2 class="shout">TODO - table on immutability</h2>
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+        <h2>Key-Value DB operations</h2>
+        <ul>
+            <li>put</li>
+            <li>del</li>
+            <li>get range</li>
+            <li>watch range</li>
+            <li>txn</li>
+          </li>
+        </ol>
+    </div>
+  </section>
+  <section class="slide">
+    <h2>Put</h2>
+    <pre>
+      <code class="protobuf">
+        message PutRequest {
+            bytes key = 1;
+            bytes value = 2;
+            int64 lease = 3;
+            bool prev_kv = 4;
+            bool ignore_value = 5;
+            bool ignore_lease = 6;
+        }
+      </code>
+    </pre>
+
+    <code>etcdctl put --write-out=json foo bar</code>
+  </section>
+  <section class="slide">
+    <h2>Delete</h2>
+    <pre>
+      <code class="protobuf">
+        message DeleteRangeRequest {
+            bytes key = 1;
+            bytes range_end = 2;
+            bool prev_kv = 3;
+        }
+      </code>
+    </pre>
+    <code>etcdctl del --prefix f</code><br/>
+    <code>etcdctl del f g # delete every key starting with f</code>
+  </section>
+  <section class="slide">
+    <h2>Get</h2>
+    <ul>
+      <li><code>etcdctl get foo</code></li>
+      <li><code>etcdctl get f g # get range of every key starting with f</code></li>
+      <li><code>etcdctl get --prefix f # the same as the previous</code></li>
+      <li><code>etcdctl get --rev=1 foo # get key from some specific revision</code></li>
+    </ul>
+  </section>
+  <section class="slide">
+    <h2>Watch</h2>
+    <ul>
+      <li><code>etcdctl watch foo # watch for key </code></li>
+      <li><code>etcdctl watch --prefix sc/ # watch for every change in the prefix</code></li>
+      <li><code>etcdctl watch f h # watch for range</code></li>
+      <li><code>etcdctl watch --rev=1 --prefix "" # display whole history since the beginning</code></li>
+    </ul>
+  </section>
+  <section class="slide">
+    <h2>Transaction</h2>
+
+    Transaction - атомарная операция в стиле if/then/else
+    <ul>
+      <pre>
+        <code class="golang">
+  if conditions {
+    return success();
+  } else {
+    return failure();
+  }
+        </code>
+      </pre>
+    </ul>
+  </section>
+  <section class="slide">
+    <h2>Transaction - protobuf</h2>
+    <pre>
+      <code class="protobuf">
+message TxnRequest {
+  repeated Compare compare = 1;
+  repeated RequestOp success = 2;
+  repeated RequestOp failure = 3;
+}
+      </code>
+    </pre>
+  </section>
+  <section class="slide">
+    <h2>Transaction - вид условия</h2>
+    <pre>
+      <code class="protobuf smaller">
+message Compare {
+  CompareResult result = 1 // EQUAL | GREATER | LESS | NOT_EQUAL
+  CompareTarget target = 2; // VERSION | CREATE | MOD | VALUE
+
+  bytes key = 3;
+
+  oneof target_union {
+    int64 version = 4;
+    int64 create_revision = 5;
+    int64 mod_revision = 6;
+    bytes value = 7;
+  }
+}
+      </code>
+    </pre>
+  </section>
+  <section class="slide">
+    <h2>Transaction - вид операции</h2>
+    <pre>
+      <code class="protobuf smaller">
+message RequestOp {
+  oneof request {
+    RangeRequest request_range = 1;
+    PutRequest request_put = 2;
+    DeleteRangeRequest request_delete_range = 3;
+  }
+}
+      </code>
+    </pre>
+  </section>
+  <section class="slide">
+    <h2>Transaction - пример</h2>
+    <pre>
+      <code class="shell xs">
+$ etcdctl txn --interactive
+compares:
+mod("some-value") = "0"
+mod("different-value") = "0"
+
+success requests (get, put, del):
+put some-value a
+get --prefix ""
+put different-value c
+del foo
+
+failure requests (get, put, del):
+get some-value
+      </code>
+    </pre>
+  </section>
+  <section class="slide active" id="ThankYou">
+    <div>
+      <h2>Спасибо за внимание!</h2>
+      <p>Иван Стрелков, OZON</p>
+      <ul>
+        <li>
+          <a href="https://github.com/istrel">github.com/istrel</a>
+        </li>
+        <li>
+          <a href="https://twitter.com/i_strel">twitter.com/i_strel</a>
+        </li>
+        <li>
+          <a href="mailto:iv-strelkov@yandex.ru">iv-strelkov@yandex.ru</a>
+        </li>
+      </ul>
+      <p>
+        Презентация:
+        <a href="https://istrel.github.io/ast-getting-started/">istrel.github.io/ast-getting-started/</a>
+      </p>
+      <p>
+        Ссылки и демки:
+        <a href="https://github.com/istrel/ast-getting-started-talk/">https://goo.gl/2ktLN6</a>
+      </p>
+      <style>
+        #ThankYou img {
+          position: absolute;
+          top: 200px;
+          right: 100px;
+          height: 300px;
+        }
+      </style>
+    </div>
+  </section>
+  <!--
+    To hide progress bar from entire presentation
+    just remove “progress” element.
+    -->
+  <div class="progress"></div>
+  <script src="shower/shower.min.js"></script>
+  <script src="highlight/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</body>
+
+</html>
