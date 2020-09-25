@@ -122,6 +122,12 @@
         code.xs {
           font-size: 18px;
         }
+
+        .blur {
+          opacity: 0.5;
+          display: inline;
+          filter: blur(4px);
+        }
       </style>
     </div>
   </section>
@@ -149,8 +155,6 @@
         <ul>
             <li>Построен на основе GRPC</li>
             <li>И ключ, и значение - массивы байт</li>
-            <li>Чтение ключей на основе диапазонов значений</li>
-            <li>Запись одиночных ключей</li>
           </li>
         </ol>
     </div>
@@ -161,7 +165,7 @@
 message RangeRequest {
     bytes key = 1;
     bytes range_end = 2;
-    int64 limit = 3;
+    <div class="blur">int64 limit = 3;
     int64 revision = 4;
     SortOrder sort_order = 5; // NONE | ASCEND | DESCEND
     SortTarget sort_target = 6; // KEY | VERSION | CREATE | MOD | VALUE
@@ -171,28 +175,7 @@ message RangeRequest {
     int64 min_mod_revision = 10;
     int64 max_mod_revision = 11;
     int64 min_create_revision = 12;
-    int64 max_create_revision = 13;
-}
-      </code>
-    </pre>
-  </section>
-  <section class="slide">
-    <pre>
-      <code class="protobuf smaller">
-message RangeRequest {
-    <mark>bytes key = 1;</mark>
-    <mark>bytes range_end = 2;</mark>
-    int64 limit = 3;
-    int64 revision = 4;
-    SortOrder sort_order = 5; // NONE | ASCEND | DESCEND
-    SortTarget sort_target = 6; // KEY | VERSION | CREATE | MOD | VALUE
-    bool serializable = 7;
-    bool keys_only = 8;
-    bool count_only = 9;
-    int64 min_mod_revision = 10;
-    int64 max_mod_revision = 11;
-    int64 min_create_revision = 12;
-    int64 max_create_revision = 13;
+    int64 max_create_revision = 13;</div>
 }
       </code>
     </pre>
@@ -204,8 +187,8 @@ message RangeRequest {
     <ul>
       <li>aa</li>
       <li>ab</li>
-      <li>abc</li>
       <li>abb</li>
+      <li>abc</li>
       <li>b</li>
       <li>ba</li>
     </ul>
@@ -219,9 +202,9 @@ message RangeRequest {
     <ul>
       <li>aa</li>
       <li><mark>ab</mark></li>
-      <li><mark>abc</mark></li>
       <li><mark>abb</mark></li>
-      <li><mark>b</mark></li>
+      <li><mark>abc</mark></li>
+      <li>b</li>
       <li>ba</li>
     </ul>
 
@@ -283,27 +266,6 @@ message RangeRequest {
 
     Запрос: <code>{ key: 'sc/', range_end: 'sc0' }</code>
   </section>
-  <!-- <section class="slide">
-    <pre>
-      <code class="protobuf smaller">
-message RangeRequest {
-    bytes key = 1;
-    bytes range_end = 2;
-    int64 limit = 3;
-    <mark>int64 revision = 4;</mark>
-    SortOrder sort_order = 5; // NONE | ASCEND | DESCEND
-    SortTarget sort_target = 6; // KEY | VERSION | CREATE | MOD | VALUE
-    bool serializable = 7;
-    bool keys_only = 8;
-    bool count_only = 9;
-    int64 min_mod_revision = 10;
-    int64 max_mod_revision = 11;
-    int64 min_create_revision = 12;
-    int64 max_create_revision = 13;
-}
-      </code>
-    </pre>
-  </section> -->
   <section class="slide">
     <pre>
       <code class="protobuf">
@@ -318,18 +280,34 @@ message KeyValue {
       </code>
     </pre>
   </section>
-  <!-- <section class="slide">
+  <section class="slide">
     <pre>
       <code class="protobuf">
-message RangeResponse {
-  ResponseHeader header = 1;
-  repeated mvccpb.KeyValue kvs = 2;
-  bool more = 3;
-  int64 count = 4;
+message KeyValue {
+  bytes key = 1;
+  <div class="blur">int64 create_revision = 2;
+  int64 mod_revision = 3;
+  int64 version = 4;</div>
+  bytes value = 5;
+  <div class="blur">int64 lease = 6;</div>
 }
       </code>
     </pre>
-  </section> -->
+  </section>
+  <section class="slide">
+    <pre>
+      <code class="protobuf">
+message KeyValue {
+    <div class="blur">bytes key = 1;</div>
+  int64 create_revision = 2;
+  int64 mod_revision = 3;
+  int64 version = 4;
+  <div class="blur">bytes value = 5;
+  int64 lease = 6;</div>
+}
+      </code>
+    </pre>
+  </section>
   <section class="slide">
     <div>
       <h2 class="shout">Immutability</h2>
@@ -337,12 +315,50 @@ message RangeResponse {
   </section>
   <section class="slide">
     <div>
-      <h2 class="shout">TODO - some text on immutability</h2>
-    </div>
-  </section>
-  <section class="slide">
-    <div>
-      <h2 class="shout">TODO - table on immutability</h2>
+      <table style="table-layout: fixed;">
+        <tr>
+          <th width="30%">OP</th>
+          <th width="10%">rev</th>
+          <th>sc create_rev</th>
+          <th>sc mod_rev</th>
+          <th>sc version</th>
+        </tr>
+        <tr>
+          <td>- (beginning)</td>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>put spam test</td>
+          <td>2</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>put sc val1</td>
+          <td>3</td>
+          <td>3</td>
+          <td>3</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>put sc val2</td>
+          <td>4</td>
+          <td>3</td>
+          <td>4</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>del sc</td>
+          <td>5</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+      </table>
     </div>
   </section>
   <section class="slide">
@@ -350,7 +366,7 @@ message RangeResponse {
         <h2>Key-Value DB operations</h2>
         <ul>
             <li>put</li>
-            <li>del</li>
+            <li>del range</li>
             <li>get range</li>
             <li>watch range</li>
             <li>txn</li>
@@ -364,16 +380,17 @@ message RangeResponse {
       <code class="protobuf">
         message PutRequest {
             bytes key = 1;
-            bytes value = 2;
+            bytes value = 2;<span class="blur">
             int64 lease = 3;
             bool prev_kv = 4;
             bool ignore_value = 5;
-            bool ignore_lease = 6;
+            bool ignore_lease = 6;</span>
         }
       </code>
     </pre>
 
-    <code>etcdctl put --write-out=json foo bar</code>
+    <code>etcdctl put --write-out=json foo bar</code><br/>
+    <code>etcdctl put bar baz --prev-kv</code>
   </section>
   <section class="slide">
     <h2>Delete</h2>
@@ -388,6 +405,91 @@ message RangeResponse {
     </pre>
     <code>etcdctl del --prefix f</code><br/>
     <code>etcdctl del f g # delete every key starting with f</code>
+    <code>etcdctl del foo --prev-kv # return prev value</code>
+  </section>
+  <section class="slide">
+    <pre>
+      <code class="protobuf smaller">
+message RangeRequest {
+    bytes key = 1;
+    bytes range_end = 2;
+    int64 limit = 3;
+    int64 revision = 4;
+    SortOrder sort_order = 5; // NONE | ASCEND | DESCEND
+    SortTarget sort_target = 6; // KEY | VERSION | CREATE | MOD | VALUE
+    bool serializable = 7;
+    bool keys_only = 8;
+    bool count_only = 9;
+    int64 min_mod_revision = 10;
+    int64 max_mod_revision = 11;
+    int64 min_create_revision = 12;
+    int64 max_create_revision = 13;
+}
+      </code>
+    </pre>
+  </section>
+  <section class="slide">
+    <pre>
+      <code class="protobuf smaller">
+message RangeRequest {
+    <div class="blur">bytes key = 1;
+    bytes range_end = 2;
+    int64 limit = 3;
+    int64 revision = 4;</div>
+    SortOrder sort_order = 5; // NONE | ASCEND | DESCEND
+    SortTarget sort_target = 6; // KEY | VERSION | CREATE | MOD | VALUE
+    <div class="blur">bool serializable = 7;
+    bool keys_only = 8;
+    bool count_only = 9;
+    int64 min_mod_revision = 10;
+    int64 max_mod_revision = 11;
+    int64 min_create_revision = 12;
+    int64 max_create_revision = 13;</div>
+}
+      </code>
+    </pre>
+  </section>
+  <section class="slide">
+    <pre>
+      <code class="protobuf smaller">
+message RangeRequest {
+    <div class="blur">bytes key = 1;
+    bytes range_end = 2;
+    int64 limit = 3;
+    int64 revision = 4;
+    SortOrder sort_order = 5; // NONE | ASCEND | DESCEND
+    SortTarget sort_target = 6; // KEY | VERSION | CREATE | MOD | VALUE
+    bool serializable = 7;</div>
+    bool keys_only = 8;
+    bool count_only = 9;<div class="blur">
+    int64 min_mod_revision = 10;
+    int64 max_mod_revision = 11;
+    int64 min_create_revision = 12;
+    int64 max_create_revision = 13;</div>
+}
+      </code>
+    </pre>
+  </section>
+  <section class="slide">
+    <pre>
+      <code class="protobuf smaller">
+message RangeRequest {
+    <div class="blur">bytes key = 1;
+    bytes range_end = 2;
+    int64 limit = 3;</div>
+    int64 revision = 4;<div class="blur">
+    SortOrder sort_order = 5; // NONE | ASCEND | DESCEND
+    SortTarget sort_target = 6; // KEY | VERSION | CREATE | MOD | VALUE
+    bool serializable = 7;
+    bool keys_only = 8;
+    bool count_only = 9;</div>
+    int64 min_mod_revision = 10;
+    int64 max_mod_revision = 11;
+    int64 min_create_revision = 12;
+    int64 max_create_revision = 13;
+}
+      </code>
+    </pre>
   </section>
   <section class="slide">
     <h2>Get</h2>
@@ -488,6 +590,188 @@ failure requests (get, put, del):
 get some-value
       </code>
     </pre>
+  </section>
+  <section class="slide">
+    <h2 class="shout">Lease</h2>
+  </section>
+  <section class="slide">
+    <div>
+        <h2>Lease</h2>
+        <ul>
+            <li>имеет TTL (но не в том смысле, как мы привыкли)</li>
+            <li>привязывается к ключу (и отвязывается)</li>
+            <li>дорогостоящая сущность для etcd</li>
+            <li>при уничтожении убирает ключи, которые были приаттачены</li>
+          </li>
+        </ol>
+    </div>
+  </section>
+  <section class="slide">
+    <h2>Lease - Put</h2>
+    <pre>
+      <code class="protobuf">
+        message PutRequest {
+            bytes key = 1;
+            bytes value = 2;
+            int64 lease = 3;
+            bool prev_kv = 4;
+            bool ignore_value = 5;
+            bool ignore_lease = 6;
+        }
+      </code>
+    </pre>
+  </section>
+  <section class="slide">
+    <h2>Lease - Put</h2>
+    <pre>
+      <code class="protobuf">
+        message PutRequest {
+            <div class="blur">bytes key = 1;
+            bytes value = 2;</div>
+            int64 lease = 3;
+            <div class="blur">bool prev_kv = 4;</div>
+            bool ignore_value = 5;
+            bool ignore_lease = 6;
+        }
+      </code>
+    </pre>
+  </section>
+  <section class="slide">
+    <div>
+        <h2>Lease</h2>
+          <pre>
+            <code class="bash smaller">
+$ etcdctl lease grant 60 # lease for 60 seconds
+lease 694d74c1abd2ce10 granted with TTL(60s)
+
+$ etcdctl lease keepalive 694d74c1abd2ce10 # prolong
+
+$ etcdctl put --lease=694d74c1abd2ce10 foo bar # put with lease
+
+$ etcdctl put --lease=0 --ignore-value foo # drop lease
+
+$ etcdctl put --lease=694d74c1abd2ce10 --ignore-value foo # attach lease
+
+$ etcdctl lease revoke 694d74c1abd2ce10 # revoke lease
+            </code>
+          </pre>
+    </div>
+  </section>
+  <section class="slide">
+    <h2 class="shout">Паттерны etcd</h2>
+  </section>
+  <section class="slide">
+    <div>
+        <h2>Паттерны etcd</h2>
+        <ul>
+            <li>Mutex</li>
+            <li>RWMutex</li>
+            <li>Leader election</li>
+            <li>Queue</li>
+            <li>и другие...</li>
+          </li>
+        </ol>
+
+        <a target="_blank" href="https://godoc.org/github.com/etcd-io/etcd/contrib/recipes">https://godoc.org/github.com/etcd-io/etcd/contrib/recipes</a>
+    </div>
+  </section>
+  <section class="slide">
+      <h2>Mutex</h2>
+      <pre>
+        <code class="golang">
+mutex := concurrency.NewMutex(s, "seller/235")
+if err := mutex.Lock(ctx); err != nil {
+  return err
+}
+
+doSomeCriticalWork();
+
+if err := mutex.Unlock(context.TODO()); err != nil {
+  return err
+}
+        </code>
+      </pre>
+  </section>
+  <section class="slide">
+    <h2>Mutex</h2>
+    <pre>
+      <code class="golang">
+rwMutex := recipe.NewRWMutex(s, "seller/432")
+if err := rwMutex.RLock(ctx); err != nil {
+  return err
+}
+
+doSomelWorkWhileEntityIsUnchanged();
+
+if err := rwMutex.RUnlock(context.TODO()); err != nil {
+  return err
+}
+      </code>
+    </pre>
+  </section>
+  <section class="slide">
+    <h2>Mutex - Writer</h2>
+    <pre>
+      <code class="golang">
+rwMutex := recipe.NewRWMutex(s, "seller/432")
+if err := rwMutex.Lock(ctx); err != nil {
+  return err
+}
+
+doSomeCriticalWork();
+
+if err := rwMutex.Unlock(context.TODO()); err != nil {
+  return err
+}
+      </code>
+    </pre>
+  </section>
+  <section class="slide">
+    <h2>Leader election</h2>
+    <pre>
+      <code class="golang">
+e := concurrency.NewElection(s, "my-db-leader")
+
+if err := e.Campaign(ctx, myProposal); err != nil {
+  log.Fatal(err)
+}
+
+doSomethingAsALeader()
+
+if err := e.Resign(ctx); err != nil {
+  log.Fatal(err)
+}
+      </code>
+    </pre>
+  </section>
+  <section class="slide">
+    <h2 class="shout">Consistency</h2>
+  </section>
+  <section class="slide">
+    <div>
+        <h2>Strict serializable</h2>
+        <img src="pictures/consistency.png" style="width: 80%; margin: 0 auto; display: block;" />
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+        <h2>RAFT</h2>
+        <ul>
+          <li>Постоянно пингует на предмет network partition</li>
+          <li>Каждая запись фиксируется только после того, как подтвердится большинством нод</li>
+          <li>Кластер становится недоступным в случае network partition (даже на чтение!)</li>
+        </ul>
+    </div>
+  </section>
+  <section class="slide">
+    <div>
+        <h2>Из нерассказанного...</h2>
+        <ul>
+            <li>Управление доступом</li>
+            <li>Перфоманс</li>
+          </li>
+        </ol>
+    </div>
   </section>
   <section class="slide active" id="ThankYou">
     <div>
